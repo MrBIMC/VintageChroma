@@ -134,7 +134,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             })
-            .create().show(getFragmentManager(), "dialog");
+            .create()
+            .show(getFragmentManager(), "dialog");
     }
 
 
