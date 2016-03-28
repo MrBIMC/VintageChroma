@@ -16,7 +16,16 @@ Screenshots
 Download
 --------
 ```
-in the process of pushing to jcenter
+//try this:
+compile 'com.pavelsikun:vintage-chroma:1.0'
+
+// but it's so bleeding edge, it might not yet be in jcenter! (@ 29.03.2016 02:25 EEST)
+// so if it doesn't work *yet*, add this as your repo *temporary*:
+repositories {
+    maven {
+        url  "http://dl.bintray.com/mrbimc/maven"
+    }
+}
 ```
 
 Usage
