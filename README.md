@@ -9,9 +9,9 @@ If your app is written in kotlin, I recommend you using original [lib](https://g
 Screenshots
 --
 
-<img src="https://raw.githubusercontent.com/ItsPriyesh/chroma/master/art/red.png" width="250">
-<img src="https://raw.githubusercontent.com/ItsPriyesh/chroma/master/art/green.png" width="250">
-<img src="https://raw.githubusercontent.com/ItsPriyesh/chroma/master/art/blue.png" width="250">
+<img src="https://raw.githubusercontent.com/MrBIMC/VintageChroma/master/art/screen1.png" width="250">
+<img src="https://raw.githubusercontent.com/MrBIMC/VintageChromaa/master/art/screen2.png" width="250">
+<img src="https://raw.githubusercontent.com/MrBIMC/VintageChroma/master/art/screen3.png" width="750">
 
 Download
 --------
