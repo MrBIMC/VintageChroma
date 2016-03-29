@@ -19,13 +19,6 @@ android {
     }
 }
 
-//repositories { //temporary
-//    maven {
-//        url  "http://dl.bintray.com/mrbimc/maven"
-//    }
-//}
-
-
 dependencies {
     testCompile 'junit:junit:4.12'
 
