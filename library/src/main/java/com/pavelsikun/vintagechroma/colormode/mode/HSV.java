@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by REDACTED on 28.03.16.
+ * Created by Pavel Sikun on 28.03.16.
  */
 public class HSV implements AbstractColorMode {
 

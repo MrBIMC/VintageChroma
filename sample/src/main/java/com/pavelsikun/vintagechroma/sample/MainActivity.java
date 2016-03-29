@@ -1,6 +1,5 @@
 package com.pavelsikun.vintagechroma.sample;
 
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.TransitionDrawable;
@@ -18,6 +17,7 @@ import android.widget.TextView;
 
 import com.pavelsikun.vintagechroma.ChromaDialog;
 import com.pavelsikun.vintagechroma.ColorSelectListener;
+import com.pavelsikun.vintagechroma.IndicatorMode;
 import com.pavelsikun.vintagechroma.colormode.ColorMode;
 
 public class MainActivity extends AppCompatActivity {
@@ -119,9 +119,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showColorPickerDialog() {
+
         new ChromaDialog.Builder()
             .initialColor(color)
             .colorMode(ColorMode.fromID(mode))
+            .indicatorMode(IndicatorMode.HEX) //HEX or DECIMAL; Note that ColorMode.HSV and IndicatorMode.HEX is a bad idea
             .onColorSelected(new ColorSelectListener() {
                 @Override public void onColorSelected(int newColor) {
                     updateTextView(newColor);
@@ -137,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
             .create()
             .show(getFragmentManager(), "dialog");
     }
-
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

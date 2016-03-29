@@ -1,4 +1,4 @@
-package com.pavelsikun.vintagechroma.internal;
+package com.pavelsikun.vintagechroma.view;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.pavelsikun.vintagechroma.IndicatorMode;
 import com.pavelsikun.vintagechroma.R;
 import com.pavelsikun.vintagechroma.colormode.Channel;
 import com.pavelsikun.vintagechroma.colormode.ColorMode;
@@ -17,22 +18,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by REDACTED on 28.03.16.
+ * Created by Pavel Sikun on 28.03.16.
  */
 public class ChromaView extends RelativeLayout {
 
     public final static int DEFAULT_COLOR = Color.GRAY;
     public final static ColorMode DEFAULT_MODE = ColorMode.RGB;
+    public final static IndicatorMode DEFAULT_INDICATOR = IndicatorMode.DECIMAL;
 
     private final ColorMode colorMode;
     private @ColorInt int currentColor;
+    private IndicatorMode indicatorMode;
 
     public ChromaView(Context context) {
-        this(DEFAULT_COLOR, DEFAULT_MODE, context);
+        this(DEFAULT_COLOR, DEFAULT_MODE, DEFAULT_INDICATOR, context);
     }
 
     public ChromaView(@ColorInt int initialColor, ColorMode colorMode, Context context) {
+        this(initialColor, colorMode, DEFAULT_INDICATOR, context);
+    }
+
+    public ChromaView(@ColorInt int initialColor, ColorMode colorMode, IndicatorMode indicatorMode, Context context) {
         super(context);
+        this.indicatorMode = indicatorMode;
         this.colorMode = colorMode;
         this.currentColor = initialColor;
         init();
@@ -48,7 +56,7 @@ public class ChromaView extends RelativeLayout {
         List<Channel> channels = colorMode.getColorMode().getChannels();
         final List<ChannelView> channelViews = new ArrayList<>();
         for(Channel c : channels) {
-            channelViews.add(new ChannelView(c, currentColor, getContext()));
+            channelViews.add(new ChannelView(c, currentColor, indicatorMode, getContext()));
         }
 
         ChannelView.OnProgressChangedListener seekBarChangeListener = new ChannelView.OnProgressChangedListener() {
@@ -82,6 +90,10 @@ public class ChromaView extends RelativeLayout {
 
     public int getCurrentColor() {
         return currentColor;
+    }
+
+    public IndicatorMode getIndicatorMode() {
+        return indicatorMode;
     }
 
     public interface ButtonBarListener {

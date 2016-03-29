@@ -6,7 +6,7 @@ import com.pavelsikun.vintagechroma.colormode.mode.HSV;
 import com.pavelsikun.vintagechroma.colormode.mode.RGB;
 
 /**
- * Created by REDACTED on 28.03.16.
+ * Created by Pavel Sikun on 28.03.16.
  */
 public enum ColorMode {
     RGB(0), HSV(1), ARGB(2);

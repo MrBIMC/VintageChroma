@@ -1,7 +1,7 @@
 package com.pavelsikun.vintagechroma.colormode;
 
 /**
- * Created by REDACTED on 28.03.16.
+ * Created by Pavel Sikun on 28.03.16.
  */
 public final class Channel {
 

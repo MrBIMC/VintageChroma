@@ -1,4 +1,4 @@
-package com.pavelsikun.vintagechroma.internal;
+package com.pavelsikun.vintagechroma.view;
 
 import android.content.Context;
 import android.support.annotation.ColorInt;
@@ -7,16 +7,19 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.pavelsikun.vintagechroma.IndicatorMode;
 import com.pavelsikun.vintagechroma.R;
 import com.pavelsikun.vintagechroma.colormode.Channel;
 
 /**
- * Created by REDACTED on 28.03.16.
+ * Created by Pavel Sikun on 28.03.16.
  */
 public class ChannelView extends RelativeLayout {
 
     private final Channel channel;
+    private final IndicatorMode indicatorMode;
     private @ColorInt int color;
+
     private Context context;
 
     private OnProgressChangedListener listener;
@@ -25,10 +28,11 @@ public class ChannelView extends RelativeLayout {
         void onProgressChanged();
     }
 
-    public ChannelView(Channel channel, int color, Context context) {
+    public ChannelView(Channel channel, int color, IndicatorMode indicatorMode, Context context) {
         super(context);
         this.channel = channel;
         this.color = color;
+        this.indicatorMode = indicatorMode;
         this.context = context;
 
         channel.setProgress(channel.getExtractor().extract(color));
@@ -48,7 +52,7 @@ public class ChannelView extends RelativeLayout {
         label.setText(context.getString(channel.getNameResourceId()));
 
         final TextView progressView = (TextView) rootView.findViewById(R.id.progress_text);
-        progressView.setText(String.valueOf(channel.getProgress()));
+        setProgress(progressView, channel.getProgress());
 
         SeekBar seekbar = (SeekBar) rootView.findViewById(R.id.seekbar);
         seekbar.setMax(channel.getMax());
@@ -58,7 +62,7 @@ public class ChannelView extends RelativeLayout {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 channel.setProgress(progress);
-                progressView.setText(String.valueOf(progress));
+                setProgress(progressView, progress);
                 if(listener != null) listener.onProgressChanged();
             }
 
@@ -68,6 +72,15 @@ public class ChannelView extends RelativeLayout {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) { }
         });
+    }
+
+    private void setProgress(TextView view, int progress) {
+        if(indicatorMode == IndicatorMode.HEX) {
+            view.setText(Integer.toHexString(progress));
+        }
+        else {
+            view.setText(String.valueOf(progress));
+        }
     }
 
     public void registerListener(OnProgressChangedListener listener) {
