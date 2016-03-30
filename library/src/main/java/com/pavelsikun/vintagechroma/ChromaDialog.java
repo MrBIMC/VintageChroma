@@ -33,7 +33,7 @@ public class ChromaDialog extends DialogFragment {
     private static Bundle makeArgs(@ColorInt int initialColor, ColorMode colorMode, IndicatorMode indicatorMode) {
         Bundle args = new Bundle();
         args.putInt(ARG_INITIAL_COLOR, initialColor);
-        args.putInt(ARG_COLOR_MODE_ID, colorMode.getID());
+        args.putInt(ARG_COLOR_MODE_ID, colorMode.ordinal());
         args.putInt(ARG_INDICATOR_MODE, indicatorMode.ordinal());
         return args;
     }
@@ -81,14 +81,14 @@ public class ChromaDialog extends DialogFragment {
         if(savedInstanceState == null) {
             chromaView = new ChromaView(
                     getArguments().getInt(ARG_INITIAL_COLOR),
-                    ColorMode.fromID(getArguments().getInt(ARG_COLOR_MODE_ID, ChromaView.DEFAULT_MODE.getID())),
+                    ColorMode.fromOrdinal(getArguments().getInt(ARG_COLOR_MODE_ID, ChromaView.DEFAULT_MODE.ordinal())),
                     IndicatorMode.values()[getArguments().getInt(ARG_INDICATOR_MODE)],
                     getActivity());
         }
         else {
             chromaView = new ChromaView(
                     savedInstanceState.getInt(ARG_INITIAL_COLOR, ChromaView.DEFAULT_COLOR),
-                    ColorMode.fromID(savedInstanceState.getInt(ARG_COLOR_MODE_ID, ChromaView.DEFAULT_MODE.getID())),
+                    ColorMode.fromOrdinal(savedInstanceState.getInt(ARG_COLOR_MODE_ID, ChromaView.DEFAULT_MODE.ordinal())),
                     IndicatorMode.values()[savedInstanceState.getInt(ARG_INDICATOR_MODE)],
                     getActivity());
         }

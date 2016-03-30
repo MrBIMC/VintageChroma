@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
         new ChromaDialog.Builder()
             .initialColor(color)
-            .colorMode(ColorMode.fromID(mode))
+            .colorMode(ColorMode.fromOrdinal(mode))
             .indicatorMode(IndicatorMode.HEX) //HEX or DECIMAL; Note that ColorMode.HSV and IndicatorMode.HEX is a bad idea
             .onColorSelected(new ColorSelectListener() {
                 @Override public void onColorSelected(int newColor) {
