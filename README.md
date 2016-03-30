@@ -16,17 +16,18 @@ Screenshots
 Download
 --------
 ```
-compile 'com.pavelsikun:vintage-chroma:1.0'
+compile 'com.pavelsikun:vintage-chroma:1.1'
 ```
 
 Usage
 -----
-To display an RGB color picker `DialogFragment`:
+To display an color picker `DialogFragment`:
 
 ``` java
 new ChromaDialog.Builder()
     .initialColor(Color.GREEN)
     .colorMode(ColorMode.ARGB) // RGB, ARGB, HVS
+    .indicatorMode(IndicatorMode.HEX) //HEX or DECIMAL; Note that ColorMode.HSV && IndicatorMode.HEX is a bad idea
     .onColorSelected(color -> /* do your stuff */)
     .create()
     .show(getFragmentManager(), "ChromaDialog");
