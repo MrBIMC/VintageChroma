@@ -19,7 +19,7 @@ import com.pavelsikun.vintagechroma.colormode.ColorMode;
 /**
  * Created by Pavel Sikun on 31.03.16.
  */
-public class ChromaPreference extends Preference implements View.OnClickListener, ColorSelectListener {
+public class ChromaPreference extends Preference implements View.OnClickListener, OnColorSelectedListener {
 
     private ImageView colorPreview;
 
@@ -30,6 +30,8 @@ public class ChromaPreference extends Preference implements View.OnClickListener
     private int color;
     private ColorMode colorMode;
     private IndicatorMode indicatorMode;
+
+    private OnColorSelectedListener listener;
 
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -135,14 +137,19 @@ public class ChromaPreference extends Preference implements View.OnClickListener
     @Override
     public void onColorSelected(@ColorInt int color) {
         persistInt(color);
+        listener.onColorSelected(color);
     }
 
     public int getColor() {
         return color;
     }
 
-    public void setColor(int color) {
+    public void setColor(@ColorInt int color) {
         persistInt(color);
+    }
+
+    public void setOnColorSelectedListener(OnColorSelectedListener listener) {
+        this.listener = listener;
     }
 
     public ColorMode getColorMode() {

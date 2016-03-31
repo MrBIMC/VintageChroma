@@ -21,7 +21,7 @@ public class ChromaDialog extends DialogFragment {
     private final static String ARG_COLOR_MODE_ID = "arg_color_mode_id";
     private final static String ARG_INDICATOR_MODE = "arg_indicator_mode";
 
-    private ColorSelectListener listener;
+    private OnColorSelectedListener listener;
     private ChromaView chromaView;
 
     private static ChromaDialog newInstance(@ColorInt int initialColor, ColorMode colorMode, IndicatorMode indicatorMode) {
@@ -42,7 +42,7 @@ public class ChromaDialog extends DialogFragment {
         private @ColorInt int initialColor = ChromaView.DEFAULT_COLOR;
         private ColorMode colorMode = ChromaView.DEFAULT_MODE;
         private IndicatorMode indicatorMode = IndicatorMode.DECIMAL;
-        private ColorSelectListener listener = null;
+        private OnColorSelectedListener listener = null;
 
         public Builder initialColor(@ColorInt int initialColor) {
             this.initialColor = initialColor;
@@ -59,7 +59,7 @@ public class ChromaDialog extends DialogFragment {
             return this;
         }
 
-        public Builder onColorSelected(ColorSelectListener listener) {
+        public Builder onColorSelected(OnColorSelectedListener listener) {
             this.listener = listener;
             return this;
         }
@@ -71,7 +71,7 @@ public class ChromaDialog extends DialogFragment {
         }
     }
 
-    public void setListener(ColorSelectListener listener) {
+    public void setListener(OnColorSelectedListener listener) {
         this.listener = listener;
     }
 

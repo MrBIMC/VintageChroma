@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.pavelsikun.vintagechroma.ChromaDialog;
 import com.pavelsikun.vintagechroma.ChromaUtil;
-import com.pavelsikun.vintagechroma.ColorSelectListener;
+import com.pavelsikun.vintagechroma.OnColorSelectedListener;
 import com.pavelsikun.vintagechroma.IndicatorMode;
 import com.pavelsikun.vintagechroma.colormode.ColorMode;
 
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
             .initialColor(color)
             .colorMode(mode)
             .indicatorMode(indicatorMode) //HEX or DECIMAL;
-            .onColorSelected(new ColorSelectListener() {
+            .onColorSelected(new OnColorSelectedListener() {
                 @Override public void onColorSelected(int newColor) {
                     updateTextView(newColor);
                     updateToolbar(color, newColor);
