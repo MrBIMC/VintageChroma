@@ -23,11 +23,4 @@ public enum ColorMode {
                 return new RGB();
         }
     }
-
-    public static ColorMode fromOrdinal(int id) {
-        for(ColorMode mode : values()) {
-            if(mode.ordinal() == id) return mode;
-        }
-        return ColorMode.RGB;
-    }
 }

@@ -1,0 +1,19 @@
+<resources>
+
+    <attr name="chromaColorMode" format="enum">
+        <enum name="RGB" value="0"/>
+        <enum name="HSV" value="1"/>
+        <enum name="ARGB" value="2"/>
+    </attr>
+
+    <attr name="chromaIndicatorMode" format="enum">
+        <enum name="DECIMAL" value="0"/>
+        <enum name="HEX" value="1"/>
+    </attr>
+
+    <declare-styleable name="ChromaPreference">
+        <attr name="chromaInitialColor" format="reference|color"/>
+        <attr name="chromaColorMode"/>
+        <attr name="chromaIndicatorMode"/>
+    </declare-styleable>
+</resources>

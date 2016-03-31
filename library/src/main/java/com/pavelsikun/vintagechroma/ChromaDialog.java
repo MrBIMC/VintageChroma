@@ -81,14 +81,17 @@ public class ChromaDialog extends DialogFragment {
         if(savedInstanceState == null) {
             chromaView = new ChromaView(
                     getArguments().getInt(ARG_INITIAL_COLOR),
-                    ColorMode.fromOrdinal(getArguments().getInt(ARG_COLOR_MODE_ID, ChromaView.DEFAULT_MODE.ordinal())),
-                    IndicatorMode.values()[getArguments().getInt(ARG_INDICATOR_MODE)],
+                    ColorMode.values()[
+                            getArguments().getInt(ARG_COLOR_MODE_ID)],
+
+                    IndicatorMode.values()[
+                            getArguments().getInt(ARG_INDICATOR_MODE)],
                     getActivity());
         }
         else {
             chromaView = new ChromaView(
                     savedInstanceState.getInt(ARG_INITIAL_COLOR, ChromaView.DEFAULT_COLOR),
-                    ColorMode.fromOrdinal(savedInstanceState.getInt(ARG_COLOR_MODE_ID, ChromaView.DEFAULT_MODE.ordinal())),
+                    ColorMode.values()[savedInstanceState.getInt(ARG_COLOR_MODE_ID)],
                     IndicatorMode.values()[savedInstanceState.getInt(ARG_INDICATOR_MODE)],
                     getActivity());
         }

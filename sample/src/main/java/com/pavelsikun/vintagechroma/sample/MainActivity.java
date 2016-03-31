@@ -1,5 +1,6 @@
 package com.pavelsikun.vintagechroma.sample;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.TransitionDrawable;
@@ -9,6 +10,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.pavelsikun.vintagechroma.ChromaDialog;
+import com.pavelsikun.vintagechroma.ChromaUtil;
 import com.pavelsikun.vintagechroma.ColorSelectListener;
 import com.pavelsikun.vintagechroma.IndicatorMode;
 import com.pavelsikun.vintagechroma.colormode.ColorMode;
@@ -31,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fab;
 
     private int color;
-    private int mode = 0;
+    private ColorMode mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +49,12 @@ public class MainActivity extends AppCompatActivity {
 
         if(savedInstanceState == null) {
             color = ContextCompat.getColor(this, R.color.colorPrimary);
+            mode = ColorMode.RGB;
+
         }
         else {
             color = savedInstanceState.getInt(EXTRA_COLOR);
-            mode = savedInstanceState.getInt(EXTRA_MODE);
+            mode = ColorMode.values()[savedInstanceState.getInt(EXTRA_MODE)];
         }
 
         setSupportActionBar(toolbar);
@@ -78,11 +84,11 @@ public class MainActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
 
         spinner.setAdapter(adapter);
-        spinner.setSelection(mode);
+        spinner.setSelection(mode.ordinal());
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mode = position;
+                mode = ColorMode.values()[position];
             }
 
             @Override
@@ -91,8 +97,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void updateTextView(int newColor) {
-        String formattedColor = String.format("#%06X", 0xFFFFFF & newColor);
-        textView.setText(formattedColor);
+        textView.setText(ChromaUtil.getFormattedColorString(newColor, mode == ColorMode.ARGB));
         textView.setTextColor(newColor);
     }
 
@@ -119,19 +124,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showColorPickerDialog() {
+        IndicatorMode indicatorMode = IndicatorMode.HEX;
+        if(mode == ColorMode.HSV) indicatorMode = IndicatorMode.DECIMAL; // cuz HEX && HSV is dumb
 
         new ChromaDialog.Builder()
             .initialColor(color)
-            .colorMode(ColorMode.fromOrdinal(mode))
-            .indicatorMode(IndicatorMode.HEX) //HEX or DECIMAL; Note that ColorMode.HSV and IndicatorMode.HEX is a bad idea
+            .colorMode(mode)
+            .indicatorMode(indicatorMode) //HEX or DECIMAL;
             .onColorSelected(new ColorSelectListener() {
                 @Override public void onColorSelected(int newColor) {
                     updateTextView(newColor);
                     updateToolbar(color, newColor);
-
                     color = newColor;
-
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
                         getWindow().setStatusBarColor(darkenColor(newColor));
                     }
                 }
@@ -141,9 +147,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add("Preferences Sample").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        startActivity(new Intent(this, SettingsActivity.class));
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putInt(EXTRA_COLOR, color);
-        outState.putInt(EXTRA_MODE, mode);
+        outState.putInt(EXTRA_MODE, mode.ordinal());
         super.onSaveInstanceState(outState);
     }
 }

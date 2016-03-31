@@ -18,7 +18,6 @@ public class ChannelView extends RelativeLayout {
 
     private final Channel channel;
     private final IndicatorMode indicatorMode;
-    private @ColorInt int color;
 
     private Context context;
 
@@ -28,10 +27,9 @@ public class ChannelView extends RelativeLayout {
         void onProgressChanged();
     }
 
-    public ChannelView(Channel channel, int color, IndicatorMode indicatorMode, Context context) {
+    public ChannelView(Channel channel, @ColorInt int color, IndicatorMode indicatorMode, Context context) {
         super(context);
         this.channel = channel;
-        this.color = color;
         this.indicatorMode = indicatorMode;
         this.context = context;
 
