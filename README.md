@@ -1,10 +1,16 @@
 # VintageChroma
+===
+[![Download](https://api.bintray.com/packages/mrbimc/maven/VintageChroma/images/download.svg)](https://bintray.com/mrbimc/maven/VintageChroma/_latestVersion)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-VintageChroma-green.svg?style=true)](https://android-arsenal.com/details/1/3352)
+
 A Beautiful Material color picker view for Android.
 
-Identical remake of [Chroma by Priyesh Patel](https://github.com/ItsPriyesh/chroma) in Java instead of Kotlin, 
-so it is much more lightweight for using in kotlin-less apps :D
+This project started off as an identical remake of [Chroma by Priyesh Patel](https://github.com/ItsPriyesh/chroma)
+but written in Java instead of Kotlin, so it is much more lightweight for using in kotlin-less apps.
+Right now it's a bit more advanced than original as it is a bit more optimised and also supports few additional options(such as custom preference, ARGB, and HEX-indicator)
 
-If your app is written in kotlin, I recommend you using original [lib](https://github.com/ItsPriyesh/chroma) instad.
+
+Let's hope that both of these two libs will be cross-updated with features ported from one to another!
 
 Screenshots
 --
@@ -16,7 +22,7 @@ Screenshots
 Download
 --------
 ```
-compile 'com.pavelsikun:vintage-chroma:1.2'
+compile 'com.pavelsikun:vintage-chroma:1.2.1'
 ```
 
 Usage as stand-alone dialog && listener:

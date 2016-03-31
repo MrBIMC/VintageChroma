@@ -137,7 +137,10 @@ public class ChromaPreference extends Preference implements View.OnClickListener
     @Override
     public void onColorSelected(@ColorInt int color) {
         persistInt(color);
-        listener.onColorSelected(color);
+
+        if(listener != null) {
+            listener.onColorSelected(color);
+        }
     }
 
     public int getColor() {
