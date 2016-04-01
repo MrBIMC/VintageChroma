@@ -125,7 +125,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void showColorPickerDialog() {
         IndicatorMode indicatorMode = IndicatorMode.HEX;
-        if(mode == ColorMode.HSV) indicatorMode = IndicatorMode.DECIMAL; // cuz HEX && HSV is dumb
+        if(mode == ColorMode.HSV
+                || mode == ColorMode.CMYK
+                || mode == ColorMode.HSL) indicatorMode = IndicatorMode.DECIMAL; // cuz HEX is dumb for those
 
         new ChromaDialog.Builder()
             .initialColor(color)
