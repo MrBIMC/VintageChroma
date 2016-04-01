@@ -17,7 +17,7 @@ Screenshots
 
 <img src="https://raw.githubusercontent.com/MrBIMC/VintageChroma/master/art/screen1.png" width="250">
 <img src="https://raw.githubusercontent.com/MrBIMC/VintageChroma/master/art/screen2.png" width="250">
-<img src="https://raw.githubusercontent.com/MrBIMC/VintageChroma/master/art/screen3.png" width="500">
+<img src="https://raw.githubusercontent.com/MrBIMC/VintageChroma/master/art/screen3.png" width="505">
 
 Download
 --------
