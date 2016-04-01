@@ -34,7 +34,6 @@ public class ChannelView extends RelativeLayout {
         this.context = context;
 
         channel.setProgress(channel.getExtractor().extract(color));
-
         if(channel.getProgress() < channel.getMin() || channel.getProgress() > channel.getMax()) {
             throw new IllegalArgumentException(
                     "Initial progress for channel: " + channel.getClass().getSimpleName()
@@ -73,12 +72,9 @@ public class ChannelView extends RelativeLayout {
     }
 
     private void setProgress(TextView view, int progress) {
-        if(indicatorMode == IndicatorMode.HEX) {
-            view.setText(Integer.toHexString(progress));
-        }
-        else {
-            view.setText(String.valueOf(progress));
-        }
+        view.setText(indicatorMode == IndicatorMode.HEX
+                ? Integer.toHexString(progress)
+                : String.valueOf(progress));
     }
 
     public void registerListener(OnProgressChangedListener listener) {

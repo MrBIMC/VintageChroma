@@ -22,7 +22,7 @@ Screenshots
 Download
 --------
 ```
-compile 'com.pavelsikun:vintage-chroma:1.2.1'
+compile 'com.pavelsikun:vintage-chroma:1.3'
 ```
 
 Usage as stand-alone dialog && listener:
@@ -32,8 +32,8 @@ To display an color picker `DialogFragment`:
 ``` java
 new ChromaDialog.Builder()
     .initialColor(Color.GREEN)
-    .colorMode(ColorMode.ARGB) // RGB, ARGB, HVS
-    .indicatorMode(IndicatorMode.HEX) //HEX or DECIMAL; Note that ColorMode.HSV && IndicatorMode.HEX is a bad idea
+    .colorMode(ColorMode.ARGB) // RGB, ARGB, HVS, CMYK, CMYK255, HSL
+    .indicatorMode(IndicatorMode.HEX) //HEX or DECIMAL; Note that (HSV || HSL || CMYK) && IndicatorMode.HEX is a bad idea
     .onColorSelected(color -> /* do your stuff */)
     .create()
     .show(getFragmentManager(), "ChromaDialog");
@@ -49,7 +49,7 @@ You have 2 choices:
     <com.pavelsikun.vintagechroma.ChromaPreference
         android:key="hsv" // any key you want
         android:title="HSV sample" // summary will be automatically fetched from the current color
-        app:chromaColorMode="HSV" // RGB, ARGB, HSV
+        app:chromaColorMode="HSV" // RGB, ARGB, HSV, HSL, CMYK, CMYK255
         app:chromaIndicatorMode="HEX" // HEX or DECIMAL
         app:chromaInitialColor="@color/colorAccent"/> // default color
 ```

@@ -20,7 +20,6 @@
     <dimen name="color_view_width">180dp</dimen>
 
     <dimen name="chroma_dialog_width">310dp</dimen>
-    <dimen name="chroma_dialog_height">210dp</dimen>
 
     <dimen name="channel_view_margin_top">16dp</dimen>
     <dimen name="channel_view_margin_bottom">4dp</dimen>
