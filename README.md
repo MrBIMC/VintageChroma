@@ -15,8 +15,8 @@ Let's hope that both of these two libs will be cross-updated with features porte
 Screenshots
 --
 
-<img src="https://raw.githubusercontent.com/MrBIMC/VintageChroma/master/art/screen1.png" width="250">
-<img src="https://raw.githubusercontent.com/MrBIMC/VintageChroma/master/art/screen2.png" width="250">
+<img src="https://raw.githubusercontent.com/MrBIMC/VintageChroma/master/art/screen4.png" width="250">
+<img src="https://raw.githubusercontent.com/MrBIMC/VintageChroma/master/art/screen5.png" width="250">
 <img src="https://raw.githubusercontent.com/MrBIMC/VintageChroma/master/art/screen3.png" width="505">
 
 Download
