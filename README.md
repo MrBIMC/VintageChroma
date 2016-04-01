@@ -7,7 +7,7 @@ A Beautiful Material color picker view for Android.
 
 This project started off as an identical remake of [Chroma by Priyesh Patel](https://github.com/ItsPriyesh/chroma)
 but written in Java instead of Kotlin, so it is much more lightweight for using in kotlin-less apps.
-Right now it's a bit more advanced than original as it is a bit more optimised and also supports few additional options(such as custom preference, ARGB, and HEX-indicator)
+Right now it's a bit more advanced than original as it is a bit more optimised and also supports few additional options(such as custom preference, ARGB, CMYK, HMS, HEX-indicator and more)
 
 
 Let's hope that both of these two libs will be cross-updated with features ported from one to another!
@@ -22,7 +22,7 @@ Screenshots
 Download
 --------
 ```
-compile 'com.pavelsikun:vintage-chroma:1.3'
+compile 'com.pavelsikun:vintage-chroma:1.3.1'
 ```
 
 Usage as stand-alone dialog && listener:

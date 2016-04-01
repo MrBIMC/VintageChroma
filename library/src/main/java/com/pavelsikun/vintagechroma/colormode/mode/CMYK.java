@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Pavel Sikun on 01.04.16.
+ * Created by Pavel Sikun on 28.03.16.
  */
 public class CMYK implements AbstractColorMode {
 
@@ -20,28 +20,28 @@ public class CMYK implements AbstractColorMode {
         list.add(new Channel(R.string.channel_cyan, 0, 100, new Channel.ColorExtractor() {
             @Override
             public int extract(int color) {
-                return Color.red(color);
+                return 100 - (int) (Color.red((int) (color * 2.55)) / 2.55);
             }
         }));
 
         list.add(new Channel(R.string.channel_magenta, 0, 100, new Channel.ColorExtractor() {
             @Override
             public int extract(int color) {
-                return Color.green(color);
+                return 100 - (int) (Color.green((int) (color * 2.55)) / 2.55);
             }
         }));
 
         list.add(new Channel(R.string.channel_yellow, 0, 100, new Channel.ColorExtractor() {
             @Override
             public int extract(int color) {
-                return Color.blue(color);
+                return 100 - (int) (Color.blue((int) (color * 2.55)) / 2.55);
             }
         }));
 
         list.add(new Channel(R.string.channel_black, 0, 100, new Channel.ColorExtractor() {
             @Override
             public int extract(int color) {
-                return Color.alpha(color);
+                return 100 - (int) (Color.alpha((int) (color * 2.55)) / 2.55);
             }
         }));
 
@@ -57,7 +57,6 @@ public class CMYK implements AbstractColorMode {
     }
 
     private int convertToRGB(Channel colorChan, Channel blackChan) {
-        return (int) ((255 - (double) colorChan.getProgress() * 2.55) *
-                        (255 - (double) blackChan.getProgress() * 2.55)) / 255;
+        return (int)((255 - colorChan.getProgress() * 2.55) * (255 - blackChan.getProgress() * 2.55)) / 255;
     }
 }

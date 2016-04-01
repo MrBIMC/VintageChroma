@@ -20,28 +20,28 @@ public class CMYK255 implements AbstractColorMode {
         list.add(new Channel(R.string.channel_cyan, 0, 255, new Channel.ColorExtractor() {
             @Override
             public int extract(int color) {
-                return Color.red(color);
+                return 255 - Color.red(color);
             }
         }));
 
         list.add(new Channel(R.string.channel_magenta, 0, 255, new Channel.ColorExtractor() {
             @Override
             public int extract(int color) {
-                return Color.green(color);
+                return 255 - Color.green(color);
             }
         }));
 
         list.add(new Channel(R.string.channel_yellow, 0, 255, new Channel.ColorExtractor() {
             @Override
             public int extract(int color) {
-                return Color.blue(color);
+                return 255 -  Color.blue(color);
             }
         }));
 
         list.add(new Channel(R.string.channel_black, 0, 255, new Channel.ColorExtractor() {
             @Override
             public int extract(int color) {
-                return Color.alpha(color);
+                return 255 - Color.alpha(color);
             }
         }));
 

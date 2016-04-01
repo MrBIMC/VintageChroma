@@ -38,7 +38,7 @@ public class ARGB implements AbstractColorMode {
             }
         }));
 
-        list.add(new Channel(R.string.channel_red, 0, 255, new Channel.ColorExtractor() {
+        list.add(new Channel(R.string.channel_blue, 0, 255, new Channel.ColorExtractor() {
             @Override
             public int extract(int color) {
                 return Color.blue(color);
