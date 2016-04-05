@@ -1,4 +1,4 @@
-package com.pavelsikun.vintagechroma.sample;
+package com.pavelsikun.vintagechroma.sample_api_v7;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -20,10 +20,13 @@ import android.widget.TextView;
 
 import com.pavelsikun.vintagechroma.ChromaDialog;
 import com.pavelsikun.vintagechroma.ChromaUtil;
-import com.pavelsikun.vintagechroma.OnColorSelectedListener;
 import com.pavelsikun.vintagechroma.IndicatorMode;
+import com.pavelsikun.vintagechroma.OnColorSelectedListener;
 import com.pavelsikun.vintagechroma.colormode.ColorMode;
 
+/**
+ * Created by Pavel Sikun on 5.04.16.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private static final String EXTRA_COLOR = "extra_color";
@@ -130,27 +133,27 @@ public class MainActivity extends AppCompatActivity {
                 || mode == ColorMode.HSL) indicatorMode = IndicatorMode.DECIMAL; // cuz HEX is dumb for those
 
         new ChromaDialog.Builder()
-            .initialColor(color)
-            .colorMode(mode)
-            .indicatorMode(indicatorMode) //HEX or DECIMAL;
-            .onColorSelected(new OnColorSelectedListener() {
-                @Override public void onColorSelected(int newColor) {
-                    updateTextView(newColor);
-                    updateToolbar(color, newColor);
-                    color = newColor;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                .initialColor(color)
+                .colorMode(mode)
+                .indicatorMode(indicatorMode) //HEX or DECIMAL;
+                .onColorSelected(new OnColorSelectedListener() {
+                    @Override public void onColorSelected(int newColor) {
+                        updateTextView(newColor);
+                        updateToolbar(color, newColor);
+                        color = newColor;
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-                        getWindow().setStatusBarColor(darkenColor(newColor));
+                            getWindow().setStatusBarColor(darkenColor(newColor));
+                        }
                     }
-                }
-            })
-            .create()
-            .show(getSupportFragmentManager(), "dialog");
+                })
+                .create()
+                .show(getSupportFragmentManager(), "dialog");
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add("Preferences Sample").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.add("Preferences Sample");
         return super.onCreateOptionsMenu(menu);
     }
 

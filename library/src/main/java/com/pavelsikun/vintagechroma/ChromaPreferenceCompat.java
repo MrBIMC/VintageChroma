@@ -6,20 +6,19 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
-import android.preference.Preference;
 import android.support.annotation.ColorInt;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
-import android.view.View;
+import android.support.v7.preference.Preference;
 import android.widget.ImageView;
-
 
 import com.pavelsikun.vintagechroma.colormode.ColorMode;
 
 /**
- * Created by Pavel Sikun on 31.03.16.
+ * Created by Pavel Sikun on 5.04.16.
  */
-public class ChromaPreference extends Preference implements OnColorSelectedListener {
+public class ChromaPreferenceCompat extends Preference implements OnColorSelectedListener {
 
     private ImageView colorPreview;
 
@@ -34,23 +33,25 @@ public class ChromaPreference extends Preference implements OnColorSelectedListe
     private OnColorSelectedListener listener;
 
 
+    private FragmentManager fragmentManager;
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public ChromaPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public ChromaPreferenceCompat(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(attrs);
     }
 
-    public ChromaPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ChromaPreferenceCompat(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(attrs);
     }
 
-    public ChromaPreference(Context context, AttributeSet attrs) {
+    public ChromaPreferenceCompat(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs);
     }
 
-    public ChromaPreference(Context context) {
+    public ChromaPreferenceCompat(Context context) {
         super(context);
         init(null);
     }
@@ -94,10 +95,10 @@ public class ChromaPreference extends Preference implements OnColorSelectedListe
     }
 
     @Override
-    protected void onBindView(View view) {
-        super.onBindView(view);
+    public void onBindViewHolder(PreferenceViewHolder holder) {
+        super.onBindViewHolder(holder);
 
-        colorPreview = (ImageView) view.findViewById(R.id.colorPreview);
+        colorPreview = (ImageView) holder.itemView.findViewById(R.id.colorPreview);
         updatePreview();
 
         if(!isEnabled()) {
@@ -116,14 +117,19 @@ public class ChromaPreference extends Preference implements OnColorSelectedListe
         setSummary(ChromaUtil.getFormattedColorString(color, colorMode == ColorMode.ARGB));
     }
 
+    public void setSupportFragmentManager(FragmentManager fm) {
+        this.fragmentManager = fm;
+    }
+
     @Override
     protected void onClick() {
+        super.onClick();
         new ChromaDialog.Builder()
                 .colorMode(colorMode)
                 .initialColor(color)
                 .onColorSelected(this)
                 .indicatorMode(indicatorMode)
-                .create().show(((AppCompatActivity) getContext()).getSupportFragmentManager(), "colorPicker");
+                .create().show(fragmentManager, "colorPicker");
     }
 
     @Override
