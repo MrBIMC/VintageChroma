@@ -10,6 +10,7 @@ but written in Java instead of Kotlin, so it is much more lightweight for using 
 
 Since then this "fork" became a lot more developed(even more, it became the most powerful colorpicker for android!).
 It has next distinctive features:
+
     - works on api-7 and up
     - supports RGB, ARGB, HSV, HSL, CMYK, CMYK255 color modes
     - can indicate current color in either DECIMAL or HEXADECIMAL mode
@@ -45,11 +46,12 @@ new ChromaDialog.Builder()
 Usage as ColorPickerPreference:
 -----
 
-#(API-v11+ guide)
+(API-v11+ guide)
+--
 
 You have 2 choices:
-1. Add Preference to your *.xml preference layout:
 
+A. Add Preference to your *.xml preference layout:
 ``` xml
     <com.pavelsikun.vintagechroma.ChromaPreference
         android:key="hsv" // any key you want
@@ -59,8 +61,7 @@ You have 2 choices:
         app:chromaInitialColor="@color/colorAccent"/> // default color
 ```
 
-2. Or you can add preferences dynamically from the code:
-
+B. Or you can add preferences dynamically from the code:
 ```java
     ChromaPreference pref = new ChromaPreference(getActivity());
     getPreferenceScreen().addPreference(pref);
@@ -79,12 +80,11 @@ You have 2 choices:
 ```
 
 
-
-#(API-v7+ guide (don't use it for v11+ plz(it will work, but it's ugly and useless there))
-
+(API-v7+ guide (don't use it for v11+ plz(it will work, but it's ugly and useless there))
+-
 Same two choices, though implementation is a bit different since it's built on top of preference-v7:
 
-1a. Use ChromaPreferenceCompat instead of ChromaPreference
+A1. Use ChromaPreferenceCompat instead of ChromaPreference
 ``` xml
     <com.pavelsikun.vintagechroma.ChromaPreferenceCompat
         android:key="hsv" // any key you want
@@ -93,7 +93,7 @@ Same two choices, though implementation is a bit different since it's built on t
         app:chromaIndicatorMode="HEX" // HEX or DECIMAL
         app:chromaInitialColor="@color/colorAccent"/> // default color
 ```
-1b. And then, in your PreferenceFragmentCompat you have to inject SupportFragmentManager manually:
+A2. And then, in your PreferenceFragmentCompat you have to inject SupportFragmentManager manually:
 ```java
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -111,8 +111,7 @@ Same two choices, though implementation is a bit different since it's built on t
 
 ```
 
-2. Or you can add stuff dynamically through java:
-
+B. Or you can add stuff dynamically through java:
 ```java
     ChromaPreferenceCompat pref = new ChromaPreferenceCompat(getActivity());
     pref.setSupportFragmentManager(getSupportFragmentManager); // !! important !!
@@ -134,15 +133,18 @@ Same two choices, though implementation is a bit different since it's built on t
 
 
 
-#Bonus feature(v7+):
+Bonus feature(v7+):
+-
 
 method for formatted output of a given color:
 ```java
-    ChromaUtil.getFormattedColorString(int color, boolean showAlpha);
+ChromaUtil.getFormattedColorString(int color, boolean showAlpha);
 ```
 
 
 Check out the [sample project](sample) for more details.
+
+Check out the [sample-v7 project](sample-api-v7) for more details on how to use it with older androids.
 
 License
 -------
