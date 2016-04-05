@@ -46,10 +46,8 @@ new ChromaDialog.Builder()
 Usage as ColorPickerPreference:
 -----
 
-(API-v11+ guide)
+API-v11+ guide
 --
-
-You have 2 choices:
 
 A. Add Preference to your *.xml preference layout:
 ``` xml
@@ -80,7 +78,7 @@ B. Or you can add preferences dynamically from the code:
 ```
 
 
-(API-v7+ guide (don't use it for v11+ plz(it will work, but it's ugly and useless there))
+API-v7+ guide (use only if you need to support pre-v11 androids)
 -
 Same two choices, though implementation is a bit different since it's built on top of preference-v7:
 
