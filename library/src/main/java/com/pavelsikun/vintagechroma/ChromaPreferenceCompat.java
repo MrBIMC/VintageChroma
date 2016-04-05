@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.support.v7.preference.Preference;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.pavelsikun.vintagechroma.colormode.ColorMode;
@@ -105,15 +106,26 @@ public class ChromaPreferenceCompat extends Preference implements OnColorSelecte
         }
     }
 
-    void updatePreview() {
-        if(colorPreview != null) {
-            colorPreview
-                    .getDrawable()
-                    .mutate()
-                    .setColorFilter(color, PorterDuff.Mode.MULTIPLY);
-        }
+    @Override
+    public void onAttached() {
+        super.onAttached();
+        updatePreview();
+    }
 
-        setSummary(ChromaUtil.getFormattedColorString(color, colorMode == ColorMode.ARGB));
+    void updatePreview() {
+        try {
+            if(colorPreview != null) {
+                colorPreview
+                        .getDrawable()
+                        .mutate()
+                        .setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+            }
+
+            setSummary(ChromaUtil.getFormattedColorString(color, colorMode == ColorMode.ARGB));
+        }
+        catch (Exception e) {
+            Log.e(getClass().getSimpleName(), "Cannot update preview: " + e.toString());
+        }
     }
 
     public void setSupportFragmentManager(FragmentManager fm) {
