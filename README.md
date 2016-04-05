@@ -7,10 +7,13 @@ A Beautiful Material color picker view for Android.
 
 This project started off as an identical remake of [Chroma by Priyesh Patel](https://github.com/ItsPriyesh/chroma)
 but written in Java instead of Kotlin, so it is much more lightweight for using in kotlin-less apps.
-Right now it's a bit more advanced than original as it is a bit more optimised and also supports few additional options(such as custom preference, ARGB, CMYK, HMS, HEX-indicator and more)
 
-
-Let's hope that both of these two libs will be cross-updated with features ported from one to another!
+Since then this "fork" became a lot more developed(even more, it became the most powerful colorpicker for android!).
+It has next distinctive features:
+    - works on api-7 and up
+    - supports RGB, ARGB, HSV, HSL, CMYK, CMYK255 color modes
+    - can indicate current color in either DECIMAL or HEXADECIMAL mode
+    - Can be used in standalone Dialog+Callback mode or as custom preference.
 
 Screenshots
 --
@@ -25,7 +28,7 @@ Download
 compile 'com.pavelsikun:vintage-chroma:1.3.1'
 ```
 
-Usage as stand-alone dialog && listener:
+Usage(for api-v7+) as stand-alone dialog && listener:
 -----
 To display an color picker `DialogFragment`:
 
@@ -41,9 +44,11 @@ new ChromaDialog.Builder()
 
 Usage as ColorPickerPreference:
 -----
-You have 2 choices:
 
-1. add Preference to your *.xml preference layout:
+#(API-v11+ guide)
+
+You have 2 choices:
+1. Add Preference to your *.xml preference layout:
 
 ``` xml
     <com.pavelsikun.vintagechroma.ChromaPreference
@@ -54,7 +59,7 @@ You have 2 choices:
         app:chromaInitialColor="@color/colorAccent"/> // default color
 ```
 
-2. or you can add preferences dynamically from the code:
+2. Or you can add preferences dynamically from the code:
 
 ```java
     ChromaPreference pref = new ChromaPreference(getActivity());
@@ -73,9 +78,65 @@ You have 2 choices:
     public void setIndicatorMode(IndicatorMode indicatorMode)
 ```
 
-Bonus feature:
 
-- method for formatted output of a given color:
+
+#(API-v7+ guide (don't use it for v11+ plz(it will work, but it's ugly and useless there))
+
+Same two choices, though implementation is a bit different since it's built on top of preference-v7:
+
+1a. Use ChromaPreferenceCompat instead of ChromaPreference
+``` xml
+    <com.pavelsikun.vintagechroma.ChromaPreferenceCompat
+        android:key="hsv" // any key you want
+        android:title="HSV sample" // summary will be automatically fetched from the current color
+        app:chromaColorMode="HSV" // RGB, ARGB, HSV, HSL, CMYK, CMYK255
+        app:chromaIndicatorMode="HEX" // HEX or DECIMAL
+        app:chromaInitialColor="@color/colorAccent"/> // default color
+```
+1b. And then, in your PreferenceFragmentCompat you have to inject SupportFragmentManager manually:
+```java
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        for(int i = 0; i < getPreferenceScreen().getPreferenceCount(); i++) {
+            Preference p = getPreferenceScreen().getPreference(i);
+            if(p instanceof ChromaPreferenceCompat) {
+                ((ChromaPreferenceCompat) p).setSupportFragmentManager(getFragmentManager());
+            }
+        }
+
+        //... your stuff
+    }
+
+```
+
+2. Or you can add stuff dynamically through java:
+
+```java
+    ChromaPreferenceCompat pref = new ChromaPreferenceCompat(getActivity());
+    pref.setSupportFragmentManager(getSupportFragmentManager); // !! important !!
+    getPreferenceScreen().addPreference(pref);
+
+    //supported additional methods:
+    public void setColor(@ColorInt int color);
+    public int getColor();
+
+    public void setOnColorSelectedListener(OnColorSelectedListener listener)
+
+    public ColorMode getColorMode()
+    public void setColorMode(ColorMode colorMode)
+
+    public IndicatorMode getIndicatorMode()
+    public void setIndicatorMode(IndicatorMode indicatorMode)
+```
+
+
+
+
+#Bonus feature(v7+):
+
+method for formatted output of a given color:
 ```java
     ChromaUtil.getFormattedColorString(int color, boolean showAlpha);
 ```

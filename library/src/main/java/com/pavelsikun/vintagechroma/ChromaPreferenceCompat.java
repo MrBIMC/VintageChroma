@@ -32,7 +32,6 @@ public class ChromaPreferenceCompat extends Preference implements OnColorSelecte
 
     private OnColorSelectedListener listener;
 
-
     private FragmentManager fragmentManager;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
