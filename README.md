@@ -131,6 +131,8 @@ method for formatted output of a given color:
 ChromaUtil.getFormattedColorString(int color, boolean showAlpha);
 ```
 
+--
+
 Check out the [sample project](sample) for more details.
 
 Check out the [sample-v7 project](sample-api-v7) for more details on how to use it with older androids.
