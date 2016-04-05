@@ -29,10 +29,10 @@ Download
 compile 'com.pavelsikun:vintage-chroma:1.3.1'
 ```
 
-Usage(for api-v7+) as stand-alone dialog && listener:
+Usage as stand-alone dialog && listener(universal guide for all android versions):
 -----
-To display an color picker `DialogFragment`:
 
+To display an color picker `DialogFragment`:
 ``` java
 new ChromaDialog.Builder()
     .initialColor(Color.GREEN)
@@ -40,14 +40,11 @@ new ChromaDialog.Builder()
     .indicatorMode(IndicatorMode.HEX) //HEX or DECIMAL; Note that (HSV || HSL || CMYK) && IndicatorMode.HEX is a bad idea
     .onColorSelected(color -> /* do your stuff */)
     .create()
-    .show(getFragmentManager(), "ChromaDialog");
+    .show(getSupportFragmentManager(), "ChromaDialog");
 ```
 
-Usage as ColorPickerPreference:
+Usage as ColorPickerPreference(API-v11+ guide):
 -----
-
-API-v11+ guide
---
 
 A. Add Preference to your *.xml preference layout:
 ``` xml
@@ -77,9 +74,8 @@ B. Or you can add preferences dynamically from the code:
     public void setIndicatorMode(IndicatorMode indicatorMode)
 ```
 
-
-API-v7+ guide (use only if you need to support pre-v11 androids)
--
+Usage as ColorPickerPreference(API-v7+ guide (use only if you need to support pre-v11 androids)):
+-----
 Same two choices, though implementation is a bit different since it's built on top of preference-v7:
 
 A1. Use ChromaPreferenceCompat instead of ChromaPreference
@@ -128,17 +124,12 @@ B. Or you can add stuff dynamically through java:
     public void setIndicatorMode(IndicatorMode indicatorMode)
 ```
 
-
-
-
-Bonus feature(v7+):
--
-
+Bonus feature(universal):
+---
 method for formatted output of a given color:
 ```java
 ChromaUtil.getFormattedColorString(int color, boolean showAlpha);
 ```
-
 
 Check out the [sample project](sample) for more details.
 
