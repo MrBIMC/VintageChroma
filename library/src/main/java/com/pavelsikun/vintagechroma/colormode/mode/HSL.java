@@ -53,14 +53,14 @@ public class HSL implements AbstractColorMode {
         list.add(new Channel(R.string.channel_saturation, 0, 100, new Channel.ColorExtractor() {
             @Override
             public int extract(int color) {
-                return 100 - (int) color2hsl(color)[1] * 100;
+                return 100 - (int) (color2hsl(color)[1] * 100);
             }
         }));
 
         list.add(new Channel(R.string.channel_lightness, 0, 100, new Channel.ColorExtractor() {
             @Override
             public int extract(int color) {
-                return Math.abs(50 - (int) color2hsl(color)[2] * 100);
+                return Math.abs(50 - (int) (color2hsl(color)[2] * 100));
             }
         }));
 
