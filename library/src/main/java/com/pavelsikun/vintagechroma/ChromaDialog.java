@@ -136,7 +136,7 @@ public class ChromaDialog extends DialogFragment {
         return ad;
     }
 
-    void measureLayout(AlertDialog ad) {
+    private void measureLayout(AlertDialog ad) {
         int multiplier = getResources().getConfiguration()
                 .orientation == Configuration.ORIENTATION_LANDSCAPE
                 ? 2

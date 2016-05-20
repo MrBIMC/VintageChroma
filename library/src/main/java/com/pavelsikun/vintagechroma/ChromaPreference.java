@@ -23,9 +23,9 @@ public class ChromaPreference extends Preference implements OnColorSelectedListe
 
     private ImageView colorPreview;
 
-    private static int DEFAULT_COLOR = Color.WHITE;
-    private static ColorMode DEFAULT_COLOR_MODE = ColorMode.RGB;
-    private static IndicatorMode DEFAULT_INDICATOR_MODE = IndicatorMode.DECIMAL;
+    private static final int DEFAULT_COLOR = Color.WHITE;
+    private static final ColorMode DEFAULT_COLOR_MODE = ColorMode.RGB;
+    private static final IndicatorMode DEFAULT_INDICATOR_MODE = IndicatorMode.DECIMAL;
 
     private int color;
     private ColorMode colorMode;
@@ -56,13 +56,13 @@ public class ChromaPreference extends Preference implements OnColorSelectedListe
     }
 
 
-    void init(AttributeSet attrs) {
+    private void init(AttributeSet attrs) {
         setWidgetLayoutResource(R.layout.preference_layout);
         loadValuesFromXml(attrs);
         updatePreview();
     }
 
-    void loadValuesFromXml(AttributeSet attrs) {
+    private void loadValuesFromXml(AttributeSet attrs) {
         if(attrs == null) {
             color = DEFAULT_COLOR;
             colorMode = DEFAULT_COLOR_MODE;
@@ -105,7 +105,7 @@ public class ChromaPreference extends Preference implements OnColorSelectedListe
         }
     }
 
-    void updatePreview() {
+    private void updatePreview() {
         if(colorPreview != null) {
             colorPreview
                     .getDrawable()

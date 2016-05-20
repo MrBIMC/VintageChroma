@@ -16,13 +16,13 @@ public class HSL implements AbstractColorMode {
 //    function hsv2hsl(a,b,c){return[a,b*c/((a=(2-b)*c)<1?a:2-a),a/2]}
 //    function hsl2hsv(a,b,c){b*=c<.5?c:1-c;return[a,2*b/(c+b),c+b]}
 
-    float[] color2hsl(int color) {
+    private float[] color2hsl(int color) {
         float[] hsv = new float[3];
         Color.colorToHSV(color, hsv);
         return hsv2hsl(hsv);
     }
 
-    float[] hsv2hsl(float[] hsv) {
+    private float[] hsv2hsl(float[] hsv) {
         float a = hsv[0];
         float b = hsv[1];
         float c = hsv[2];
@@ -30,12 +30,14 @@ public class HSL implements AbstractColorMode {
         return new float[] { a, b * c / ((a = (2 - b) * c) < 1 ? a : 2), a/2 };
     }
 
-    float[] hsl2hsv(float[] hsl) {
+    private float[] hsl2hsv(float[] hsl) {
         float a = hsl[0];
         float b = hsl[1];
         float c = hsl[2];
 
         b *= c < 0.5 ? c : 1 - c;
+        if(b == 0) b = 0.001f;
+
         return new float[] { a, 2 * b / (c + b), c + b };
     }
 
@@ -60,7 +62,7 @@ public class HSL implements AbstractColorMode {
         list.add(new Channel(R.string.channel_lightness, 0, 100, new Channel.ColorExtractor() {
             @Override
             public int extract(int color) {
-                return Math.abs(50 - (int) (color2hsl(color)[2] * 100));
+                return (int) (color2hsl(color)[2] * 100);
             }
         }));
 

@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     private Spinner spinner;
     private TextView textView;
     private Toolbar toolbar;
-    private FloatingActionButton fab;
 
     private int color;
     private ColorMode mode;
@@ -45,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         textView = (TextView) findViewById(R.id.text_view);
         spinner = (Spinner) findViewById(R.id.spinner);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
         if(savedInstanceState == null) {
             color = ContextCompat.getColor(this, R.color.colorPrimary);

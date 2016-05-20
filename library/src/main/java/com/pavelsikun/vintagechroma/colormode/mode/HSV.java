@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class HSV implements AbstractColorMode {
 
-    float[] colorToHSV(int color) {
+    private float[] colorToHSV(int color) {
         float[] hsv = new float[3];
         Color.colorToHSV(color, hsv);
         return hsv;

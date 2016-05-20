@@ -46,7 +46,7 @@ public class ChromaView extends RelativeLayout {
         init();
     }
 
-    void init() {
+    private void init() {
         inflate(getContext(), R.layout.chroma_view, this);
         setClipToPadding(false);
 
