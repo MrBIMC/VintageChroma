@@ -26,7 +26,7 @@ Screenshots
 Download
 --------
 ```
-compile 'com.pavelsikun:vintage-chroma:1.4'
+compile 'com.pavelsikun:vintage-chroma:1.4.1'
 ```
 
 Usage as stand-alone dialog && listener(universal guide for all android versions):
