@@ -1,6 +1,7 @@
 package com.pavelsikun.vintagechroma;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -9,6 +10,7 @@ import android.support.annotation.ColorInt;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.WindowManager;
 
 import com.pavelsikun.vintagechroma.colormode.ColorMode;
@@ -66,6 +68,10 @@ public class ChromaDialog extends DialogFragment {
             return this;
         }
 
+        void createCompat(Context context) {
+            new ChromaDialogCompat(context, initialColor, colorMode, indicatorMode, listener);
+        }
+
         public ChromaDialog create() {
             ChromaDialog fragment = newInstance(initialColor, colorMode, indicatorMode);
             fragment.setListener(listener);
@@ -92,6 +98,7 @@ public class ChromaDialog extends DialogFragment {
 
                     getActivity());
         }
+
         else {
             chromaView = new ChromaView(
 
@@ -129,28 +136,26 @@ public class ChromaDialog extends DialogFragment {
                 }
             });
         }
-        else {
-            measureLayout(ad);
-        }
 
         return ad;
     }
 
     private void measureLayout(AlertDialog ad) {
-        int multiplier = getResources().getConfiguration()
+        int widthMultiplier = getResources().getConfiguration()
                 .orientation == Configuration.ORIENTATION_LANDSCAPE
                 ? 2
                 : 1;
 
-        DisplayMetrics metrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        TypedValue typedValue = new TypedValue();
+        getResources().getValue(R.dimen.chroma_dialog_height_multiplier, typedValue, true);
+        float heightMultiplier = typedValue.getFloat();
 
         int height = getResources().getConfiguration()
                 .orientation == Configuration.ORIENTATION_LANDSCAPE
-                ? (int) (metrics.heightPixels * 0.8)
+                ? (int) (new DisplayMetrics().heightPixels * heightMultiplier)
                 : WindowManager.LayoutParams.WRAP_CONTENT;
 
-        int width = getResources().getDimensionPixelSize(R.dimen.chroma_dialog_width) * multiplier;
+        int width = getResources().getDimensionPixelSize(R.dimen.chroma_dialog_width) * widthMultiplier;
 
         ad.getWindow().setLayout(width, height);
     }

@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.support.annotation.ColorInt;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.support.v7.preference.Preference;
@@ -32,8 +31,6 @@ public class ChromaPreferenceCompat extends Preference implements OnColorSelecte
     private IndicatorMode indicatorMode;
 
     private OnColorSelectedListener listener;
-
-    private FragmentManager fragmentManager;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public ChromaPreferenceCompat(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -128,10 +125,6 @@ public class ChromaPreferenceCompat extends Preference implements OnColorSelecte
         }
     }
 
-    public void setSupportFragmentManager(FragmentManager fm) {
-        this.fragmentManager = fm;
-    }
-
     @Override
     protected void onClick() {
         super.onClick();
@@ -140,7 +133,7 @@ public class ChromaPreferenceCompat extends Preference implements OnColorSelecte
                 .initialColor(color)
                 .onColorSelected(this)
                 .indicatorMode(indicatorMode)
-                .create().show(fragmentManager, "colorPicker");
+                .createCompat(getContext());
     }
 
     @Override

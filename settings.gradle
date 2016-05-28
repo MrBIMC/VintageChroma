@@ -1,1 +1,1 @@
-include ':library', ':sample', ':sample-api-v7'
+include ':library', ':sample'

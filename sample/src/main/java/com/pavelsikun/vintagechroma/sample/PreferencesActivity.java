@@ -1,5 +1,7 @@
 package com.pavelsikun.vintagechroma.sample;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.ActionBar;
@@ -9,7 +11,9 @@ import android.view.MenuItem;
 /**
  * Created by Pavel Sikun on 31.03.16.
  */
-public class SettingsActivity extends AppCompatActivity {
+
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+public class PreferencesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +40,7 @@ public class SettingsActivity extends AppCompatActivity {
     public static class PreferencesScreen extends PreferenceFragment {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_general);
+            addPreferencesFromResource(R.xml.pref);
         }
     }
 }

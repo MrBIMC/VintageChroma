@@ -25,27 +25,90 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
+        android:paddingTop="?attr/actionBarSize"
+        android:orientation="vertical">
+        <android.support.v7.widget.CardView
+            android:id="@+id/prefsCard"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            app:cardElevation="2dp"
+            app:cardUseCompatPadding="true">
+            <LinearLayout
+                android:id="@+id/prefsButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="48dp"
+                    android:padding="4dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/settings_box"
+                    android:scaleType="fitCenter"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Open Prefrences Demo"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            app:cardElevation="2dp"
+            app:cardUseCompatPadding="true">
+            <LinearLayout
+                android:id="@+id/v7prefsButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="48dp"
+                    android:padding="4dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/settings_box"
+                    android:scaleType="fitCenter"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Open v7-Prefrences Demo"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
 
-        <TextView
-            android:id="@+id/text_view"
-            android:textColor="@android:color/black"
-            android:fontFamily="sans-serif-medium"
-            android:textSize="32sp"
-            android:textAllCaps="true"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_view"
+                android:textColor="@android:color/black"
+                android:fontFamily="sans-serif-medium"
+                android:textSize="32sp"
+                android:textAllCaps="true"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

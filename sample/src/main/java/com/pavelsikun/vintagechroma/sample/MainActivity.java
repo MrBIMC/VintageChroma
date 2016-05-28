@@ -5,13 +5,10 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -44,38 +41,51 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         textView = (TextView) findViewById(R.id.text_view);
         spinner = (Spinner) findViewById(R.id.spinner);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
-        if(savedInstanceState == null) {
-            color = ContextCompat.getColor(this, R.color.colorPrimary);
-            mode = ColorMode.RGB;
+        color = savedInstanceState == null
+                ? ContextCompat.getColor(this, R.color.colorPrimary)
+                : savedInstanceState.getInt(EXTRA_COLOR);
+        mode = savedInstanceState == null
+                ? ColorMode.RGB
+                : ColorMode.values()[savedInstanceState.getInt(EXTRA_MODE)];
 
-        }
-        else {
-            color = savedInstanceState.getInt(EXTRA_COLOR);
-            mode = ColorMode.values()[savedInstanceState.getInt(EXTRA_MODE)];
-        }
 
         setSupportActionBar(toolbar);
-
         updateTextView(color);
         updateToolbar(color, color);
-
         setupSpinner();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(darkenColor(color));
         }
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showColorPickerDialog();
             }
         });
+
+        if(Build.VERSION.SDK_INT < 11) {
+            findViewById(R.id.prefsCard).setVisibility(View.GONE);
+        }
+
+        findViewById(R.id.prefsButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, PreferencesActivity.class));
+            }
+        });
+
+        findViewById(R.id.v7prefsButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, PreferencesCompatActivity.class));
+            }
+        });
     }
 
-    void setupSpinner() {
+    private void setupSpinner() {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item);
         for(ColorMode m : ColorMode.values()) {
             adapter.add(m.name());
@@ -95,12 +105,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    void updateTextView(int newColor) {
+    private void updateTextView(int newColor) {
         textView.setText(ChromaUtil.getFormattedColorString(newColor, mode == ColorMode.ARGB));
         textView.setTextColor(newColor);
     }
 
-    void updateToolbar(int oldColor, int newColor) {
+    private void updateToolbar(int oldColor, int newColor) {
         final TransitionDrawable transition = new TransitionDrawable(new ColorDrawable[]{
                 new ColorDrawable(oldColor), new ColorDrawable(newColor)
         });
@@ -115,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         transition.startTransition(300);
     }
 
-    int darkenColor(int color) {
+    private int darkenColor(int color) {
         float[] hsv = new float[3];
         Color.colorToHSV(color, hsv);
         hsv[2] *= 0.8f;
@@ -145,18 +155,6 @@ public class MainActivity extends AppCompatActivity {
             })
             .create()
             .show(getSupportFragmentManager(), "dialog");
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add("Preferences Sample").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        startActivity(new Intent(this, SettingsActivity.class));
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

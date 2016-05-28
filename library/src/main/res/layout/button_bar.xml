@@ -9,12 +9,12 @@
         style="?attr/buttonBarNegativeButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_negative"/>
+        android:text="@android:string/cancel"/>
 
     <Button
         android:id="@+id/positive_button"
         style="?attr/buttonBarPositiveButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_positive"/>
+        android:text="@android:string/ok"/>
 </LinearLayout>

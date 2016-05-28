@@ -19,6 +19,7 @@ import com.pavelsikun.vintagechroma.colormode.ColorMode;
 /**
  * Created by Pavel Sikun on 31.03.16.
  */
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ChromaPreference extends Preference implements OnColorSelectedListener {
 
     private ImageView colorPreview;
@@ -118,6 +119,7 @@ public class ChromaPreference extends Preference implements OnColorSelectedListe
 
     @Override
     protected void onClick() {
+
         new ChromaDialog.Builder()
                 .colorMode(colorMode)
                 .initialColor(color)

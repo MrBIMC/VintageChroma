@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="color_view_height">250dp</dimen>
+    <dimen name="color_view_width">180dp</dimen>
+    <dimen name="chroma_dialog_width">320dp</dimen>
+
+    <item name="chroma_dialog_height_multiplier" format="float" type="dimen">0.5</item>
+</resources>

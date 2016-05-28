@@ -26,7 +26,7 @@ Screenshots
 Download
 --------
 ```
-compile 'com.pavelsikun:vintage-chroma:1.4.1'
+compile 'com.pavelsikun:vintage-chroma:1.5'
 ```
 
 Usage as stand-alone dialog && listener(universal guide for all android versions):
@@ -78,7 +78,7 @@ Usage as ColorPickerPreference(API-v7+ guide (use only if you need to support pr
 -----
 Same two choices, though implementation is a bit different since it's built on top of preference-v7:
 
-A1. Use ChromaPreferenceCompat instead of ChromaPreference
+A. Use ChromaPreferenceCompat instead of ChromaPreference
 ``` xml
     <com.pavelsikun.vintagechroma.ChromaPreferenceCompat
         android:key="hsv" // any key you want
@@ -87,28 +87,10 @@ A1. Use ChromaPreferenceCompat instead of ChromaPreference
         app:chromaIndicatorMode="HEX" // HEX or DECIMAL
         app:chromaInitialColor="@color/colorAccent"/> // default color
 ```
-A2. And then, in your PreferenceFragmentCompat you have to inject SupportFragmentManager manually:
-```java
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        for(int i = 0; i < getPreferenceScreen().getPreferenceCount(); i++) {
-            Preference p = getPreferenceScreen().getPreference(i);
-            if(p instanceof ChromaPreferenceCompat) {
-                ((ChromaPreferenceCompat) p).setSupportFragmentManager(getFragmentManager());
-            }
-        }
-
-        //... your stuff
-    }
-
-```
 
 B. Or you can add stuff dynamically through java:
 ```java
     ChromaPreferenceCompat pref = new ChromaPreferenceCompat(getActivity());
-    pref.setSupportFragmentManager(getSupportFragmentManager); // !! important !!
     getPreferenceScreen().addPreference(pref);
 
     //supported additional methods:
@@ -134,8 +116,6 @@ ChromaUtil.getFormattedColorString(int color, boolean showAlpha);
 --
 
 Check out the [sample project](sample) for more details.
-
-Check out the [sample-v7 project](sample-api-v7) for more details on how to use it with older androids.
 
 License
 -------
