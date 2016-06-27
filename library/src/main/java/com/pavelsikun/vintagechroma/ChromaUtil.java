@@ -5,6 +5,9 @@ package com.pavelsikun.vintagechroma;
  */
 public class ChromaUtil {
 
+    private ChromaUtil() {
+    }
+
     public static String getFormattedColorString(int color, boolean showAlpha) {
         if(showAlpha) {
             return String.format("#%08X", color);
