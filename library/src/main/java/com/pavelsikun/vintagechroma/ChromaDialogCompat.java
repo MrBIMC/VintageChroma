@@ -35,7 +35,9 @@ class ChromaDialogCompat {
         dialogView.enableButtonBar(new ChromaView.ButtonBarListener() {
             @Override
             public void onPositiveButtonClick(int color) {
-                if(listener != null) listener.onColorSelected(color);
+                if(listener != null) {
+                    listener.onColorSelected(color);
+                }
                 dialog.dismiss();
             }
 

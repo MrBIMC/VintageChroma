@@ -36,7 +36,9 @@ public class HSL implements AbstractColorMode {
         float c = hsl[2];
 
         b *= c < 0.5 ? c : 1 - c;
-        if(b == 0) b = 0.001f;
+        if(b == 0) {
+            b = 0.001f;
+        }
 
         return new float[] { a, 2 * b / (c + b), c + b };
     }

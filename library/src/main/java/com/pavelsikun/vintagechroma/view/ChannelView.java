@@ -60,7 +60,9 @@ public class ChannelView extends RelativeLayout {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 channel.setProgress(progress);
                 setProgress(progressView, progress);
-                if(listener != null) listener.onProgressChanged();
+                if(listener != null) {
+                    listener.onProgressChanged();
+                }
             }
 
             @Override
