@@ -154,7 +154,7 @@ public class ChromaDialog extends DialogFragment {
 
         int height = getResources().getConfiguration()
                 .orientation == Configuration.ORIENTATION_LANDSCAPE
-                ? (int) (new DisplayMetrics().heightPixels * heightMultiplier)
+                ? (int) (ad.getContext().getResources().getDisplayMetrics().heightPixels * heightMultiplier)
                 : WindowManager.LayoutParams.WRAP_CONTENT;
 
         int width = getResources().getDimensionPixelSize(R.dimen.chroma_dialog_width) * widthMultiplier;
