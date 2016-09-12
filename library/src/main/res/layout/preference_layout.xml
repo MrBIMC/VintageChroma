@@ -5,6 +5,11 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/draughtboard"/>
+    <ImageView
         android:id="@+id/colorPreview"
         android:layout_margin="6dp"
         android:scaleType="fitCenter"

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <View
+    <ImageView
         android:id="@+id/color_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/color_view_height"
-        tools:background="@android:color/holo_blue_bright"/>
+        android:src="@android:color/black"
+        android:background="@drawable/color_background"/>
 
     <LinearLayout
         android:id="@+id/channel_container"

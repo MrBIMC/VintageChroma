@@ -2,10 +2,13 @@ package com.pavelsikun.vintagechroma.view;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.annotation.ColorInt;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -50,8 +53,8 @@ public class ChromaView extends RelativeLayout {
         inflate(getContext(), R.layout.chroma_view, this);
         setClipToPadding(false);
 
-        final View colorView = findViewById(R.id.color_view);
-        colorView.setBackgroundColor(currentColor);
+        final ImageView colorView = (ImageView) findViewById(R.id.color_view);
+        colorView.setColorFilter(currentColor, PorterDuff.Mode.SRC);
 
         List<Channel> channels = colorMode.getColorMode().getChannels();
         final List<ChannelView> channelViews = new ArrayList<>();
@@ -67,7 +70,7 @@ public class ChromaView extends RelativeLayout {
                     channels.add(chan.getChannel());
                 }
                 currentColor = colorMode.getColorMode().evaluateColor(channels);
-                colorView.setBackgroundColor(currentColor);
+                colorView.setColorFilter(currentColor, PorterDuff.Mode.SRC);
             }
         };
 
