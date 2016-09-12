@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.WindowManager;
 
@@ -18,6 +17,7 @@ import com.pavelsikun.vintagechroma.view.ChromaView;
 
 /**
  * Created by Pavel Sikun on 28.03.16.
+ * Modified by Jeremy JAMET on 12/09/16.
  */
 public class ChromaDialog extends DialogFragment {
 
@@ -152,9 +152,11 @@ public class ChromaDialog extends DialogFragment {
         getResources().getValue(R.dimen.chroma_dialog_height_multiplier, typedValue, true);
         float heightMultiplier = typedValue.getFloat();
 
+        final int DELTA_HEIGHT = 100;
         int height = getResources().getConfiguration()
                 .orientation == Configuration.ORIENTATION_LANDSCAPE
-                ? (int) (new DisplayMetrics().heightPixels * heightMultiplier)
+                ? (int) (ad.getContext().getResources().getDisplayMetrics().heightPixels * heightMultiplier)
+                    + DELTA_HEIGHT
                 : WindowManager.LayoutParams.WRAP_CONTENT;
 
         int width = getResources().getDimensionPixelSize(R.dimen.chroma_dialog_width) * widthMultiplier;
