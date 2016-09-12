@@ -12,9 +12,11 @@ Since then this "fork" became a lot more developed(even more, it became the most
 It has next distinctive features:
 
     - works on api-7 and up
-    - supports RGB, ARGB, HSV, HSL, CMYK, CMYK255 color modes
+    - supports RGB, ARGB, HSV, HSL, CMYK, CMYK255 color modes (with alpha preview)
     - can indicate current color in either DECIMAL or HEXADECIMAL mode
-    - Can be used in standalone Dialog+Callback mode or as custom preference.
+    - can be used in standalone Dialog+Callback mode or as custom preference.
+    - can select shape for preview color in custom preference
+    - add color as part of summary string
 
 Screenshots
 --
@@ -51,6 +53,7 @@ A. Add Preference to your *.xml preference layout:
     <com.pavelsikun.vintagechroma.ChromaPreference
         android:key="hsv" // any key you want
         android:title="HSV sample" // summary will be automatically fetched from the current color
+        android:summary="text and [color] string" // add [color] for show current color as string in summary
         app:chromaColorMode="HSV" // RGB, ARGB, HSV, HSL, CMYK, CMYK255
         app:chromaIndicatorMode="HEX" // HEX or DECIMAL
         app:chromaInitialColor="@color/colorAccent"/> // default color
@@ -83,6 +86,7 @@ A. Use ChromaPreferenceCompat instead of ChromaPreference
     <com.pavelsikun.vintagechroma.ChromaPreferenceCompat
         android:key="hsv" // any key you want
         android:title="HSV sample" // summary will be automatically fetched from the current color
+        android:summary="text and [color] string" // add [color] for show current color as string in summary
         app:chromaColorMode="HSV" // RGB, ARGB, HSV, HSL, CMYK, CMYK255
         app:chromaIndicatorMode="HEX" // HEX or DECIMAL
         app:chromaInitialColor="@color/colorAccent"/> // default color

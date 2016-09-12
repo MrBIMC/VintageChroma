@@ -17,6 +17,7 @@ import com.pavelsikun.vintagechroma.colormode.ColorMode;
 
 /**
  * Created by Pavel Sikun on 5.04.16.
+ * Modified by Jeremy JAMET on 12/09/16.
  */
 public class ChromaPreferenceCompat extends Preference implements OnColorSelectedListener {
 
@@ -25,10 +26,14 @@ public class ChromaPreferenceCompat extends Preference implements OnColorSelecte
     private static final int DEFAULT_COLOR = Color.WHITE;
     private static final ColorMode DEFAULT_COLOR_MODE = ColorMode.RGB;
     private static final IndicatorMode DEFAULT_INDICATOR_MODE = IndicatorMode.DECIMAL;
+    private static final ShapePreviewPreference DEFAULT_SHAPE_PREVIEW = ShapePreviewPreference.CIRCLE;
+    private static final String COLOR_TAG_SUMMARY = "[color]";
 
     private int color;
     private ColorMode colorMode;
     private IndicatorMode indicatorMode;
+    private ShapePreviewPreference shapePreviewPreference;
+    private CharSequence summaryPreference;
 
     private OnColorSelectedListener listener;
 
@@ -53,7 +58,6 @@ public class ChromaPreferenceCompat extends Preference implements OnColorSelecte
         init(null);
     }
 
-
     private void init(AttributeSet attrs) {
         setWidgetLayoutResource(R.layout.preference_layout);
         loadValuesFromXml(attrs);
@@ -65,6 +69,8 @@ public class ChromaPreferenceCompat extends Preference implements OnColorSelecte
             color = DEFAULT_COLOR;
             colorMode = DEFAULT_COLOR_MODE;
             indicatorMode = DEFAULT_INDICATOR_MODE;
+            shapePreviewPreference = DEFAULT_SHAPE_PREVIEW;
+            summaryPreference = COLOR_TAG_SUMMARY;
         }
         else {
             TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.ChromaPreference);
@@ -78,6 +84,12 @@ public class ChromaPreferenceCompat extends Preference implements OnColorSelecte
                 indicatorMode = IndicatorMode.values()[
                         a.getInt(R.styleable.ChromaPreference_chromaIndicatorMode,
                                 DEFAULT_INDICATOR_MODE.ordinal())];
+
+                shapePreviewPreference = ShapePreviewPreference.values()[
+                        a.getInt(R.styleable.ChromaPreference_chromaShapePreview,
+                                DEFAULT_SHAPE_PREVIEW.ordinal())];
+
+                summaryPreference = getSummary();
             }
             finally {
                 a.recycle();
@@ -112,13 +124,25 @@ public class ChromaPreferenceCompat extends Preference implements OnColorSelecte
     void updatePreview() {
         try {
             if(colorPreview != null) {
+                // Update shape of color preview
+                switch (shapePreviewPreference) {
+                    case CIRCLE:
+                        colorPreview.setImageResource(R.drawable.circle);
+                        break;
+                    case SQUARE:
+                        colorPreview.setImageResource(R.drawable.square);
+                        break;
+                    case ROUNDED_SQUARE:
+                        colorPreview.setImageResource(R.drawable.rounded_square);
+                        break;
+                }
+                // Update color
                 colorPreview
                         .getDrawable()
                         .mutate()
                         .setColorFilter(color, PorterDuff.Mode.MULTIPLY);
             }
-
-            setSummary(ChromaUtil.getFormattedColorString(color, colorMode == ColorMode.ARGB));
+            setSummary(summaryPreference);
         }
         catch (Exception e) {
             Log.e(getClass().getSimpleName(), "Cannot update preview: " + e.toString());
@@ -129,10 +153,10 @@ public class ChromaPreferenceCompat extends Preference implements OnColorSelecte
     protected void onClick() {
         super.onClick();
         new ChromaDialog.Builder()
-                .colorMode(colorMode)
                 .initialColor(color)
-                .onColorSelected(this)
+                .colorMode(colorMode)
                 .indicatorMode(indicatorMode)
+                .onColorSelected(this)
                 .createCompat(getContext());
     }
 
@@ -150,6 +174,19 @@ public class ChromaPreferenceCompat extends Preference implements OnColorSelecte
         if(listener != null) {
             listener.onColorSelected(color);
         }
+    }
+
+    @Override
+    /**
+     * If [color] is present in summary, it's replaced by string of color
+     */
+    public void setSummary(CharSequence summary) {
+        String summaryWithColor = null;
+        if(summary != null) {
+            summaryWithColor = summary.toString().replace(COLOR_TAG_SUMMARY,
+                    ChromaUtil.getFormattedColorString(color, colorMode == ColorMode.ARGB));
+        }
+        super.setSummary(summaryWithColor);
     }
 
     public int getColor() {
@@ -178,5 +215,14 @@ public class ChromaPreferenceCompat extends Preference implements OnColorSelecte
 
     public void setIndicatorMode(IndicatorMode indicatorMode) {
         this.indicatorMode = indicatorMode;
+    }
+
+    public ShapePreviewPreference getShapePreviewPreference() {
+        return shapePreviewPreference;
+    }
+
+    public void setShapePreviewPreference(ShapePreviewPreference shapePreviewPreference) {
+        this.shapePreviewPreference = shapePreviewPreference;
+        updatePreview();
     }
 }

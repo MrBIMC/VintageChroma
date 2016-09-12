@@ -1,5 +1,4 @@
 <resources>
-
     <attr name="chromaColorMode" format="enum">
         <enum name="RGB" value="0"/>
         <enum name="HSV" value="1"/>
@@ -14,9 +13,16 @@
         <enum name="HEX" value="1"/>
     </attr>
 
+    <attr name="chromaShapePreview" format="enum">
+        <enum name="CIRCLE" value="0"/>
+        <enum name="SQUARE" value="1"/>
+        <enum name="ROUNDED_SQUARE" value="2"/>
+    </attr>
+
     <declare-styleable name="ChromaPreference">
         <attr name="chromaInitialColor" format="reference|color"/>
         <attr name="chromaColorMode"/>
         <attr name="chromaIndicatorMode"/>
+        <attr name="chromaShapePreview"/>
     </declare-styleable>
 </resources>
