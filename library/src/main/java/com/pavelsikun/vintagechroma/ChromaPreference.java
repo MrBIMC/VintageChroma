@@ -69,7 +69,7 @@ public class ChromaPreference extends Preference implements OnColorSelectedListe
 
     private void loadValuesFromXml(AttributeSet attrs) {
         if(attrs == null) {
-            color = DEFAULT_COLOR;
+            setColor(DEFAULT_COLOR);
             colorMode = DEFAULT_COLOR_MODE;
             indicatorMode = DEFAULT_INDICATOR_MODE;
             shapePreviewPreference = DEFAULT_SHAPE_PREVIEW;
@@ -186,6 +186,7 @@ public class ChromaPreference extends Preference implements OnColorSelectedListe
 
     public void setColor(@ColorInt int color) {
         persistInt(color);
+        notifyChanged();
     }
 
     public void setOnColorSelectedListener(OnColorSelectedListener listener) {
@@ -198,7 +199,7 @@ public class ChromaPreference extends Preference implements OnColorSelectedListe
 
     public void setColorMode(ColorMode colorMode) {
         this.colorMode = colorMode;
-        updatePreview();
+        notifyChanged();
     }
 
     public IndicatorMode getIndicatorMode() {
@@ -207,7 +208,7 @@ public class ChromaPreference extends Preference implements OnColorSelectedListe
 
     public void setIndicatorMode(IndicatorMode indicatorMode) {
         this.indicatorMode = indicatorMode;
-        updatePreview();
+        notifyChanged();
     }
 
     public ShapePreviewPreference getShapePreviewPreference() {
@@ -216,6 +217,6 @@ public class ChromaPreference extends Preference implements OnColorSelectedListe
 
     public void setShapePreviewPreference(ShapePreviewPreference shapePreviewPreference) {
         this.shapePreviewPreference = shapePreviewPreference;
-        updatePreview();
+        notifyChanged();
     }
 }

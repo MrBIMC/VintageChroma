@@ -195,6 +195,7 @@ public class ChromaPreferenceCompat extends Preference implements OnColorSelecte
 
     public void setColor(@ColorInt int color) {
         persistInt(color);
+        notifyChanged();
     }
 
     public void setOnColorSelectedListener(OnColorSelectedListener listener) {
@@ -207,6 +208,7 @@ public class ChromaPreferenceCompat extends Preference implements OnColorSelecte
 
     public void setColorMode(ColorMode colorMode) {
         this.colorMode = colorMode;
+        notifyChanged();
     }
 
     public IndicatorMode getIndicatorMode() {
@@ -215,6 +217,7 @@ public class ChromaPreferenceCompat extends Preference implements OnColorSelecte
 
     public void setIndicatorMode(IndicatorMode indicatorMode) {
         this.indicatorMode = indicatorMode;
+        notifyChanged();
     }
 
     public ShapePreviewPreference getShapePreviewPreference() {
@@ -223,6 +226,6 @@ public class ChromaPreferenceCompat extends Preference implements OnColorSelecte
 
     public void setShapePreviewPreference(ShapePreviewPreference shapePreviewPreference) {
         this.shapePreviewPreference = shapePreviewPreference;
-        updatePreview();
+        notifyChanged();
     }
 }
