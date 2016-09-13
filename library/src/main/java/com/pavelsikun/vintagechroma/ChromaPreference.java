@@ -9,9 +9,11 @@ import android.os.Build;
 import android.preference.Preference;
 import android.support.annotation.ColorInt;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 
 import com.pavelsikun.vintagechroma.colormode.ColorMode;
@@ -38,7 +40,6 @@ public class ChromaPreference extends Preference implements OnColorSelectedListe
     private CharSequence summaryPreference;
 
     private OnColorSelectedListener listener;
-
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public ChromaPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -69,11 +70,10 @@ public class ChromaPreference extends Preference implements OnColorSelectedListe
 
     private void loadValuesFromXml(AttributeSet attrs) {
         if(attrs == null) {
-            setColor(DEFAULT_COLOR);
+            color = DEFAULT_COLOR;
             colorMode = DEFAULT_COLOR_MODE;
             indicatorMode = DEFAULT_INDICATOR_MODE;
             shapePreviewPreference = DEFAULT_SHAPE_PREVIEW;
-            summaryPreference = COLOR_TAG_SUMMARY;
         }
         else {
             TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.ChromaPreference);
@@ -91,8 +91,6 @@ public class ChromaPreference extends Preference implements OnColorSelectedListe
                 shapePreviewPreference = ShapePreviewPreference.values()[
                         a.getInt(R.styleable.ChromaPreference_chromaShapePreview,
                                 DEFAULT_SHAPE_PREVIEW.ordinal())];
-
-                summaryPreference = getSummary();
             }
             finally {
                 a.recycle();
@@ -113,12 +111,13 @@ public class ChromaPreference extends Preference implements OnColorSelectedListe
         colorPreview = (ImageView) view.findViewById(R.id.colorPreview);
         updatePreview();
 
+        setSummary(summaryPreference);
         if(!isEnabled()) {
             colorPreview.getDrawable().mutate().setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY);
         }
     }
 
-    private void updatePreview() {
+    synchronized private void updatePreview() {
         if(colorPreview != null) {
             // Update shape of color preview
             switch (shapePreviewPreference) {
@@ -138,7 +137,6 @@ public class ChromaPreference extends Preference implements OnColorSelectedListe
                     .mutate()
                     .setColorFilter(color, PorterDuff.Mode.MULTIPLY);
         }
-        setSummary(summaryPreference);
     }
 
     @Override
@@ -154,7 +152,7 @@ public class ChromaPreference extends Preference implements OnColorSelectedListe
     @Override
     protected boolean persistInt(int value) {
         color = value;
-        updatePreview();
+        notifyChanged();
         return super.persistInt(value);
     }
 
@@ -170,14 +168,17 @@ public class ChromaPreference extends Preference implements OnColorSelectedListe
     @Override
     /**
      * If [color] is present in summary, it's replaced by string of color
+     * SetSummary don't refresh in ListView, GetSummary saves the summary the first time and draws in view summary
      */
-    public void setSummary(CharSequence summary) {
-        String summaryWithColor = null;
-        if(summary != null) {
-            summaryWithColor = summary.toString().replace(COLOR_TAG_SUMMARY,
+    public CharSequence getSummary() {
+        if(summaryPreference == null)
+            summaryPreference = super.getSummary();
+
+        if (summaryPreference != null) {
+            return summaryPreference.toString().replace(COLOR_TAG_SUMMARY,
                     ChromaUtil.getFormattedColorString(color, colorMode == ColorMode.ARGB));
         }
-        super.setSummary(summaryWithColor);
+        return null;
     }
 
     public int getColor() {
@@ -186,7 +187,6 @@ public class ChromaPreference extends Preference implements OnColorSelectedListe
 
     public void setColor(@ColorInt int color) {
         persistInt(color);
-        notifyChanged();
     }
 
     public void setOnColorSelectedListener(OnColorSelectedListener listener) {
