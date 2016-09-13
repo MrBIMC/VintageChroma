@@ -22,7 +22,7 @@ Screenshots
 --
 
 <img src="https://raw.githubusercontent.com/MrBIMC/VintageChroma/master/art/screen4.png" width="250">
-<img src="https://raw.githubusercontent.com/MrBIMC/VintageChroma/master/art/screen5.png" width="250">
+<img src="https://raw.githubusercontent.com/J-Jamet/VintageChroma/master/art/screen_add_1.png" width="505">
 <img src="https://raw.githubusercontent.com/MrBIMC/VintageChroma/master/art/screen3.png" width="505">
 
 Download
@@ -47,6 +47,8 @@ new ChromaDialog.Builder()
 
 Usage as ColorPickerPreference(API-v11+ guide):
 -----
+
+<img src="https://raw.githubusercontent.com/J-Jamet/VintageChroma/master/art/screen_add_2.png" width="505">
 
 A. Add Preference to your *.xml preference layout:
 ``` xml
