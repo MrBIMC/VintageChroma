@@ -17,7 +17,7 @@ Screenshots
 --
 
 <img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen4.png" width="250">
-<img src="https://raw.githubusercontent.com/Kunzisoft/master/art/screen_add_1.png" width="505">
+<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen_add_1.png" width="505">
 <img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen3.png" width="505">
 
 Download
