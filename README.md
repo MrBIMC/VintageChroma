@@ -1,14 +1,9 @@
-# VintageChroma
+AndroidClearChroma
 ===
-[![Download](https://api.bintray.com/packages/mrbimc/maven/VintageChroma/images/download.svg)](https://bintray.com/mrbimc/maven/VintageChroma/_latestVersion)
-[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-VintageChroma-green.svg?style=true)](https://android-arsenal.com/details/1/3352)
+A customisable material color picker view for Android.
 
-A Beautiful Material color picker view for Android.
+This project is a fork of [VintageChroma by Pavel Sikun](https://github.com/MrBIMC/VintageChroma) no longer maintained.
 
-This project started off as an identical remake of [Chroma by Priyesh Patel](https://github.com/ItsPriyesh/chroma)
-but written in Java instead of Kotlin, so it is much more lightweight for using in kotlin-less apps.
-
-Since then this "fork" became a lot more developed(even more, it became the most powerful colorpicker for android!).
 It has next distinctive features:
 
     - works on api-7 and up
@@ -21,14 +16,14 @@ It has next distinctive features:
 Screenshots
 --
 
-<img src="https://raw.githubusercontent.com/MrBIMC/VintageChroma/master/art/screen4.png" width="250">
-<img src="https://raw.githubusercontent.com/J-Jamet/VintageChroma/master/art/screen_add_1.png" width="505">
-<img src="https://raw.githubusercontent.com/MrBIMC/VintageChroma/master/art/screen3.png" width="505">
+<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen4.png" width="250">
+<img src="https://raw.githubusercontent.com/Kunzisoft/master/art/screen_add_1.png" width="505">
+<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen3.png" width="505">
 
 Download
 --------
 ```
-compile 'com.pavelsikun:vintage-chroma:1.5'
+TODO Jitpack in few days
 ```
 
 Usage as stand-alone dialog && listener(universal guide for all android versions):
@@ -119,13 +114,12 @@ method for formatted output of a given color:
 ChromaUtil.getFormattedColorString(int color, boolean showAlpha);
 ```
 
---
 
 Check out the [sample project](sample) for more details.
 
 License
 -------
-    Copyright 2016 Pavel Sikun.
+    Copyright 2017 JAMET Jeremy.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

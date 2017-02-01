@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pavelsikun.vintagechroma.sample">
+    package="com.kunzisoft.androidclearchroma.sample">
 
     <application
         android:allowBackup="true"
@@ -10,7 +10,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.kunzisoft.androidclearchroma.sample.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -21,11 +21,11 @@
         </activity>
 
         <activity
-            android:name=".PreferencesActivity"
+            android:name="com.kunzisoft.androidclearchroma.sample.PreferencesActivity"
             android:label="@string/app_name"/>
 
         <activity
-            android:name=".PreferencesCompatActivity"
+            android:name="com.kunzisoft.androidclearchroma.sample.PreferencesCompatActivity"
             android:theme="@style/AppTheme.Settings"
             android:label="@string/app_name"/>
 
