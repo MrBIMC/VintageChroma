@@ -5,9 +5,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,8 +17,8 @@ import android.widget.TextView;
 
 import com.kunzisoft.androidclearchroma.ChromaDialog;
 import com.kunzisoft.androidclearchroma.ChromaUtil;
-import com.kunzisoft.androidclearchroma.OnColorSelectedListener;
 import com.kunzisoft.androidclearchroma.IndicatorMode;
+import com.kunzisoft.androidclearchroma.OnColorSelectedListener;
 import com.kunzisoft.androidclearchroma.colormode.ColorMode;
 
 public class MainActivity extends AppCompatActivity {
@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
                 ? ColorMode.RGB
                 : ColorMode.values()[savedInstanceState.getInt(EXTRA_MODE)];
 
-
         setSupportActionBar(toolbar);
         updateTextView(color);
         updateToolbar(color, color);
@@ -66,9 +65,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if(Build.VERSION.SDK_INT < 11) {
-            findViewById(R.id.prefsCard).setVisibility(View.GONE);
-        }
+        findViewById(R.id.buttonOpenView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ViewColorActivity.class));
+            }
+        });
 
         findViewById(R.id.prefsButton).setOnClickListener(new View.OnClickListener() {
             @Override
