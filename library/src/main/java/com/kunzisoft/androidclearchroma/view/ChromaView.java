@@ -2,12 +2,13 @@ package com.kunzisoft.androidclearchroma.view;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
+import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -29,8 +30,10 @@ public class ChromaView extends RelativeLayout {
     public final static IndicatorMode DEFAULT_INDICATOR = IndicatorMode.DECIMAL;
 
     private final ColorMode colorMode;
-    private @ColorInt int currentColor;
     private IndicatorMode indicatorMode;
+    private @ColorInt int currentColor;
+
+    private AppCompatImageView colorView;
 
     public ChromaView(Context context) {
         this(DEFAULT_COLOR, DEFAULT_MODE, DEFAULT_INDICATOR, context);
@@ -52,13 +55,14 @@ public class ChromaView extends RelativeLayout {
         inflate(getContext(), R.layout.chroma_view, this);
         setClipToPadding(false);
 
-        final ImageView colorView = (ImageView) findViewById(R.id.color_view);
-        colorView.setColorFilter(currentColor, PorterDuff.Mode.SRC);
+        colorView = (AppCompatImageView) findViewById(R.id.color_view);
+        Drawable colorViewDrawable = new ColorDrawable(currentColor);
+        colorView.setImageDrawable(colorViewDrawable);
 
         List<Channel> channels = colorMode.getColorMode().getChannels();
         final List<ChannelView> channelViews = new ArrayList<>();
-        for(Channel c : channels) {
-            channelViews.add(new ChannelView(c, currentColor, indicatorMode, getContext()));
+        for(Channel channel : channels) {
+            channelViews.add(new ChannelView(channel, currentColor, indicatorMode, getContext()));
         }
 
         ChannelView.OnProgressChangedListener seekBarChangeListener = new ChannelView.OnProgressChangedListener() {
@@ -69,7 +73,8 @@ public class ChromaView extends RelativeLayout {
                     channels.add(chan.getChannel());
                 }
                 currentColor = colorMode.getColorMode().evaluateColor(channels);
-                colorView.setColorFilter(currentColor, PorterDuff.Mode.SRC);
+                Drawable colorViewDrawable = new ColorDrawable(currentColor);
+                colorView.setImageDrawable(colorViewDrawable);
             }
         };
 
@@ -98,11 +103,6 @@ public class ChromaView extends RelativeLayout {
         return indicatorMode;
     }
 
-    public interface ButtonBarListener {
-        void onPositiveButtonClick(int color);
-        void onNegativeButtonClick();
-    }
-
     public void enableButtonBar(final ButtonBarListener listener) {
         LinearLayout buttonBar = (LinearLayout) findViewById(R.id.button_bar);
         Button positiveButton = (Button) buttonBar.findViewById(R.id.positive_button);
@@ -129,5 +129,10 @@ public class ChromaView extends RelativeLayout {
             positiveButton.setOnClickListener(null);
             negativeButton.setOnClickListener(null);
         }
+    }
+
+    public interface ButtonBarListener {
+        void onPositiveButtonClick(int color);
+        void onNegativeButtonClick();
     }
 }

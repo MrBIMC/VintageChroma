@@ -21,8 +21,8 @@
 
     <declare-styleable name="ChromaPreference">
         <attr name="chromaInitialColor" format="reference|color"/>
-        <attr name="chromaColorMode"/>
-        <attr name="chromaIndicatorMode"/>
+        <attr name="chromaColorMode" />
+        <attr name="chromaIndicatorMode" />
         <attr name="chromaShapePreview"/>
     </declare-styleable>
 </resources>

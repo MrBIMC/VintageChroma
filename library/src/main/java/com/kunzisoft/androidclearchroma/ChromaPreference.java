@@ -115,7 +115,7 @@ public class ChromaPreference extends Preference implements OnColorSelectedListe
         }
     }
 
-    synchronized private void updatePreview() {
+    private void updatePreview() {
         if(colorPreview != null) {
             // Update shape of color preview
             switch (shapePreviewPreference) {

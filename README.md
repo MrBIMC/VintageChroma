@@ -1,33 +1,45 @@
-AndroidClearChroma
-===
+# AndroidClearChroma
+
 A customisable material color picker view for Android.
-
-This project is a fork of [VintageChroma by Pavel Sikun](https://github.com/MrBIMC/VintageChroma) no longer maintained.
-
 It has next distinctive features:
 
-    - works on api-7 and up
-    - supports RGB, ARGB, HSV, HSL, CMYK, CMYK255 color modes (with alpha preview)
-    - can indicate current color in either DECIMAL or HEXADECIMAL mode
-    - can be used in standalone Dialog+Callback mode or as custom preference.
-    - can select shape for preview color in custom preference
-    - add color as part of summary string
+   - works on api-7 and up
+   - supports RGB, ARGB, HSV, HSL, CMYK, CMYK255 color modes (with alpha preview)
+   - can indicate current color in either DECIMAL or HEXADECIMAL mode
+   - can be used in standalone Dialog+Callback mode or as custom preference.
+   - can select shape for preview color in custom preference
+   - add color as part of summary string
 
-Screenshots
---
 
-<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen4.png" width="250">
+<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen1.png" width="250">
 <img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen_add_1.png" width="505">
-<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen3.png" width="505">
 
-Download
---------
+## Donation
+
+Donations will be used to create free and open source applications.
+
+[![Alt attribute for your image](https://lh3.googleusercontent.com/d1aTMwN6NMJmcMdsz24h_J4JmH5aZ9lhbJdZWQ3VFne3VZxiUVPrYZ41qm1Zig2ha4lU4Wg_BSAE_w=w1920-h1200-no "")](https://youtube.streamlabs.com/UC_U4icXPFfgKo4IDSTSzBEQ "Kunzisoft Donation")
+
+## Installation
+Add the JitPack repository in your build.gradle at the end of repositories:
 ```
-TODO Jitpack in few days
+	allprojects {
+		repositories {
+			...
+			maven { url "https://jitpack.io" }
+		}
+	}
+```
+And add the dependency
+```
+	dependencies {
+	        compile 'com.github.Kunzisoft:Android-SwitchDateTimePicker:1.5'
+	}
 ```
 
-Usage as stand-alone dialog && listener(universal guide for all android versions):
------
+## Usage
+
+### Stand-alone dialog && listener
 
 To display an color picker `DialogFragment`:
 ``` java
@@ -40,8 +52,7 @@ new ChromaDialog.Builder()
     .show(getSupportFragmentManager(), "ChromaDialog");
 ```
 
-Usage as ColorPickerPreference(API-v11+ guide):
------
+### ColorPickerPreference (API-v11+ guide)
 
 <img src="https://raw.githubusercontent.com/J-Jamet/VintageChroma/master/art/screen_add_2.png" width="505">
 
@@ -74,8 +85,9 @@ B. Or you can add preferences dynamically from the code:
     public void setIndicatorMode(IndicatorMode indicatorMode)
 ```
 
-Usage as ColorPickerPreference(API-v7+ guide (use only if you need to support pre-v11 androids)):
------
+### ColorPickerPreference (API-v7+ guide)
+[Use only if you need to support pre-v11 androids]
+
 Same two choices, though implementation is a bit different since it's built on top of preference-v7:
 
 A. Use ChromaPreferenceCompat instead of ChromaPreference
@@ -107,9 +119,9 @@ B. Or you can add stuff dynamically through java:
     public void setIndicatorMode(IndicatorMode indicatorMode)
 ```
 
-Bonus feature(universal):
+## Bonus
 ---
-method for formatted output of a given color:
+Method for formatted output of a given color:
 ```java
 ChromaUtil.getFormattedColorString(int color, boolean showAlpha);
 ```
@@ -117,18 +129,20 @@ ChromaUtil.getFormattedColorString(int color, boolean showAlpha);
 
 Check out the [sample project](sample) for more details.
 
-License
--------
-    Copyright 2017 JAMET Jeremy.
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
+This project is a fork of [VintageChroma by Pavel Sikun](https://github.com/MrBIMC/VintageChroma) no longer maintained.
 
-        http://www.apache.org/licenses/LICENSE-2.0
+## License
+Copyright 2017 JAMET Jeremy.
 
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.

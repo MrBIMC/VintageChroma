@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <android.support.v7.widget.AppCompatImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/draughtboard"/>
-    <ImageView
+    <android.support.v7.widget.AppCompatImageView
         android:id="@+id/colorPreview"
         android:layout_margin="6dp"
         android:scaleType="fitCenter"

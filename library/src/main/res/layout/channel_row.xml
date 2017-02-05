@@ -29,7 +29,6 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="24dp"
         android:layout_marginStart="24dp"
-        android:fontFamily="sans-serif-medium"
         tools:text="R"/>
 
     <TextView
@@ -41,7 +40,6 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
-        android:fontFamily="sans-serif-light"
         android:gravity="center"
         tools:text="255"/>
 

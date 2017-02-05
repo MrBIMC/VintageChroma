@@ -121,7 +121,7 @@ public class ChromaPreferenceCompat extends Preference implements OnColorSelecte
         updatePreview();
     }
 
-    void updatePreview() {
+    synchronized private void updatePreview() {
         try {
             if(colorPreview != null) {
                 // Update shape of color preview

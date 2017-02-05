@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
@@ -20,6 +21,9 @@ import com.kunzisoft.androidclearchroma.view.ChromaView;
  * Modified by Jeremy JAMET on 12/09/16.
  */
 public class ChromaDialog extends DialogFragment {
+
+    private final static int DEFAULT_COLOR = Color.GRAY;
+    private final static ColorMode DEFAULT_MODE = ColorMode.RGB;
 
     private final static String ARG_INITIAL_COLOR = "arg_initial_color";
     private final static String ARG_COLOR_MODE_ID = "arg_color_mode_id";
@@ -43,8 +47,8 @@ public class ChromaDialog extends DialogFragment {
     }
 
     public static class Builder {
-        private @ColorInt int initialColor = ChromaView.DEFAULT_COLOR;
-        private ColorMode colorMode = ChromaView.DEFAULT_MODE;
+        private @ColorInt int initialColor = DEFAULT_COLOR;
+        private ColorMode colorMode = DEFAULT_MODE;
         private IndicatorMode indicatorMode = IndicatorMode.DECIMAL;
         private OnColorSelectedListener listener = null;
 
@@ -89,27 +93,19 @@ public class ChromaDialog extends DialogFragment {
         if(savedInstanceState == null) {
             chromaView = new ChromaView(
                     getArguments().getInt(ARG_INITIAL_COLOR),
-
                     ColorMode.values()[
                             getArguments().getInt(ARG_COLOR_MODE_ID)],
-
                     IndicatorMode.values()[
                             getArguments().getInt(ARG_INDICATOR_MODE)],
-
                     getActivity());
         }
-
         else {
             chromaView = new ChromaView(
-
                     savedInstanceState.getInt(ARG_INITIAL_COLOR, ChromaView.DEFAULT_COLOR),
-
                     ColorMode.values()[
                             savedInstanceState.getInt(ARG_COLOR_MODE_ID)],
-
                     IndicatorMode.values()[
                             savedInstanceState.getInt(ARG_INDICATOR_MODE)],
-
                     getActivity());
         }
 

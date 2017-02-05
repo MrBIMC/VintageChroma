@@ -2,6 +2,7 @@ package com.kunzisoft.androidclearchroma;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.v7.app.AlertDialog;
 
@@ -14,8 +15,8 @@ import com.kunzisoft.androidclearchroma.view.ChromaView;
 
 class ChromaDialogCompat {
 
-    private @ColorInt int initialColor = ChromaView.DEFAULT_COLOR;
-    private ColorMode colorMode = ChromaView.DEFAULT_MODE;
+    private @ColorInt int initialColor = Color.GRAY;
+    private ColorMode colorMode = ColorMode.RGB;
     private IndicatorMode indicatorMode = IndicatorMode.DECIMAL;
     private OnColorSelectedListener listener = null;
 
@@ -29,10 +30,9 @@ class ChromaDialogCompat {
     }
 
     private void init(AlertDialog.Builder dialogBuilder) {
-        ChromaView dialogView = new ChromaView(initialColor, colorMode, indicatorMode, dialogBuilder.getContext());
-        final Dialog dialog = dialogBuilder.setView(dialogView).create();
-
-        dialogView.enableButtonBar(new ChromaView.ButtonBarListener() {
+        ChromaView chromaView = new ChromaView(initialColor, colorMode, indicatorMode, dialogBuilder.getContext());
+        final Dialog dialog = dialogBuilder.setView(chromaView).create();
+        chromaView.enableButtonBar(new ChromaView.ButtonBarListener() {
             @Override
             public void onPositiveButtonClick(int color) {
                 if(listener != null) {
