@@ -1,18 +1,19 @@
+[![](https://jitpack.io/v/Kunzisoft/AndroidClearChroma.svg)](https://jitpack.io/#Kunzisoft/AndroidClearChroma)
+
 # AndroidClearChroma
 
 A customisable material color picker view for Android.
-It has next distinctive features:
 
+<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen1.png" width="250">
+<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen_add_1.png" width="505">
+
+It has next distinctive features:
    - works on api-7 and up
    - supports RGB, ARGB, HSV, HSL, CMYK, CMYK255 color modes (with alpha preview)
    - can indicate current color in either DECIMAL or HEXADECIMAL mode
    - can be used in standalone Dialog+Callback mode or as custom preference.
    - can select shape for preview color in custom preference
    - add color as part of summary string
-
-
-<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen1.png" width="250">
-<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen_add_1.png" width="505">
 
 ## Donation
 
@@ -33,7 +34,7 @@ Add the JitPack repository in your build.gradle at the end of repositories:
 And add the dependency
 ```
 	dependencies {
-	        compile 'com.github.Kunzisoft:Android-SwitchDateTimePicker:1.5'
+	        compile 'com.github.Kunzisoft:AndroidClearChroma:1.6'
 	}
 ```
 
@@ -62,6 +63,7 @@ A. Add Preference to your *.xml preference layout:
         android:key="hsv" // any key you want
         android:title="HSV sample" // summary will be automatically fetched from the current color
         android:summary="text and [color] string" // add [color] for show current color as string in summary
+        app:chromaShapePreview="ROUNDED_SQUARE" // CIRCLE, SQUARE, ROUNDED_SQUARE
         app:chromaColorMode="HSV" // RGB, ARGB, HSV, HSL, CMYK, CMYK255
         app:chromaIndicatorMode="HEX" // HEX or DECIMAL
         app:chromaInitialColor="@color/colorAccent"/> // default color
@@ -96,6 +98,7 @@ A. Use ChromaPreferenceCompat instead of ChromaPreference
         android:key="hsv" // any key you want
         android:title="HSV sample" // summary will be automatically fetched from the current color
         android:summary="text and [color] string" // add [color] for show current color as string in summary
+	app:chromaShapePreview="ROUNDED_SQUARE" // CIRCLE, SQUARE, ROUNDED_SQUARE
         app:chromaColorMode="HSV" // RGB, ARGB, HSV, HSL, CMYK, CMYK255
         app:chromaIndicatorMode="HEX" // HEX or DECIMAL
         app:chromaInitialColor="@color/colorAccent"/> // default color
