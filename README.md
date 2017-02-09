@@ -19,6 +19,9 @@ It has next distinctive features:
 
 Donations will be used to create free and open source applications.
 
+<script src="https://liberapay.com/Kunzisoft/widgets/button.js"></script>
+<noscript><a href="https://liberapay.com/Kunzisoft/donate"><img src="https://liberapay.com/assets/widgets/donate.svg"></a></noscript>
+
 [![Alt attribute for your image](https://lh3.googleusercontent.com/d1aTMwN6NMJmcMdsz24h_J4JmH5aZ9lhbJdZWQ3VFne3VZxiUVPrYZ41qm1Zig2ha4lU4Wg_BSAE_w=w1920-h1200-no "")](https://youtube.streamlabs.com/UC_U4icXPFfgKo4IDSTSzBEQ "Kunzisoft Donation")
 
 ## Installation
