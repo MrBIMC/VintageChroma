@@ -43,7 +43,7 @@ And add the dependency
 
 ## Usage
 
-### Stand-alone dialog && listener
+### Stand-alone dialog && onColorSelectedListener
 
 To display an color picker `DialogFragment`:
 ``` java
@@ -81,7 +81,7 @@ B. Or you can add preferences dynamically from the code:
     public void setColor(@ColorInt int color);
     public int getColor();
 
-    public void setOnColorSelectedListener(OnColorSelectedListener listener)
+    public void setOnColorSelectedListener(OnColorSelectedListener onColorSelectedListener)
 
     public ColorMode getColorMode()
     public void setColorMode(ColorMode colorMode)
@@ -116,7 +116,7 @@ B. Or you can add stuff dynamically through java:
     public void setColor(@ColorInt int color);
     public int getColor();
 
-    public void setOnColorSelectedListener(OnColorSelectedListener listener)
+    public void setOnColorSelectedListener(OnColorSelectedListener onColorSelectedListener)
 
     public ColorMode getColorMode()
     public void setColorMode(ColorMode colorMode)

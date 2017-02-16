@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:colorAttr="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.kunzisoft.androidclearchroma.view.ChromaColorView
-        android:layout_height="match_parent"
+    <fragment android:name="com.kunzisoft.androidclearchroma.fragment.ChromaColorFragment"
+        android:id="@+id/activity_color_fragment"
         android:layout_width="match_parent"
-        colorAttr:chromaInitialColor="@color/colorAccent"
-        colorAttr:chromaColorMode="RGB"
-        colorAttr:chromaIndicatorMode="HEX"
-        />
+        android:layout_height="wrap_content"
+        tools:layout="@layout/chroma_color_fragment" />
 
-</LinearLayout>
+</FrameLayout>

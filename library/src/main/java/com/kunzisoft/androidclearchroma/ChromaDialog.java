@@ -1,26 +1,27 @@
 package com.kunzisoft.androidclearchroma;
 
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.res.Configuration;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
-import android.util.TypedValue;
-import android.view.WindowManager;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.kunzisoft.androidclearchroma.colormode.ColorMode;
-import com.kunzisoft.androidclearchroma.view.ChromaColorView;
+import com.kunzisoft.androidclearchroma.fragment.ChromaColorFragment;
 
 /**
  * Created by Pavel Sikun on 28.03.16.
  * Modified by Jeremy JAMET on 12/09/16.
  */
 public class ChromaDialog extends DialogFragment {
+
+    private final String TAG = "ChromaDialog";
 
     private final static int DEFAULT_COLOR = Color.GRAY;
     private final static ColorMode DEFAULT_MODE = ColorMode.RGB;
@@ -29,8 +30,10 @@ public class ChromaDialog extends DialogFragment {
     private final static String ARG_COLOR_MODE_ID = "arg_color_mode_id";
     private final static String ARG_INDICATOR_MODE = "arg_indicator_mode";
 
-    private OnColorSelectedListener listener;
-    private ChromaColorView chromaColorView;
+    private OnColorSelectedListener onColorSelectedListener;
+    private CallbackButtonListener callbackButtonListener;
+
+    //private ChromaColorView chromaColorView;
 
     private static ChromaDialog newInstance(@ColorInt int initialColor, ColorMode colorMode, IndicatorMode indicatorMode) {
         ChromaDialog fragment = new ChromaDialog();
@@ -46,11 +49,56 @@ public class ChromaDialog extends DialogFragment {
         return args;
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View root = inflater.inflate(R.layout.color_dialog_fragment, container, false);
+
+        ChromaColorFragment chromaColorFragment = (ChromaColorFragment) getFragmentManager().findFragmentById(R.id.dialog_color_fragment);
+        try {
+            Bundle bundleAll = new Bundle(chromaColorFragment.getArguments());
+            bundleAll.putAll(getArguments());
+            chromaColorFragment.setArguments(bundleAll);
+
+        } catch(Exception e) {
+            Log.w(TAG, "Wrong args in ChromaDialog");
+        }
+
+        //getFragmentManager().beginTransaction().replace(R.id.color_dialog_container, chromaColorFragment).commit();
+
+        LinearLayout buttonBar = (LinearLayout) root.findViewById(R.id.button_bar);
+        Button positiveButton = (Button) buttonBar.findViewById(R.id.positive_button);
+        Button negativeButton = (Button) buttonBar.findViewById(R.id.negative_button);
+
+        if(callbackButtonListener != null) {
+            final int currentColor = chromaColorFragment.getCurrentColor();
+
+            positiveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    callbackButtonListener.onPositiveButtonClick(currentColor);
+                }
+            });
+
+            negativeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    callbackButtonListener.onNegativeButtonClick(currentColor);
+                }
+            });
+        }
+
+        return root;
+    }
+
+    // TODO doc
     public static class Builder {
         private @ColorInt int initialColor = DEFAULT_COLOR;
         private ColorMode colorMode = DEFAULT_MODE;
         private IndicatorMode indicatorMode = IndicatorMode.DECIMAL;
-        private OnColorSelectedListener listener = null;
+        private OnColorSelectedListener onColorSelectedListener;
+        private CallbackButtonListener callbackButtonListener;
 
         public Builder initialColor(@ColorInt int initialColor) {
             this.initialColor = initialColor;
@@ -67,108 +115,56 @@ public class ChromaDialog extends DialogFragment {
             return this;
         }
 
-        public Builder onColorSelected(OnColorSelectedListener listener) {
-            this.listener = listener;
+        public Builder onColorSelected(OnColorSelectedListener onColorSelectedListener) {
+            this.onColorSelectedListener = onColorSelectedListener;
             return this;
         }
 
-        void createCompat(Context context) {
-            new ChromaDialogCompat(context, initialColor, colorMode, indicatorMode, listener);
+        public Builder setCallbackButtonListener(CallbackButtonListener callbackButtonListener) {
+            this.callbackButtonListener = callbackButtonListener;
+            return this;
         }
+
+        /*
+        //TODO
+        void createCompat(Context context) {
+            new ChromaDialogCompat(context, initialColor, colorMode, indicatorMode, onColorSelectedListener);
+        }
+        */
 
         public ChromaDialog create() {
-            ChromaDialog fragment = newInstance(initialColor, colorMode, indicatorMode);
-            fragment.setListener(listener);
-            return fragment;
+            ChromaDialog chromaDialog = newInstance(initialColor, colorMode, indicatorMode);
+            chromaDialog.setOnColorSelectedListener(onColorSelectedListener);
+            chromaDialog.setOnCallbackButtonListener(callbackButtonListener);
+            return chromaDialog;
         }
     }
 
-    public void setListener(OnColorSelectedListener listener) {
-        this.listener = listener;
+    public void setOnColorSelectedListener(OnColorSelectedListener onColorSelectedListener) {
+        this.onColorSelectedListener = onColorSelectedListener;
     }
 
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-        if(savedInstanceState == null) {
-            chromaColorView = new ChromaColorView(
-                    getContext(),
-                    getArguments().getInt(ARG_INITIAL_COLOR),
-                    ColorMode.values()[
-                            getArguments().getInt(ARG_COLOR_MODE_ID)],
-                    IndicatorMode.values()[
-                            getArguments().getInt(ARG_INDICATOR_MODE)]);
-        }
-        else {
-            chromaColorView = new ChromaColorView(
-                    getContext(),
-                    savedInstanceState.getInt(ARG_INITIAL_COLOR, ChromaColorView.DEFAULT_COLOR),
-                    ColorMode.values()[
-                            savedInstanceState.getInt(ARG_COLOR_MODE_ID)],
-                    IndicatorMode.values()[
-                            savedInstanceState.getInt(ARG_INDICATOR_MODE)]);
-        }
-
-        chromaColorView.enableButtonBar(new ChromaColorView.ButtonBarListener() {
-            @Override
-            public void onPositiveButtonClick(int color) {
-                if(listener != null) {
-                    listener.onColorSelected(color);
-                }
-                dismiss();
-            }
-
-            @Override
-            public void onNegativeButtonClick() {
-                dismiss();
-            }
-        });
-
-        final AlertDialog ad = new AlertDialog.Builder(getActivity(), getTheme()).setView(chromaColorView).create();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
-            ad.setOnShowListener(new DialogInterface.OnShowListener() {
-                @Override
-                public void onShow(DialogInterface dialog) {
-                    measureLayout(ad);
-                }
-            });
-        }
-
-        return ad;
-    }
-
-    private void measureLayout(AlertDialog ad) {
-        int widthMultiplier = getResources().getConfiguration()
-                .orientation == Configuration.ORIENTATION_LANDSCAPE
-                ? 2
-                : 1;
-
-        TypedValue typedValue = new TypedValue();
-        getResources().getValue(R.dimen.chroma_dialog_height_multiplier, typedValue, true);
-        float heightMultiplier = typedValue.getFloat();
-
-        final int DELTA_HEIGHT = 100;
-        int height = getResources().getConfiguration()
-                .orientation == Configuration.ORIENTATION_LANDSCAPE
-                ? (int) (ad.getContext().getResources().getDisplayMetrics().heightPixels * heightMultiplier)
-                    + DELTA_HEIGHT
-                : WindowManager.LayoutParams.WRAP_CONTENT;
-
-        int width = getResources().getDimensionPixelSize(R.dimen.chroma_dialog_width) * widthMultiplier;
-
-        ad.getWindow().setLayout(width, height);
+    public void setOnCallbackButtonListener(CallbackButtonListener callbackButtonListener) {
+        this.callbackButtonListener = callbackButtonListener;
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putAll(makeArgs(chromaColorView.getCurrentColor(), chromaColorView.getColorMode(), chromaColorView.getIndicatorMode()));
+        //outState.putAll(makeArgs(chromaColorView.getCurrentColor(), chromaColorView.getColorMode(), chromaColorView.getIndicatorMode()));
         super.onSaveInstanceState(outState);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        listener = null;
+        onColorSelectedListener = null;
+    }
+
+    /**
+     * TODO
+     */
+    public interface CallbackButtonListener {
+        void onPositiveButtonClick(@ColorInt int color);
+        void onNegativeButtonClick(@ColorInt int color);
     }
 }

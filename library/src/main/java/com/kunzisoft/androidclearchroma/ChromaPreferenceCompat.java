@@ -157,7 +157,7 @@ public class ChromaPreferenceCompat extends Preference implements OnColorSelecte
                 .colorMode(colorMode)
                 .indicatorMode(indicatorMode)
                 .onColorSelected(this)
-                .createCompat(getContext());
+                .create();
     }
 
     @Override

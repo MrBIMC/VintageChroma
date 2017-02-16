@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.buttonOpenView).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, ViewColorActivity.class));
+                startActivity(new Intent(MainActivity.this, FragmentColorActivity.class));
             }
         });
 
