@@ -1,11 +1,14 @@
 package com.kunzisoft.androidclearchroma.view;
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.v7.widget.AppCompatImageView;
+import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,33 +24,58 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * View for select color with many seekbar
+ *
  * Created by Pavel Sikun on 28.03.16.
+ * Modified by Jeremy Jamet on 5.02.17
  */
-public class ChromaView extends RelativeLayout {
+public class ChromaColorView extends RelativeLayout {
 
     public final static int DEFAULT_COLOR = Color.GRAY;
     public final static ColorMode DEFAULT_MODE = ColorMode.RGB;
     public final static IndicatorMode DEFAULT_INDICATOR = IndicatorMode.DECIMAL;
 
-    private final ColorMode colorMode;
-    private IndicatorMode indicatorMode;
     private @ColorInt int currentColor;
+    private ColorMode colorMode;
+    private IndicatorMode indicatorMode;
 
     private AppCompatImageView colorView;
 
-    public ChromaView(Context context) {
-        this(DEFAULT_COLOR, DEFAULT_MODE, DEFAULT_INDICATOR, context);
+    public ChromaColorView(Context context) {
+        super(context);
+        init();
     }
 
-    public ChromaView(@ColorInt int initialColor, ColorMode colorMode, Context context) {
-        this(initialColor, colorMode, DEFAULT_INDICATOR, context);
+    public ChromaColorView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init(context, attrs, 0);
     }
 
-    public ChromaView(@ColorInt int initialColor, ColorMode colorMode, IndicatorMode indicatorMode, Context context) {
+    public ChromaColorView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        init(context, attrs, defStyle);
+    }
+
+    public ChromaColorView(Context context, @ColorInt int initialColor, ColorMode colorMode, IndicatorMode indicatorMode) {
         super(context);
         this.indicatorMode = indicatorMode;
         this.colorMode = colorMode;
         this.currentColor = initialColor;
+        init();
+    }
+
+    private void init(Context context, AttributeSet attrs, int defStyle) {
+        TypedArray a = context.getTheme().obtainStyledAttributes(
+                attrs,
+                R.styleable.ChromaPreference,
+                0, 0);
+        try {
+            currentColor = a.getInt(R.styleable.ChromaPreference_chromaInitialColor, DEFAULT_COLOR);
+            colorMode = ColorMode.getColorModeFromId(a.getInt(R.styleable.ChromaPreference_chromaColorMode, DEFAULT_MODE.getId()));
+            indicatorMode = IndicatorMode.getIndicatorModeFromId(a.getInt(R.styleable.ChromaPreference_chromaIndicatorMode, DEFAULT_INDICATOR.getId()));
+        } finally {
+            a.recycle();
+        }
         init();
     }
 
@@ -89,6 +117,13 @@ public class ChromaView extends RelativeLayout {
 
             c.registerListener(seekBarChangeListener);
         }
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+
+        canvas.drawRGB(200, 200, 200);
     }
 
     public ColorMode getColorMode() {

@@ -27,63 +27,26 @@
         android:layout_height="wrap_content"
         android:paddingTop="?attr/actionBarSize"
         android:orientation="vertical">
-        <android.support.v7.widget.CardView
-            android:id="@+id/prefsCard"
+        <Button
+            android:id="@+id/buttonOpenView"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            app:cardElevation="2dp"
-            app:cardUseCompatPadding="true">
-            <LinearLayout
-                android:id="@+id/prefsButton"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:background="?attr/selectableItemBackground"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="48dp"
-                    android:padding="4dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/settings_box"
-                    android:scaleType="fitCenter"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/open_preferences"
-                    android:textSize="18sp"/>
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
+            android:layout_height="wrap_content"
+            android:text="@string/open_view"
+            android:layout_margin="6dp"/>
+
+        <Button
+            android:id="@+id/prefsButton"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            app:cardElevation="2dp"
-            app:cardUseCompatPadding="true">
-            <LinearLayout
-                android:id="@+id/v7prefsButton"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:background="?attr/selectableItemBackground"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="48dp"
-                    android:padding="4dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/settings_box"
-                    android:scaleType="fitCenter"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/open_v7_preferences"
-                    android:textSize="18sp"/>
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
+            android:layout_height="wrap_content"
+            android:text="@string/open_preferences"
+            android:layout_margin="6dp"/>
+
+        <Button
+            android:id="@+id/v7prefsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/open_v7_preferences"
+            android:layout_margin="6dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"

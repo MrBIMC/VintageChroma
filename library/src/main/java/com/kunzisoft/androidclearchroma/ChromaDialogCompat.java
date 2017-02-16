@@ -7,7 +7,7 @@ import android.support.annotation.ColorInt;
 import android.support.v7.app.AlertDialog;
 
 import com.kunzisoft.androidclearchroma.colormode.ColorMode;
-import com.kunzisoft.androidclearchroma.view.ChromaView;
+import com.kunzisoft.androidclearchroma.view.ChromaColorView;
 
 /**
  * Created by Pavel Sikun on 28.05.16.
@@ -30,9 +30,9 @@ class ChromaDialogCompat {
     }
 
     private void init(AlertDialog.Builder dialogBuilder) {
-        ChromaView chromaView = new ChromaView(initialColor, colorMode, indicatorMode, dialogBuilder.getContext());
-        final Dialog dialog = dialogBuilder.setView(chromaView).create();
-        chromaView.enableButtonBar(new ChromaView.ButtonBarListener() {
+        ChromaColorView chromaColorView = new ChromaColorView(dialogBuilder.getContext(), initialColor, colorMode, indicatorMode);
+        final Dialog dialog = dialogBuilder.setView(chromaColorView).create();
+        chromaColorView.enableButtonBar(new ChromaColorView.ButtonBarListener() {
             @Override
             public void onPositiveButtonClick(int color) {
                 if(listener != null) {

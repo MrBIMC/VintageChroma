@@ -25,4 +25,5 @@
         <attr name="chromaIndicatorMode" />
         <attr name="chromaShapePreview"/>
     </declare-styleable>
+
 </resources>

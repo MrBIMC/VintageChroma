@@ -14,7 +14,7 @@ import android.util.TypedValue;
 import android.view.WindowManager;
 
 import com.kunzisoft.androidclearchroma.colormode.ColorMode;
-import com.kunzisoft.androidclearchroma.view.ChromaView;
+import com.kunzisoft.androidclearchroma.view.ChromaColorView;
 
 /**
  * Created by Pavel Sikun on 28.03.16.
@@ -30,7 +30,7 @@ public class ChromaDialog extends DialogFragment {
     private final static String ARG_INDICATOR_MODE = "arg_indicator_mode";
 
     private OnColorSelectedListener listener;
-    private ChromaView chromaView;
+    private ChromaColorView chromaColorView;
 
     private static ChromaDialog newInstance(@ColorInt int initialColor, ColorMode colorMode, IndicatorMode indicatorMode) {
         ChromaDialog fragment = new ChromaDialog();
@@ -91,25 +91,25 @@ public class ChromaDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         if(savedInstanceState == null) {
-            chromaView = new ChromaView(
+            chromaColorView = new ChromaColorView(
+                    getContext(),
                     getArguments().getInt(ARG_INITIAL_COLOR),
                     ColorMode.values()[
                             getArguments().getInt(ARG_COLOR_MODE_ID)],
                     IndicatorMode.values()[
-                            getArguments().getInt(ARG_INDICATOR_MODE)],
-                    getActivity());
+                            getArguments().getInt(ARG_INDICATOR_MODE)]);
         }
         else {
-            chromaView = new ChromaView(
-                    savedInstanceState.getInt(ARG_INITIAL_COLOR, ChromaView.DEFAULT_COLOR),
+            chromaColorView = new ChromaColorView(
+                    getContext(),
+                    savedInstanceState.getInt(ARG_INITIAL_COLOR, ChromaColorView.DEFAULT_COLOR),
                     ColorMode.values()[
                             savedInstanceState.getInt(ARG_COLOR_MODE_ID)],
                     IndicatorMode.values()[
-                            savedInstanceState.getInt(ARG_INDICATOR_MODE)],
-                    getActivity());
+                            savedInstanceState.getInt(ARG_INDICATOR_MODE)]);
         }
 
-        chromaView.enableButtonBar(new ChromaView.ButtonBarListener() {
+        chromaColorView.enableButtonBar(new ChromaColorView.ButtonBarListener() {
             @Override
             public void onPositiveButtonClick(int color) {
                 if(listener != null) {
@@ -124,7 +124,7 @@ public class ChromaDialog extends DialogFragment {
             }
         });
 
-        final AlertDialog ad = new AlertDialog.Builder(getActivity(), getTheme()).setView(chromaView).create();
+        final AlertDialog ad = new AlertDialog.Builder(getActivity(), getTheme()).setView(chromaColorView).create();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
             ad.setOnShowListener(new DialogInterface.OnShowListener() {
@@ -162,7 +162,7 @@ public class ChromaDialog extends DialogFragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putAll(makeArgs(chromaView.getCurrentColor(), chromaView.getColorMode(), chromaView.getIndicatorMode()));
+        outState.putAll(makeArgs(chromaColorView.getCurrentColor(), chromaColorView.getColorMode(), chromaColorView.getIndicatorMode()));
         super.onSaveInstanceState(outState);
     }
 
