@@ -10,7 +10,7 @@ import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.preference.DialogPreference;
+import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -22,7 +22,7 @@ import com.kunzisoft.androidclearchroma.colormode.ColorMode;
  * Created by Pavel Sikun on 5.04.16.
  * Modified by Jeremy JAMET on 12/09/16.
  */
-public class ChromaPreferenceCompat extends DialogPreference implements OnColorSelectedListener, ChromaDialog.CallbackButtonListener {
+public class ChromaPreferenceCompat extends Preference implements OnColorSelectedListener, ChromaDialog.CallbackButtonListener {
 
     private static final String TAG = "ChromaPreferenceCompat";
 
