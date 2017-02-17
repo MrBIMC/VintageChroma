@@ -6,7 +6,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
@@ -16,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.kunzisoft.androidclearchroma.IndicatorMode;
+import com.kunzisoft.androidclearchroma.OnColorSelectedListener;
 import com.kunzisoft.androidclearchroma.R;
 import com.kunzisoft.androidclearchroma.colormode.Channel;
 import com.kunzisoft.androidclearchroma.colormode.ColorMode;
@@ -35,11 +35,11 @@ public class ChromaColorFragment extends Fragment{
 
     private AppCompatImageView colorView;
 
-    public static final String TAG_CURRENT_COLOR = "TAG_CURRENT_COLOR";
-    public static final String TAG_COLOR_MODE = "TAG_COLOR_MODE";
-    public static final String TAG_INDICATOR_MODE = "TAG_INDICATOR_MODE";
+    public final static String ARG_INITIAL_COLOR = "arg_initial_color";
+    public final static String ARG_COLOR_MODE_ID = "arg_color_mode_id";
+    public final static String ARG_INDICATOR_MODE = "arg_indicator_mode";
 
-    private @ColorInt int currentColor = Color.GRAY;
+    private @ColorInt int currentColor;
     private ColorMode colorMode = ColorMode.CMYK255;
     private IndicatorMode indicatorMode = IndicatorMode.DECIMAL;
 
@@ -49,9 +49,9 @@ public class ChromaColorFragment extends Fragment{
         ChromaColorFragment chromaColorFragment = new ChromaColorFragment();
 
         Bundle args = new Bundle();
-        args.putInt(TAG_CURRENT_COLOR, currentColor);
-        args.putSerializable(TAG_COLOR_MODE, colorMode);
-        args.putSerializable(TAG_INDICATOR_MODE, indicatorMode);
+        args.putInt(ARG_INITIAL_COLOR, currentColor);
+        args.putSerializable(ARG_COLOR_MODE_ID, colorMode);
+        args.putSerializable(ARG_INDICATOR_MODE, indicatorMode);
 
         chromaColorFragment.setArguments(args);
 
@@ -68,20 +68,18 @@ public class ChromaColorFragment extends Fragment{
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        /*
         try {
             onColorSelectedListener = (OnColorSelectedListener) context;
         } catch(ClassCastException e) {
-            throw new ClassCastException(context.toString() + "must implement" + OnColorSelectedListener.class.getSimpleName());
+            Log.w(TAG, context.toString() + "doesn't implement" + OnColorSelectedListener.class.getSimpleName());
         }
-        */
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.chroma_color_fragment, container, true);
+        View root = inflater.inflate(R.layout.chroma_color_fragment, container, false);
         init((ViewGroup) root);
 
         return root;
@@ -90,11 +88,15 @@ public class ChromaColorFragment extends Fragment{
     private void init(ViewGroup root) {
         root.setClipToPadding(false);
 
-        try {
-            currentColor = getArguments().getInt(TAG_CURRENT_COLOR);
-            colorMode = (ColorMode) getArguments().getSerializable(TAG_COLOR_MODE);
-            indicatorMode = (IndicatorMode) getArguments().getSerializable(TAG_INDICATOR_MODE);
-        } catch(Exception e) {}
+        if(getArguments() != null) {
+            assignArguments(getArguments());
+        }
+        if (currentColor == 0)
+            currentColor = Color.GRAY;
+        if (colorMode == null)
+            colorMode = ColorMode.RGB;
+        if (indicatorMode == null)
+            indicatorMode = IndicatorMode.DECIMAL;
 
         colorView = (AppCompatImageView) root.findViewById(R.id.color_view);
         Drawable colorViewDrawable = new ColorDrawable(currentColor);
@@ -115,7 +117,8 @@ public class ChromaColorFragment extends Fragment{
                 }
                 currentColor = colorMode.getColorMode().evaluateColor(channels);
                 // Listener for color selected in real time
-                onColorSelectedListener.onColorSelected(currentColor);
+                if(onColorSelectedListener!=null)
+                    onColorSelectedListener.onColorSelected(currentColor);
                 // Change view for visibility of color
                 Drawable colorViewDrawable = new ColorDrawable(currentColor);
                 colorView.setImageDrawable(colorViewDrawable);
@@ -135,6 +138,22 @@ public class ChromaColorFragment extends Fragment{
         }
     }
 
+    private void assignArguments(Bundle args) {
+        if(args.containsKey(ARG_INITIAL_COLOR))
+            currentColor = args.getInt(ARG_INITIAL_COLOR);
+        if(args.containsKey(ARG_COLOR_MODE_ID))
+            colorMode = ColorMode.getColorModeFromId(args.getInt(ARG_COLOR_MODE_ID));
+        if(args.containsKey(ARG_INDICATOR_MODE))
+            indicatorMode = IndicatorMode.getIndicatorModeFromId(args.getInt(ARG_INDICATOR_MODE));
+    }
+
+    @Override
+    public void setArguments(Bundle args) {
+        super.setArguments(args);
+
+        assignArguments(args);
+    }
+
     public int getCurrentColor() {
         return currentColor;
     }
@@ -147,10 +166,6 @@ public class ChromaColorFragment extends Fragment{
         return indicatorMode;
     }
 
-    /**
-     * Callback listener for color
-     */
-    public interface OnColorSelectedListener {
-        void onColorSelected(@ColorInt int color);
-    }
+
+
 }

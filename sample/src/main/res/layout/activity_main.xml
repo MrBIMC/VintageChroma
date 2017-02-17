@@ -31,7 +31,7 @@
             android:id="@+id/buttonOpenView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/open_view"
+            android:text="@string/open_fragment"
             android:layout_margin="6dp"/>
 
         <Button

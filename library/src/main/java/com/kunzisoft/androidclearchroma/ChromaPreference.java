@@ -13,7 +13,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 
-
 import com.kunzisoft.androidclearchroma.colormode.ColorMode;
 
 /**
@@ -21,7 +20,7 @@ import com.kunzisoft.androidclearchroma.colormode.ColorMode;
  * Modified by Jeremy JAMET on 12/09/16.
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class ChromaPreference extends Preference implements OnColorSelectedListener {
+public class ChromaPreference extends Preference implements ChromaDialog.CallbackButtonListener, OnColorSelectedListener {
 
     private ImageView colorPreview;
 
@@ -144,6 +143,7 @@ public class ChromaPreference extends Preference implements OnColorSelectedListe
                 .colorMode(colorMode)
                 .indicatorMode(indicatorMode)
                 .onColorSelected(this)
+                .setCallbackButtonListener(this)
                 .create().show(((AppCompatActivity) getContext()).getSupportFragmentManager(), "colorPicker");
     }
 
@@ -161,6 +161,17 @@ public class ChromaPreference extends Preference implements OnColorSelectedListe
         if(listener != null) {
             listener.onColorSelected(color);
         }
+    }
+
+
+    @Override
+    public void onPositiveButtonClick(@ColorInt int color) {
+        // TODO
+    }
+
+    @Override
+    public void onNegativeButtonClick(@ColorInt int color) {
+        // TODO
     }
 
     @Override

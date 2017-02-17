@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -144,13 +145,26 @@ public class MainActivity extends AppCompatActivity {
             .initialColor(color)
             .colorMode(mode)
             .indicatorMode(indicatorMode) //HEX or DECIMAL;
+            .setCallbackButtonListener(new ChromaDialog.CallbackButtonListener() {
+                @Override
+                public void onPositiveButtonClick(@ColorInt int newColor) {
+                    updateTextView(newColor);
+                    updateToolbar(color, newColor);
+                    //TODO never called
+                    color = newColor;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        getWindow().setStatusBarColor(darkenColor(newColor));
+                    }
+                }
+
+                @Override
+                public void onNegativeButtonClick(@ColorInt int newColor) {}
+            })
             .onColorSelected(new OnColorSelectedListener() {
                 @Override public void onColorSelected(int newColor) {
-                    updateTextView(newColor);
                     updateToolbar(color, newColor);
                     color = newColor;
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
                         getWindow().setStatusBarColor(darkenColor(newColor));
                     }
                 }
