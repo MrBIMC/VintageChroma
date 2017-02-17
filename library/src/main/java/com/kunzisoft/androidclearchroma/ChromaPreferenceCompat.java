@@ -7,9 +7,9 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.support.annotation.ColorInt;
+import android.support.v7.preference.DialogPreference;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
-import android.support.v7.preference.Preference;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -19,7 +19,7 @@ import com.kunzisoft.androidclearchroma.colormode.ColorMode;
  * Created by Pavel Sikun on 5.04.16.
  * Modified by Jeremy JAMET on 12/09/16.
  */
-public class ChromaPreferenceCompat extends Preference implements OnColorSelectedListener {
+public class ChromaPreferenceCompat extends DialogPreference implements OnColorSelectedListener, ChromaDialog.CallbackButtonListener {
 
     private ImageView colorPreview;
 
@@ -35,7 +35,8 @@ public class ChromaPreferenceCompat extends Preference implements OnColorSelecte
     private ShapePreviewPreference shapePreviewPreference;
     private CharSequence summaryPreference;
 
-    private OnColorSelectedListener listener;
+    private OnColorSelectedListener onColorSelectedListener;
+    private ChromaDialog.CallbackButtonListener callbackButtonListener;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public ChromaPreferenceCompat(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -152,12 +153,15 @@ public class ChromaPreferenceCompat extends Preference implements OnColorSelecte
     @Override
     protected void onClick() {
         super.onClick();
+
         new ChromaDialog.Builder()
                 .initialColor(color)
                 .colorMode(colorMode)
                 .indicatorMode(indicatorMode)
                 .onColorSelected(this)
+                .setCallbackButtonListener(this)
                 .create();
+                //TODO .show(((AppCompatActivity) getContext()).getSupportFragmentManager(), "colorPicker");
     }
 
     @Override
@@ -169,10 +173,23 @@ public class ChromaPreferenceCompat extends Preference implements OnColorSelecte
 
     @Override
     public void onColorSelected(@ColorInt int color) {
-        persistInt(color);
+        if(onColorSelectedListener != null) {
+            onColorSelectedListener.onColorSelected(color);
+        }
+    }
 
-        if(listener != null) {
-            listener.onColorSelected(color);
+    @Override
+    public void onPositiveButtonClick(@ColorInt int color) {
+        persistInt(color);
+        if(callbackButtonListener != null) {
+            callbackButtonListener.onPositiveButtonClick(color);
+        }
+    }
+
+    @Override
+    public void onNegativeButtonClick(@ColorInt int color) {
+        if(callbackButtonListener != null) {
+            callbackButtonListener.onNegativeButtonClick(color);
         }
     }
 
@@ -198,8 +215,21 @@ public class ChromaPreferenceCompat extends Preference implements OnColorSelecte
         notifyChanged();
     }
 
+
+    public OnColorSelectedListener getOnColorSelectedListener() {
+        return onColorSelectedListener;
+    }
+
     public void setOnColorSelectedListener(OnColorSelectedListener listener) {
-        this.listener = listener;
+        this.onColorSelectedListener = listener;
+    }
+
+    public ChromaDialog.CallbackButtonListener getCallbackButtonListener() {
+        return callbackButtonListener;
+    }
+
+    public void setCallbackButtonListener(ChromaDialog.CallbackButtonListener callbackButtonListener) {
+        this.callbackButtonListener = callbackButtonListener;
     }
 
     public ColorMode getColorMode() {

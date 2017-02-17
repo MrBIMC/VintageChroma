@@ -68,8 +68,6 @@ public class ChromaDialog extends DialogFragment {
         if(chromaColorFragment == null) {
             chromaColorFragment = ChromaColorFragment.newInstance(getArguments());
             fragmentTransaction.add(R.id.color_dialog_container, chromaColorFragment, TAG_FRAGMENT_COLORS).commit();
-        } else {
-            //chromaColorFragment.setArguments(getArguments());
         }
 
         LinearLayout buttonBar = (LinearLayout) root.findViewById(R.id.button_bar);
@@ -112,6 +110,13 @@ public class ChromaDialog extends DialogFragment {
 
         public Builder colorMode(ColorMode colorMode) {
             this.colorMode = colorMode;
+            //TODO
+            /*
+            IndicatorMode indicatorMode = IndicatorMode.HEX;
+            if(colorMode == ColorMode.HSV
+                    || colorMode == ColorMode.CMYK
+                    || colorMode == ColorMode.HSL) indicatorMode = IndicatorMode.DECIMAL; // cuz HEX is dumb for those
+                    */
             return this;
         }
 
@@ -130,17 +135,10 @@ public class ChromaDialog extends DialogFragment {
             return this;
         }
 
-        /*
-        //TODO
-        void createCompat(Context context) {
-            new ChromaDialogCompat(context, initialColor, colorMode, indicatorMode, onColorSelectedListener);
-        }
-        */
-
         public ChromaDialog create() {
             ChromaDialog chromaDialog = newInstance(initialColor, colorMode, indicatorMode);
             chromaDialog.setOnColorSelectedListener(onColorSelectedListener);
-            chromaDialog.setOnCallbackButtonListener(callbackButtonListener);
+            chromaDialog.setCallbackButtonListener(callbackButtonListener);
             return chromaDialog;
         }
     }
@@ -155,18 +153,20 @@ public class ChromaDialog extends DialogFragment {
         return dialog;
     }
 
+    public CallbackButtonListener getCallbackButtonListener() {
+        return callbackButtonListener;
+    }
+
+    public OnColorSelectedListener getOnColorSelectedListener() {
+        return onColorSelectedListener;
+    }
+
     public void setOnColorSelectedListener(OnColorSelectedListener onColorSelectedListener) {
         this.onColorSelectedListener = onColorSelectedListener;
     }
 
-    public void setOnCallbackButtonListener(CallbackButtonListener callbackButtonListener) {
+    public void setCallbackButtonListener(CallbackButtonListener callbackButtonListener) {
         this.callbackButtonListener = callbackButtonListener;
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        //outState.putAll(makeArgs(chromaColorView.getCurrentColor(), chromaColorView.getColorMode(), chromaColorView.getIndicatorMode()));
-        super.onSaveInstanceState(outState);
     }
 
     @Override

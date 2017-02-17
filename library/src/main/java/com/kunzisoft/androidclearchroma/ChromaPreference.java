@@ -37,6 +37,7 @@ public class ChromaPreference extends Preference implements ChromaDialog.Callbac
     private CharSequence summaryPreference;
 
     private OnColorSelectedListener listener;
+    private ChromaDialog.CallbackButtonListener callbackButtonListener;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public ChromaPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -144,7 +145,8 @@ public class ChromaPreference extends Preference implements ChromaDialog.Callbac
                 .indicatorMode(indicatorMode)
                 .onColorSelected(this)
                 .setCallbackButtonListener(this)
-                .create().show(((AppCompatActivity) getContext()).getSupportFragmentManager(), "colorPicker");
+                .create()
+                .show(((AppCompatActivity) getContext()).getSupportFragmentManager(), "colorPicker");
     }
 
     @Override
@@ -156,8 +158,6 @@ public class ChromaPreference extends Preference implements ChromaDialog.Callbac
 
     @Override
     public void onColorSelected(@ColorInt int color) {
-        persistInt(color);
-
         if(listener != null) {
             listener.onColorSelected(color);
         }
@@ -166,12 +166,17 @@ public class ChromaPreference extends Preference implements ChromaDialog.Callbac
 
     @Override
     public void onPositiveButtonClick(@ColorInt int color) {
-        // TODO
+        persistInt(color);
+        if(callbackButtonListener != null) {
+            callbackButtonListener.onPositiveButtonClick(color);
+        }
     }
 
     @Override
     public void onNegativeButtonClick(@ColorInt int color) {
-        // TODO
+        if(callbackButtonListener != null) {
+            callbackButtonListener.onNegativeButtonClick(color);
+        }
     }
 
     @Override
@@ -196,6 +201,22 @@ public class ChromaPreference extends Preference implements ChromaDialog.Callbac
 
     public void setColor(@ColorInt int color) {
         persistInt(color);
+    }
+
+    public OnColorSelectedListener getListener() {
+        return listener;
+    }
+
+    public void setListener(OnColorSelectedListener listener) {
+        this.listener = listener;
+    }
+
+    public ChromaDialog.CallbackButtonListener getCallbackButtonListener() {
+        return callbackButtonListener;
+    }
+
+    public void setCallbackButtonListener(ChromaDialog.CallbackButtonListener callbackButtonListener) {
+        this.callbackButtonListener = callbackButtonListener;
     }
 
     public void setOnColorSelectedListener(OnColorSelectedListener listener) {

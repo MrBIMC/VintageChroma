@@ -22,17 +22,22 @@ import com.kunzisoft.androidclearchroma.IndicatorMode;
 import com.kunzisoft.androidclearchroma.OnColorSelectedListener;
 import com.kunzisoft.androidclearchroma.colormode.ColorMode;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ChromaDialog.CallbackButtonListener, OnColorSelectedListener {
 
-    private static final String EXTRA_COLOR = "extra_color";
-    private static final String EXTRA_MODE = "extra_MODE";
+    private static final String EXTRA_COLOR = "EXTRA_COLOR";
+    private static final String EXTRA_COLOR_MODE = "EXTRA_COLOR_MODE";
+    private static final String EXTRA_INDICATOR_MODE = "EXTRA_INDICATOR_MODE";
 
     private Spinner spinner;
     private TextView textView;
     private Toolbar toolbar;
 
-    private int color;
-    private ColorMode mode;
+    private @ColorInt int color;
+    private ColorMode colorMode;
+    private IndicatorMode indicatorMode;
+
+    private static final String TAG_CHROMA_DIALOG = "TAG_CHROMA_DIALOG";
+    private ChromaDialog chromaDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +48,20 @@ public class MainActivity extends AppCompatActivity {
         textView = (TextView) findViewById(R.id.text_view);
         spinner = (Spinner) findViewById(R.id.spinner);
 
-        color = savedInstanceState == null
-                ? ContextCompat.getColor(this, R.color.colorPrimary)
-                : savedInstanceState.getInt(EXTRA_COLOR);
-        mode = savedInstanceState == null
-                ? ColorMode.RGB
-                : ColorMode.values()[savedInstanceState.getInt(EXTRA_MODE)];
+        if(savedInstanceState == null) {
+            color = ContextCompat.getColor(this, R.color.colorPrimary);
+            colorMode = ColorMode.RGB;
+            indicatorMode = IndicatorMode.HEX;
+
+        } else {
+            color = savedInstanceState.getInt(EXTRA_COLOR);
+            colorMode = ColorMode.getColorModeFromId(savedInstanceState.getInt(EXTRA_COLOR_MODE));
+            indicatorMode = IndicatorMode.getIndicatorModeFromId(savedInstanceState.getInt(EXTRA_INDICATOR_MODE));
+            chromaDialog = (ChromaDialog) getSupportFragmentManager().findFragmentByTag(TAG_CHROMA_DIALOG);
+            if(chromaDialog != null)
+                chromaDialog.setCallbackButtonListener(this);
+
+        }
 
         setSupportActionBar(toolbar);
         updateTextView(color);
@@ -62,7 +75,16 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showColorPickerDialog();
+                if(chromaDialog == null) {
+                    chromaDialog = new ChromaDialog.Builder()
+                            .initialColor(color)
+                            .colorMode(colorMode)
+                            .indicatorMode(indicatorMode) //HEX or DECIMAL;
+                            .setCallbackButtonListener(MainActivity.this)
+                            .onColorSelected(MainActivity.this)
+                            .create();
+                }
+                chromaDialog.show(getSupportFragmentManager(), TAG_CHROMA_DIALOG);
             }
         });
 
@@ -96,11 +118,12 @@ public class MainActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
 
         spinner.setAdapter(adapter);
-        spinner.setSelection(mode.ordinal());
+        spinner.setSelection(colorMode.ordinal());
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mode = ColorMode.values()[position];
+                colorMode = ColorMode.values()[position];
+                chromaDialog = null;
             }
 
             @Override
@@ -109,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateTextView(int newColor) {
-        textView.setText(ChromaUtil.getFormattedColorString(newColor, mode == ColorMode.ARGB));
+        textView.setText(ChromaUtil.getFormattedColorString(newColor, colorMode == ColorMode.ARGB));
         textView.setTextColor(newColor);
     }
 
@@ -135,48 +158,28 @@ public class MainActivity extends AppCompatActivity {
         return Color.HSVToColor(hsv);
     }
 
-    private void showColorPickerDialog() {
-        IndicatorMode indicatorMode = IndicatorMode.HEX;
-        if(mode == ColorMode.HSV
-                || mode == ColorMode.CMYK
-                || mode == ColorMode.HSL) indicatorMode = IndicatorMode.DECIMAL; // cuz HEX is dumb for those
-
-        new ChromaDialog.Builder()
-            .initialColor(color)
-            .colorMode(mode)
-            .indicatorMode(indicatorMode) //HEX or DECIMAL;
-            .setCallbackButtonListener(new ChromaDialog.CallbackButtonListener() {
-                @Override
-                public void onPositiveButtonClick(@ColorInt int newColor) {
-                    updateTextView(newColor);
-                    updateToolbar(color, newColor);
-                    //TODO never called
-                    color = newColor;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getWindow().setStatusBarColor(darkenColor(newColor));
-                    }
-                }
-
-                @Override
-                public void onNegativeButtonClick(@ColorInt int newColor) {}
-            })
-            .onColorSelected(new OnColorSelectedListener() {
-                @Override public void onColorSelected(int newColor) {
-                    updateToolbar(color, newColor);
-                    color = newColor;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getWindow().setStatusBarColor(darkenColor(newColor));
-                    }
-                }
-            })
-            .create()
-            .show(getSupportFragmentManager(), "dialog");
-    }
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putInt(EXTRA_COLOR, color);
-        outState.putInt(EXTRA_MODE, mode.ordinal());
+        outState.putInt(EXTRA_COLOR_MODE, colorMode.ordinal());
+        outState.putInt(EXTRA_INDICATOR_MODE, indicatorMode.ordinal());
         super.onSaveInstanceState(outState);
     }
+
+    @Override
+    public void onPositiveButtonClick(@ColorInt int newColor) {
+        color = newColor;
+        chromaDialog = null;
+        updateTextView(newColor);
+        updateToolbar(color, newColor);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(darkenColor(newColor));
+        }
+    }
+
+    @Override
+    public void onNegativeButtonClick(@ColorInt int color) {}
+
+    @Override
+    public void onColorSelected(@ColorInt int color) {}
 }

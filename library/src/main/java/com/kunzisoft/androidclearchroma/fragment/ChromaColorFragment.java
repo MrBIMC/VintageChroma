@@ -80,15 +80,18 @@ public class ChromaColorFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.chroma_color_fragment, container, false);
-        init((ViewGroup) root);
+        init((ViewGroup) root, savedInstanceState);
 
         return root;
     }
 
-    private void init(ViewGroup root) {
+    private void init(ViewGroup root, Bundle savedInstanceState) {
         root.setClipToPadding(false);
 
-        if(getArguments() != null) {
+        if (savedInstanceState != null) {
+            // Restore last state for checked position.
+            assignArguments(savedInstanceState);
+        } else if(getArguments() != null) {
             assignArguments(getArguments());
         }
         if (currentColor == 0)
@@ -138,6 +141,14 @@ public class ChromaColorFragment extends Fragment{
         }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(ARG_INITIAL_COLOR, currentColor);
+        outState.putInt(ARG_COLOR_MODE_ID, colorMode.ordinal());
+        outState.putInt(ARG_INDICATOR_MODE, indicatorMode.ordinal());
+    }
+
     private void assignArguments(Bundle args) {
         if(args.containsKey(ARG_INITIAL_COLOR))
             currentColor = args.getInt(ARG_INITIAL_COLOR);
@@ -165,7 +176,5 @@ public class ChromaColorFragment extends Fragment{
     public IndicatorMode getIndicatorMode() {
         return indicatorMode;
     }
-
-
 
 }
