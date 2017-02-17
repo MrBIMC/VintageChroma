@@ -2,11 +2,14 @@ package com.kunzisoft.androidclearchroma;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.support.annotation.ColorInt;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.DialogPreference;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
@@ -21,7 +24,11 @@ import com.kunzisoft.androidclearchroma.colormode.ColorMode;
  */
 public class ChromaPreferenceCompat extends DialogPreference implements OnColorSelectedListener, ChromaDialog.CallbackButtonListener {
 
+    private static final String TAG = "ChromaPreferenceCompat";
+
     private ImageView colorPreview;
+
+    private static final String TAG_FRAGMENT_DIALOG = "TAG_FRAGMENT_DIALOG";
 
     private static final int DEFAULT_COLOR = Color.WHITE;
     private static final ColorMode DEFAULT_COLOR_MODE = ColorMode.RGB;
@@ -41,25 +48,35 @@ public class ChromaPreferenceCompat extends DialogPreference implements OnColorS
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public ChromaPreferenceCompat(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init(attrs);
+        init(context, attrs);
     }
 
     public ChromaPreferenceCompat(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(attrs);
+        init(context, attrs);
     }
 
     public ChromaPreferenceCompat(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs);
+        init(context, attrs);
     }
 
     public ChromaPreferenceCompat(Context context) {
         super(context);
-        init(null);
+        init(context, null);
     }
 
-    private void init(AttributeSet attrs) {
+    private void init(Context context, AttributeSet attrs) {
+        try {
+            FragmentManager fragmentManager = scanForActivity(context).getSupportFragmentManager();
+            ChromaDialog chromaDialog = (ChromaDialog) fragmentManager.findFragmentByTag(TAG_FRAGMENT_DIALOG);
+            if (chromaDialog != null) {
+                chromaDialog.setCallbackButtonListener(this);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Can't get FragmentManager from AppCompatActivity");
+        }
+
         setWidgetLayoutResource(R.layout.preference_layout);
         loadValuesFromXml(attrs);
         updatePreview();
@@ -150,18 +167,32 @@ public class ChromaPreferenceCompat extends DialogPreference implements OnColorS
         }
     }
 
+    private static AppCompatActivity scanForActivity(Context cont) {
+        if (cont == null)
+            return null;
+        else if (cont instanceof AppCompatActivity)
+            return (AppCompatActivity) cont;
+        else if (cont instanceof ContextWrapper)
+            return scanForActivity(((ContextWrapper)cont).getBaseContext());
+        return null;
+    }
+
     @Override
     protected void onClick() {
         super.onClick();
-
-        new ChromaDialog.Builder()
-                .initialColor(color)
-                .colorMode(colorMode)
-                .indicatorMode(indicatorMode)
-                .onColorSelected(this)
-                .setCallbackButtonListener(this)
-                .create();
-                //TODO .show(((AppCompatActivity) getContext()).getSupportFragmentManager(), "colorPicker");
+        try {
+            FragmentManager fragmentManager = scanForActivity(getContext()).getSupportFragmentManager();
+            new ChromaDialog.Builder()
+                    .initialColor(color)
+                    .colorMode(colorMode)
+                    .indicatorMode(indicatorMode)
+                    .onColorSelected(this)
+                    .setCallbackButtonListener(this)
+                    .create()
+                    .show(fragmentManager, TAG_FRAGMENT_DIALOG);
+        } catch (Exception e) {
+            Log.e(TAG, "Can't get SupportFragmentManager from AppCompatActivity");
+        }
     }
 
     @Override
