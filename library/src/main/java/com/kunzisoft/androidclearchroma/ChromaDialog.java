@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 
 import com.kunzisoft.androidclearchroma.colormode.ColorMode;
 import com.kunzisoft.androidclearchroma.fragment.ChromaColorFragment;
+import com.kunzisoft.androidclearchroma.listener.OnColorChangedListener;
+import com.kunzisoft.androidclearchroma.listener.OnColorSelectedListener;
 
 import static com.kunzisoft.androidclearchroma.fragment.ChromaColorFragment.ARG_COLOR_MODE_ID;
 import static com.kunzisoft.androidclearchroma.fragment.ChromaColorFragment.ARG_INDICATOR_MODE;
@@ -36,8 +38,8 @@ public class ChromaDialog extends DialogFragment {
 
     private final static String TAG_FRAGMENT_COLORS = "TAG_FRAGMENT_COLORS";
 
+    private OnColorChangedListener onColorChangedListener;
     private OnColorSelectedListener onColorSelectedListener;
-    private CallbackButtonListener callbackButtonListener;
 
     private ChromaColorFragment chromaColorFragment;
 
@@ -77,8 +79,8 @@ public class ChromaDialog extends DialogFragment {
         positiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(callbackButtonListener != null)
-                    callbackButtonListener.onPositiveButtonClick(chromaColorFragment.getCurrentColor());
+                if(onColorSelectedListener != null)
+                    onColorSelectedListener.onPositiveButtonClick(chromaColorFragment.getCurrentColor());
                 dismiss();
             }
         });
@@ -86,8 +88,8 @@ public class ChromaDialog extends DialogFragment {
         negativeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(callbackButtonListener != null)
-                    callbackButtonListener.onNegativeButtonClick(chromaColorFragment.getCurrentColor());
+                if(onColorSelectedListener != null)
+                    onColorSelectedListener.onNegativeButtonClick(chromaColorFragment.getCurrentColor());
                 dismiss();
             }
         });
@@ -100,8 +102,8 @@ public class ChromaDialog extends DialogFragment {
         private @ColorInt int initialColor = DEFAULT_COLOR;
         private ColorMode colorMode = DEFAULT_MODE;
         private IndicatorMode indicatorMode = IndicatorMode.DECIMAL;
+        private OnColorChangedListener onColorChangedListener;
         private OnColorSelectedListener onColorSelectedListener;
-        private CallbackButtonListener callbackButtonListener;
 
         public Builder initialColor(@ColorInt int initialColor) {
             this.initialColor = initialColor;
@@ -125,20 +127,20 @@ public class ChromaDialog extends DialogFragment {
             return this;
         }
 
-        public Builder onColorSelected(OnColorSelectedListener onColorSelectedListener) {
-            this.onColorSelectedListener = onColorSelectedListener;
+        public Builder onColorSelected(OnColorChangedListener onColorChangedListener) {
+            this.onColorChangedListener = onColorChangedListener;
             return this;
         }
 
-        public Builder setCallbackButtonListener(CallbackButtonListener callbackButtonListener) {
-            this.callbackButtonListener = callbackButtonListener;
+        public Builder setOnColorSelectedListener(OnColorSelectedListener onColorSelectedListener) {
+            this.onColorSelectedListener = onColorSelectedListener;
             return this;
         }
 
         public ChromaDialog create() {
             ChromaDialog chromaDialog = newInstance(initialColor, colorMode, indicatorMode);
+            chromaDialog.setOnColorChangedListener(onColorChangedListener);
             chromaDialog.setOnColorSelectedListener(onColorSelectedListener);
-            chromaDialog.setCallbackButtonListener(callbackButtonListener);
             return chromaDialog;
         }
     }
@@ -153,33 +155,26 @@ public class ChromaDialog extends DialogFragment {
         return dialog;
     }
 
-    public CallbackButtonListener getCallbackButtonListener() {
-        return callbackButtonListener;
-    }
-
     public OnColorSelectedListener getOnColorSelectedListener() {
         return onColorSelectedListener;
+    }
+
+    public OnColorChangedListener getOnColorChangedListener() {
+        return onColorChangedListener;
+    }
+
+    public void setOnColorChangedListener(OnColorChangedListener onColorChangedListener) {
+        this.onColorChangedListener = onColorChangedListener;
     }
 
     public void setOnColorSelectedListener(OnColorSelectedListener onColorSelectedListener) {
         this.onColorSelectedListener = onColorSelectedListener;
     }
 
-    public void setCallbackButtonListener(CallbackButtonListener callbackButtonListener) {
-        this.callbackButtonListener = callbackButtonListener;
-    }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        onColorSelectedListener = null;
+        onColorChangedListener = null;
     }
 
-    /**
-     * TODO
-     */
-    public interface CallbackButtonListener {
-        void onPositiveButtonClick(@ColorInt int color);
-        void onNegativeButtonClick(@ColorInt int color);
-    }
 }

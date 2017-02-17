@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.kunzisoft.androidclearchroma.IndicatorMode;
-import com.kunzisoft.androidclearchroma.OnColorSelectedListener;
+import com.kunzisoft.androidclearchroma.listener.OnColorChangedListener;
 import com.kunzisoft.androidclearchroma.R;
 import com.kunzisoft.androidclearchroma.colormode.Channel;
 import com.kunzisoft.androidclearchroma.colormode.ColorMode;
@@ -43,7 +43,7 @@ public class ChromaColorFragment extends Fragment{
     private ColorMode colorMode = ColorMode.CMYK255;
     private IndicatorMode indicatorMode = IndicatorMode.DECIMAL;
 
-    private OnColorSelectedListener onColorSelectedListener;
+    private OnColorChangedListener onColorChangedListener;
 
     public static ChromaColorFragment newInstance(@ColorInt int currentColor, ColorMode colorMode, IndicatorMode indicatorMode) {
         ChromaColorFragment chromaColorFragment = new ChromaColorFragment();
@@ -69,9 +69,9 @@ public class ChromaColorFragment extends Fragment{
         super.onAttach(context);
 
         try {
-            onColorSelectedListener = (OnColorSelectedListener) context;
+            onColorChangedListener = (OnColorChangedListener) context;
         } catch(ClassCastException e) {
-            Log.w(TAG, context.toString() + "doesn't implement" + OnColorSelectedListener.class.getSimpleName());
+            Log.w(TAG, context.toString() + "doesn't implement" + OnColorChangedListener.class.getSimpleName());
         }
     }
 
@@ -120,8 +120,8 @@ public class ChromaColorFragment extends Fragment{
                 }
                 currentColor = colorMode.getColorMode().evaluateColor(channels);
                 // Listener for color selected in real time
-                if(onColorSelectedListener!=null)
-                    onColorSelectedListener.onColorSelected(currentColor);
+                if(onColorChangedListener !=null)
+                    onColorChangedListener.onColorChanged(currentColor);
                 // Change view for visibility of color
                 Drawable colorViewDrawable = new ColorDrawable(currentColor);
                 colorView.setImageDrawable(colorViewDrawable);

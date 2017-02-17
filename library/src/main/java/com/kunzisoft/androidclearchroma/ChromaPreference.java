@@ -14,13 +14,15 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.kunzisoft.androidclearchroma.colormode.ColorMode;
+import com.kunzisoft.androidclearchroma.listener.OnColorChangedListener;
+import com.kunzisoft.androidclearchroma.listener.OnColorSelectedListener;
 
 /**
  * Created by Pavel Sikun on 31.03.16.
  * Modified by Jeremy JAMET on 12/09/16.
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class ChromaPreference extends Preference implements ChromaDialog.CallbackButtonListener, OnColorSelectedListener {
+public class ChromaPreference extends Preference implements OnColorSelectedListener, OnColorChangedListener {
 
     private ImageView colorPreview;
 
@@ -36,8 +38,8 @@ public class ChromaPreference extends Preference implements ChromaDialog.Callbac
     private ShapePreviewPreference shapePreviewPreference;
     private CharSequence summaryPreference;
 
-    private OnColorSelectedListener listener;
-    private ChromaDialog.CallbackButtonListener callbackButtonListener;
+    private OnColorChangedListener listener;
+    private OnColorSelectedListener onColorSelectedListener;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public ChromaPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -144,7 +146,7 @@ public class ChromaPreference extends Preference implements ChromaDialog.Callbac
                 .colorMode(colorMode)
                 .indicatorMode(indicatorMode)
                 .onColorSelected(this)
-                .setCallbackButtonListener(this)
+                .setOnColorSelectedListener(this)
                 .create()
                 .show(((AppCompatActivity) getContext()).getSupportFragmentManager(), "colorPicker");
     }
@@ -157,25 +159,24 @@ public class ChromaPreference extends Preference implements ChromaDialog.Callbac
     }
 
     @Override
-    public void onColorSelected(@ColorInt int color) {
+    public void onColorChanged(@ColorInt int color) {
         if(listener != null) {
-            listener.onColorSelected(color);
+            listener.onColorChanged(color);
         }
     }
-
 
     @Override
     public void onPositiveButtonClick(@ColorInt int color) {
         persistInt(color);
-        if(callbackButtonListener != null) {
-            callbackButtonListener.onPositiveButtonClick(color);
+        if(onColorSelectedListener != null) {
+            onColorSelectedListener.onPositiveButtonClick(color);
         }
     }
 
     @Override
     public void onNegativeButtonClick(@ColorInt int color) {
-        if(callbackButtonListener != null) {
-            callbackButtonListener.onNegativeButtonClick(color);
+        if(onColorSelectedListener != null) {
+            onColorSelectedListener.onNegativeButtonClick(color);
         }
     }
 
@@ -203,23 +204,23 @@ public class ChromaPreference extends Preference implements ChromaDialog.Callbac
         persistInt(color);
     }
 
-    public OnColorSelectedListener getListener() {
+    public OnColorChangedListener getListener() {
         return listener;
     }
 
-    public void setListener(OnColorSelectedListener listener) {
+    public void setListener(OnColorChangedListener listener) {
         this.listener = listener;
     }
 
-    public ChromaDialog.CallbackButtonListener getCallbackButtonListener() {
-        return callbackButtonListener;
+    public OnColorSelectedListener getOnColorSelectedListener() {
+        return onColorSelectedListener;
     }
 
-    public void setCallbackButtonListener(ChromaDialog.CallbackButtonListener callbackButtonListener) {
-        this.callbackButtonListener = callbackButtonListener;
+    public void setOnColorSelectedListener(OnColorSelectedListener onColorSelectedListener) {
+        this.onColorSelectedListener = onColorSelectedListener;
     }
 
-    public void setOnColorSelectedListener(OnColorSelectedListener listener) {
+    public void setOnColorSelectedListener(OnColorChangedListener listener) {
         this.listener = listener;
     }
 

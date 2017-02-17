@@ -16,13 +16,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.kunzisoft.androidclearchroma.listener.OnColorSelectedListener;
 import com.kunzisoft.androidclearchroma.ChromaDialog;
 import com.kunzisoft.androidclearchroma.ChromaUtil;
 import com.kunzisoft.androidclearchroma.IndicatorMode;
-import com.kunzisoft.androidclearchroma.OnColorSelectedListener;
+import com.kunzisoft.androidclearchroma.listener.OnColorChangedListener;
 import com.kunzisoft.androidclearchroma.colormode.ColorMode;
 
-public class MainActivity extends AppCompatActivity implements ChromaDialog.CallbackButtonListener, OnColorSelectedListener {
+public class MainActivity extends AppCompatActivity implements OnColorSelectedListener, OnColorChangedListener {
 
     private static final String EXTRA_COLOR = "EXTRA_COLOR";
     private static final String EXTRA_COLOR_MODE = "EXTRA_COLOR_MODE";
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements ChromaDialog.Call
             indicatorMode = IndicatorMode.getIndicatorModeFromId(savedInstanceState.getInt(EXTRA_INDICATOR_MODE));
             chromaDialog = (ChromaDialog) getSupportFragmentManager().findFragmentByTag(TAG_CHROMA_DIALOG);
             if(chromaDialog != null)
-                chromaDialog.setCallbackButtonListener(this);
+                chromaDialog.setOnColorSelectedListener(this);
 
         }
 
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements ChromaDialog.Call
                             .initialColor(color)
                             .colorMode(colorMode)
                             .indicatorMode(indicatorMode) //HEX or DECIMAL;
-                            .setCallbackButtonListener(MainActivity.this)
+                            .setOnColorSelectedListener(MainActivity.this)
                             .onColorSelected(MainActivity.this)
                             .create();
                 }
@@ -181,5 +182,5 @@ public class MainActivity extends AppCompatActivity implements ChromaDialog.Call
     public void onNegativeButtonClick(@ColorInt int color) {}
 
     @Override
-    public void onColorSelected(@ColorInt int color) {}
+    public void onColorChanged(@ColorInt int color) {}
 }
