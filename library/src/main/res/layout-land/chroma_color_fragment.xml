@@ -13,14 +13,18 @@
         app:srcCompat="@color/colorBackground"
         android:background="@drawable/color_background"/>
 
-
-    <LinearLayout
-        android:id="@+id/channel_container"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/color_view"
-        android:layout_toEndOf="@id/color_view"
-        android:orientation="vertical"/>
+        android:layout_toEndOf="@id/color_view">
+        <LinearLayout
+            android:id="@+id/channel_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"/>
+    </ScrollView>
 
 </RelativeLayout>

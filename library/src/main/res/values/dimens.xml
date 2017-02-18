@@ -24,4 +24,5 @@
     <dimen name="channel_view_margin_bottom">4dp</dimen>
 
     <item name="chroma_dialog_height_multiplier" format="float" type="dimen">0.9</item>
+    <item name="chroma_dialog_width_multiplier" format="float" type="dimen">0.8</item>
 </resources>

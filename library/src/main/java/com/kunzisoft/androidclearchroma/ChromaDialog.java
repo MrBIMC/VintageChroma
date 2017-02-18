@@ -1,7 +1,10 @@
 package com.kunzisoft.androidclearchroma;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
@@ -9,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,6 +101,24 @@ public class ChromaDialog extends DialogFragment {
         return root;
     }
 
+    /**
+     * Set new dimensions to dialog
+     * @param ad
+     */
+    private void measureLayout(Dialog ad) {
+        TypedValue typedValue = new TypedValue();
+        getResources().getValue(R.dimen.chroma_dialog_height_multiplier, typedValue, true);
+        float heightMultiplier = typedValue.getFloat();
+        int height = (int) ((ad.getContext().getResources().getDisplayMetrics().heightPixels) * heightMultiplier);
+
+        getResources().getValue(R.dimen.chroma_dialog_width_multiplier, typedValue, true);
+        float widthMultiplier = typedValue.getFloat();
+        int width = (int) ((ad.getContext().getResources().getDisplayMetrics().widthPixels) * widthMultiplier);
+
+        if(ad.getWindow() != null)
+            ad.getWindow().setLayout(width, height);
+    }
+
     // TODO doc
     public static class Builder {
         private @ColorInt int initialColor = DEFAULT_COLOR;
@@ -152,6 +174,16 @@ public class ChromaDialog extends DialogFragment {
 
         // request a window without the title
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
+            dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialog) {
+                    measureLayout((Dialog) dialog);
+                }
+            });
+        }
+
         return dialog;
     }
 

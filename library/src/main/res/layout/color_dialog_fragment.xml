@@ -6,8 +6,11 @@
 
     <FrameLayout
         android:id="@+id/color_dialog_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button_bar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <include
         android:id="@+id/button_bar"
