@@ -188,7 +188,7 @@ public class ChromaPreferenceCompat extends Preference implements OnColorChanged
                     .initialColor(color)
                     .colorMode(colorMode)
                     .indicatorMode(indicatorMode)
-                    .onColorSelected(this)
+                    .setOnColorChangedListener(this)
                     .setOnColorSelectedListener(this)
                     .create()
                     .show(fragmentManager, TAG_FRAGMENT_DIALOG);

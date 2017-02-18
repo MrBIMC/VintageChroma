@@ -45,11 +45,11 @@ public class ChromaColorFragment extends Fragment{
 
     private OnColorChangedListener onColorChangedListener;
 
-    public static ChromaColorFragment newInstance(@ColorInt int currentColor, ColorMode colorMode, IndicatorMode indicatorMode) {
+    public static ChromaColorFragment newInstance(@ColorInt int initialColor, ColorMode colorMode, IndicatorMode indicatorMode) {
         ChromaColorFragment chromaColorFragment = new ChromaColorFragment();
 
         Bundle args = new Bundle();
-        args.putInt(ARG_INITIAL_COLOR, currentColor);
+        args.putInt(ARG_INITIAL_COLOR, initialColor);
         args.putSerializable(ARG_COLOR_MODE_ID, colorMode);
         args.putSerializable(ARG_INDICATOR_MODE, indicatorMode);
 

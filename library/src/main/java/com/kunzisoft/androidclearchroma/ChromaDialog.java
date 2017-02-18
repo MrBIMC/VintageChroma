@@ -149,7 +149,7 @@ public class ChromaDialog extends DialogFragment {
             return this;
         }
 
-        public Builder onColorSelected(OnColorChangedListener onColorChangedListener) {
+        public Builder setOnColorChangedListener(OnColorChangedListener onColorChangedListener) {
             this.onColorChangedListener = onColorChangedListener;
             return this;
         }

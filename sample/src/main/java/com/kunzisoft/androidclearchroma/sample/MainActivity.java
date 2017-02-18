@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements OnColorSelectedLi
                             .colorMode(colorMode)
                             .indicatorMode(indicatorMode) //HEX or DECIMAL;
                             .setOnColorSelectedListener(MainActivity.this)
-                            .onColorSelected(MainActivity.this)
+                            .setOnColorChangedListener(MainActivity.this)
                             .create();
                 }
                 chromaDialog.show(getSupportFragmentManager(), TAG_CHROMA_DIALOG);

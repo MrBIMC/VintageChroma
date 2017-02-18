@@ -145,7 +145,7 @@ public class ChromaPreference extends Preference implements OnColorSelectedListe
                 .initialColor(color)
                 .colorMode(colorMode)
                 .indicatorMode(indicatorMode)
-                .onColorSelected(this)
+                .setOnColorChangedListener(this)
                 .setOnColorSelectedListener(this)
                 .create()
                 .show(((AppCompatActivity) getContext()).getSupportFragmentManager(), "colorPicker");
