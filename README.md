@@ -4,7 +4,7 @@
 
 A customisable material color picker view for Android.
 
-<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/movie1.gif width="250">
+<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/movie1.gif" width="250">
 <img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen1.png" width="250">
 <img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen4.png" width="505">
 
@@ -107,7 +107,7 @@ B. Or you can add preferences dynamically from the code:
 
 ### Fragment
 
-<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/movie1.gif width="250">
+<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen2.png" width="250">
 
 Simply call it in XML layout with :
 ```
@@ -127,6 +127,7 @@ Simply call it in XML layout with :
 </FrameLayout>
 ```
 Unfortunately, you can't customize a fragment in XML. You must initialize the fragment programmatically and use the FragmentManager to add it to your layouts.
+
 Example :
 ```java
     ChromaColorFragment chromaColorFragment = ChromaColorFragment.newInstance(Color.BLUE, ColorMode.ARGB, IndicatorMode.HEX);
