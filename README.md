@@ -11,7 +11,7 @@ A customisable material color picker view for Android.
    - supports RGB, ARGB, HSV, HSL, CMYK, CMYK255 color modes (with alpha preview)
    - can indicate current color in either DECIMAL or HEXADECIMAL mode
    - can be used as Dialog, clear Fragment or as Preference.
-   - can select shape for preview color in custom preference
+   - can select custom shape for preview color in preference
    - add color as part of summary string
    - works on api-7 and up
 
@@ -45,7 +45,7 @@ And add the dependency
 
 ### Dialog
 
-To display an color picker `DialogFragment`:
+To display a color picker `DialogFragment`:
 ``` java
 new ChromaDialog.Builder()
     .initialColor(Color.GREEN)
