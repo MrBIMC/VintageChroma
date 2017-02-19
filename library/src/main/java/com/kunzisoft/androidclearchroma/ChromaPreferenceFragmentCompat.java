@@ -8,10 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.kunzisoft.androidclearchroma.ChromaDialog;
-import com.kunzisoft.androidclearchroma.ChromaPreferenceCompat;
-import com.kunzisoft.androidclearchroma.IndicatorMode;
-import com.kunzisoft.androidclearchroma.colormode.ColorMode;
 import com.kunzisoft.androidclearchroma.listener.OnColorSelectedListener;
 
 /**

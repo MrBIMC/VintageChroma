@@ -156,16 +156,6 @@ public class ChromaPreferenceCompat extends DialogPreference {
         }
     }
 
-    private static AppCompatActivity scanForActivity(Context cont) {
-        if (cont == null)
-            return null;
-        else if (cont instanceof AppCompatActivity)
-            return (AppCompatActivity) cont;
-        else if (cont instanceof ContextWrapper)
-            return scanForActivity(((ContextWrapper)cont).getBaseContext());
-        return null;
-    }
-
     @Override
     protected void onClick() {
         getPreferenceManager().showDialog(this);

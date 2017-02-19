@@ -54,7 +54,7 @@ public class PreferencesCompatActivity extends AppCompatActivity {
 
         @Override
         public void onCreatePreferences(Bundle bundle, String s) {
-            addPreferencesFromResource(com.kunzisoft.androidclearchroma.R.xml.prefs_v7); // load your ChromaPreferenceCompat prefs from xml
+            addPreferencesFromResource(R.xml.prefs_v7); // load your ChromaPreferenceCompat prefs from xml
 
             //or add them manually:
             ChromaPreferenceCompat pref = new ChromaPreferenceCompat(getActivity());
