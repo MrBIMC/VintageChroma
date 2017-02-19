@@ -99,13 +99,6 @@ public class MainActivity extends AppCompatActivity implements OnColorSelectedLi
         findViewById(R.id.prefsButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, PreferencesActivity.class));
-            }
-        });
-
-        findViewById(R.id.v7prefsButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, PreferencesCompatActivity.class));
             }
         });

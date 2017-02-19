@@ -24,10 +24,6 @@
             android:label="@string/app_name"/>
 
         <activity
-            android:name="com.kunzisoft.androidclearchroma.sample.PreferencesActivity"
-            android:label="@string/app_name"/>
-
-        <activity
             android:name="com.kunzisoft.androidclearchroma.sample.PreferencesCompatActivity"
             android:theme="@style/AppTheme.Settings"
             android:label="@string/app_name"/>

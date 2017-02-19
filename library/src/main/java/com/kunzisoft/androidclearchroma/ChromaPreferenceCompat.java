@@ -2,13 +2,11 @@ package com.kunzisoft.androidclearchroma;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.support.annotation.ColorInt;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.DialogPreference;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
@@ -16,8 +14,6 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.kunzisoft.androidclearchroma.colormode.ColorMode;
-import com.kunzisoft.androidclearchroma.listener.OnColorChangedListener;
-import com.kunzisoft.androidclearchroma.listener.OnColorSelectedListener;
 
 /**
  * Created by Pavel Sikun on 5.04.16.
@@ -40,9 +36,6 @@ public class ChromaPreferenceCompat extends DialogPreference {
     private IndicatorMode indicatorMode;
     private ShapePreviewPreference shapePreviewPreference;
     private CharSequence summaryPreference;
-
-    private OnColorChangedListener onColorChangedListener;
-    private OnColorSelectedListener onColorSelectedListener;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public ChromaPreferenceCompat(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {

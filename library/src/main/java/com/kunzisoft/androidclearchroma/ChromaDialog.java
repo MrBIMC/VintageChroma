@@ -184,6 +184,7 @@ public class ChromaDialog extends DialogFragment {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
 
         // request a window without the title
+        assert dialog.getWindow() != null;
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
