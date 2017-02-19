@@ -3,25 +3,34 @@ package com.kunzisoft.androidclearchroma.sample;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.preference.PreferenceFragmentCompat;
 import android.view.MenuItem;
 
 import com.kunzisoft.androidclearchroma.ChromaPreferenceCompat;
+import com.kunzisoft.androidclearchroma.ChromaPreferenceFragmentCompat;
 import com.kunzisoft.androidclearchroma.IndicatorMode;
 import com.kunzisoft.androidclearchroma.colormode.ColorMode;
 
 /**
- * Created by Pavel Sikun on 28.05.16.
+ * Sample Activity for show chroma preferences with compatibility class
  */
-
 public class PreferencesCompatActivity extends AppCompatActivity {
+
+    private static final String TAG_PREFERENCE_FRAGMENT = "TAG_PREFERENCE_FRAGMENT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Manage fragment who contains list of preferences
+        ChromaPreferenceFragmentCompat chromaPreferenceFragmentCompat =
+                (ChromaPreferenceFragmentCompat) getSupportFragmentManager().findFragmentByTag(TAG_PREFERENCE_FRAGMENT);
+
+        if(chromaPreferenceFragmentCompat == null)
+            chromaPreferenceFragmentCompat = new ColorPreferenceFragmentCompat();
+
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(android.R.id.content, new PreferencesScreen())
+                .replace(android.R.id.content, chromaPreferenceFragmentCompat, TAG_PREFERENCE_FRAGMENT)
                 .commit();
 
         ActionBar toolbar = getSupportActionBar();
@@ -38,17 +47,14 @@ public class PreferencesCompatActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static class PreferencesScreen extends PreferenceFragmentCompat {
-
-        //I also recommend you to use some 3rd-party lib to style PreferenceFragmentCompat
-        //because by dafault v7 prefs don't respect device theme and look ugly, evem on v21+
-        //theoretically useful links:
-        // * http://stackoverflow.com/questions/32070670/preferencefragmentcompat-requires-preferencetheme-to-be-set
-        // * https://github.com/consp1racy/android-support-preference
+    /**
+     * Tiny class inherited from ChromaPreferenceFragmentCompat who manage chroma preferences and callback of DialogFragment
+     */
+    public static class ColorPreferenceFragmentCompat extends ChromaPreferenceFragmentCompat {
 
         @Override
         public void onCreatePreferences(Bundle bundle, String s) {
-            addPreferencesFromResource(R.xml.prefs_v7); // load your ChromaPreferenceCompat prefs from xml
+            addPreferencesFromResource(com.kunzisoft.androidclearchroma.R.xml.prefs_v7); // load your ChromaPreferenceCompat prefs from xml
 
             //or add them manually:
             ChromaPreferenceCompat pref = new ChromaPreferenceCompat(getActivity());

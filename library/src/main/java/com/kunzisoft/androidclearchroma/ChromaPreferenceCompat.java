@@ -8,9 +8,8 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.support.annotation.ColorInt;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.preference.Preference;
+import android.support.v7.preference.DialogPreference;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -24,13 +23,11 @@ import com.kunzisoft.androidclearchroma.listener.OnColorSelectedListener;
  * Created by Pavel Sikun on 5.04.16.
  * Modified by Jeremy JAMET on 12/09/16.
  */
-public class ChromaPreferenceCompat extends Preference implements OnColorChangedListener, OnColorSelectedListener {
+public class ChromaPreferenceCompat extends DialogPreference {
 
     private static final String TAG = "ChromaPreferenceCompat";
 
     private ImageView colorPreview;
-
-    private static final String TAG_FRAGMENT_DIALOG = "TAG_FRAGMENT_DIALOG";
 
     private static final int DEFAULT_COLOR = Color.WHITE;
     private static final ColorMode DEFAULT_COLOR_MODE = ColorMode.RGB;
@@ -69,16 +66,6 @@ public class ChromaPreferenceCompat extends Preference implements OnColorChanged
     }
 
     private void init(Context context, AttributeSet attrs) {
-        try {
-            FragmentManager fragmentManager = scanForActivity(context).getSupportFragmentManager();
-            ChromaDialog chromaDialog = (ChromaDialog) fragmentManager.findFragmentByTag(TAG_FRAGMENT_DIALOG);
-            if (chromaDialog != null) {
-                chromaDialog.setOnColorSelectedListener(this);
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "Can't get FragmentManager from AppCompatActivity");
-        }
-
         setWidgetLayoutResource(R.layout.preference_layout);
         loadValuesFromXml(attrs);
         updatePreview();
@@ -181,20 +168,7 @@ public class ChromaPreferenceCompat extends Preference implements OnColorChanged
 
     @Override
     protected void onClick() {
-        super.onClick();
-        try {
-            FragmentManager fragmentManager = scanForActivity(getContext()).getSupportFragmentManager();
-            new ChromaDialog.Builder()
-                    .initialColor(color)
-                    .colorMode(colorMode)
-                    .indicatorMode(indicatorMode)
-                    .setOnColorChangedListener(this)
-                    .setOnColorSelectedListener(this)
-                    .create()
-                    .show(fragmentManager, TAG_FRAGMENT_DIALOG);
-        } catch (Exception e) {
-            Log.e(TAG, "Can't get SupportFragmentManager from AppCompatActivity");
-        }
+        getPreferenceManager().showDialog(this);
     }
 
     @Override
@@ -202,28 +176,6 @@ public class ChromaPreferenceCompat extends Preference implements OnColorChanged
         color = value;
         updatePreview();
         return super.persistInt(value);
-    }
-
-    @Override
-    public void onColorChanged(@ColorInt int color) {
-        if(onColorChangedListener != null) {
-            onColorChangedListener.onColorChanged(color);
-        }
-    }
-
-    @Override
-    public void onPositiveButtonClick(@ColorInt int color) {
-        persistInt(color);
-        if(onColorSelectedListener != null) {
-            onColorSelectedListener.onPositiveButtonClick(color);
-        }
-    }
-
-    @Override
-    public void onNegativeButtonClick(@ColorInt int color) {
-        if(onColorSelectedListener != null) {
-            onColorSelectedListener.onNegativeButtonClick(color);
-        }
     }
 
     @Override
@@ -246,23 +198,6 @@ public class ChromaPreferenceCompat extends Preference implements OnColorChanged
     public void setColor(@ColorInt int color) {
         persistInt(color);
         notifyChanged();
-    }
-
-
-    public OnColorChangedListener getOnColorChangedListener() {
-        return onColorChangedListener;
-    }
-
-    public void setOnColorChangedListener(OnColorChangedListener listener) {
-        this.onColorChangedListener = listener;
-    }
-
-    public OnColorSelectedListener getOnColorSelectedListener() {
-        return onColorSelectedListener;
-    }
-
-    public void setOnColorSelectedListener(OnColorSelectedListener onColorSelectedListener) {
-        this.onColorSelectedListener = onColorSelectedListener;
     }
 
     public ColorMode getColorMode() {

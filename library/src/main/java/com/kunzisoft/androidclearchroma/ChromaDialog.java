@@ -2,7 +2,6 @@ package com.kunzisoft.androidclearchroma;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,6 +36,8 @@ public class ChromaDialog extends DialogFragment {
 
     private final static String TAG = "ChromaDialog";
 
+    private final static String ARG_KEY = "ARG_KEY";
+
     private final static int DEFAULT_COLOR = Color.GRAY;
     private final static ColorMode DEFAULT_MODE = ColorMode.RGB;
 
@@ -46,6 +47,14 @@ public class ChromaDialog extends DialogFragment {
     private OnColorSelectedListener onColorSelectedListener;
 
     private ChromaColorFragment chromaColorFragment;
+
+    public static ChromaDialog newInstance(String key, @ColorInt int initialColor, ColorMode colorMode, IndicatorMode indicatorMode) {
+        ChromaDialog fragment = new ChromaDialog();
+        Bundle args = makeArgs(initialColor, colorMode, indicatorMode);
+        args.putString(ARG_KEY, key);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     private static ChromaDialog newInstance(@ColorInt int initialColor, ColorMode colorMode, IndicatorMode indicatorMode) {
         ChromaDialog fragment = new ChromaDialog();
@@ -119,7 +128,9 @@ public class ChromaDialog extends DialogFragment {
             ad.getWindow().setLayout(width, height);
     }
 
-    // TODO doc
+    /**
+     * Builder class for ChromaDialog objects. Provides a convenient way to set the various fields of a Chroma Dialog and generate fragment associated.
+     */
     public static class Builder {
         private @ColorInt int initialColor = DEFAULT_COLOR;
         private ColorMode colorMode = DEFAULT_MODE;
@@ -185,6 +196,14 @@ public class ChromaDialog extends DialogFragment {
         }
 
         return dialog;
+    }
+
+    /**
+     * Get key associated to preference, or null if key not present
+     * @return a String value, or null
+     */
+    public String getKeyPreference() {
+        return getArguments().getString(ARG_KEY);
     }
 
     public OnColorSelectedListener getOnColorSelectedListener() {
