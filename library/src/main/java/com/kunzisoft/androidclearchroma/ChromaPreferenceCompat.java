@@ -3,15 +3,23 @@ package com.kunzisoft.androidclearchroma;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.v7.preference.DialogPreference;
 import android.support.v7.preference.PreferenceViewHolder;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.widget.ImageView;
 
 import com.kunzisoft.androidclearchroma.colormode.ColorMode;
 
@@ -23,7 +31,8 @@ public class ChromaPreferenceCompat extends DialogPreference {
 
     private static final String TAG = "ChromaPreferenceCompat";
 
-    private ImageView colorPreview;
+    private AppCompatImageView backgroundPreview;
+    private AppCompatImageView colorPreview;
 
     private static final int DEFAULT_COLOR = Color.WHITE;
     private static final ColorMode DEFAULT_COLOR_MODE = ColorMode.RGB;
@@ -107,7 +116,8 @@ public class ChromaPreferenceCompat extends DialogPreference {
     public void onBindViewHolder(PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
 
-        colorPreview = (ImageView) holder.itemView.findViewById(R.id.colorPreview);
+        backgroundPreview = (AppCompatImageView) holder.itemView.findViewById(R.id.backgroundPreview);
+        colorPreview = (AppCompatImageView) holder.itemView.findViewById(R.id.colorPreview);
         updatePreview();
 
         if(!isEnabled()) {
@@ -121,26 +131,60 @@ public class ChromaPreferenceCompat extends DialogPreference {
         updatePreview();
     }
 
+    private Bitmap getRoundedCroppedBitmap(Bitmap bitmap, int widthLight, int heightLight, float radius) {
+        Bitmap output = Bitmap.createBitmap(widthLight, heightLight, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(output);
+        Paint paintColor = new Paint();
+        paintColor.setFlags(Paint.ANTI_ALIAS_FLAG);
+
+        RectF rectF = new RectF(new Rect(0, 0, widthLight, heightLight));
+
+        canvas.drawRoundRect(rectF, radius, radius, paintColor);
+
+        Paint paintImage = new Paint();
+        paintImage.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_ATOP));
+        canvas.drawBitmap(bitmap, -(bitmap.getWidth() - widthLight)/2 , -(bitmap.getHeight() - heightLight)/2, paintImage);
+
+        return output;
+    }
+
     synchronized private void updatePreview() {
         try {
             if(colorPreview != null) {
+                int shapeWidth = getContext().getResources()
+                        .getDimensionPixelSize(R.dimen.shape_preference_width);
+                float radius = shapeWidth/2;
+
                 // Update shape of color preview
                 switch (shapePreviewPreference) {
+                    default:
                     case CIRCLE:
                         colorPreview.setImageResource(R.drawable.circle);
                         break;
                     case SQUARE:
                         colorPreview.setImageResource(R.drawable.square);
+                        radius = 0;
                         break;
                     case ROUNDED_SQUARE:
                         colorPreview.setImageResource(R.drawable.rounded_square);
+                        radius = getContext().getResources().getDimension(R.dimen.shape_radius_preference);
                         break;
                 }
+
                 // Update color
-                colorPreview
-                        .getDrawable()
-                        .mutate()
-                        .setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+                colorPreview.getDrawable()
+                        .setColorFilter(new PorterDuffColorFilter(
+                                color, PorterDuff.Mode.MULTIPLY));
+
+                // Bitmap to crop for background
+                Bitmap draughtboard = BitmapFactory.decodeResource(
+                        getContext().getResources(), R.drawable.draughtboard);
+                draughtboard = getRoundedCroppedBitmap(draughtboard, shapeWidth, shapeWidth, radius);
+                backgroundPreview.setImageBitmap(draughtboard);
+
+                colorPreview.invalidate();
+                backgroundPreview.invalidate();
             }
             setSummary(summaryPreference);
         }

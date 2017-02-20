@@ -5,17 +5,17 @@
     android:layout_height="match_parent">
 
     <android.support.v7.widget.AppCompatImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/draughtboard"/>
+        android:id="@+id/backgroundPreview"
+        android:layout_width="@dimen/shape_preference_width"
+        android:layout_height="@dimen/shape_preference_width"
+        android:layout_gravity="center"/>
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/colorPreview"
         android:layout_margin="6dp"
         android:layout_gravity="center"
         android:scaleType="fitCenter"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="@dimen/shape_preference_width"
+        android:layout_height="@dimen/shape_preference_width"
         android:src="@drawable/circle"
         android:contentDescription="@null"/>
 

@@ -16,8 +16,9 @@
   -->
 
 <resources>
-    <dimen name="shape_preference_width">42dp</dimen>
+    <dimen name="shape_preference_width">36dp</dimen>
     <dimen name="shape_stroke_preference_width">1dp</dimen>
+    <dimen name="shape_radius_preference">8dp</dimen>
 
     <dimen name="color_view_height">250dp</dimen>
     <dimen name="color_view_width">180dp</dimen>
