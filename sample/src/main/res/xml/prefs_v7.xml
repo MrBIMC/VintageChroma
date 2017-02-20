@@ -20,13 +20,13 @@
         android:title="ARGB and HEX indicator sample"
         app:chromaColorMode="ARGB"
         app:chromaIndicatorMode="HEX"
-        app:chromaInitialColor="@color/colorPrimary"/>
+        app:chromaInitialColor="#ae4f4f"/>
 
     <com.kunzisoft.androidclearchroma.ChromaPreferenceCompat
         android:key="hsv"
         android:title="HSV sample"
         app:chromaColorMode="HSV"
-        app:chromaInitialColor="@color/colorAccent"/>
+        app:chromaInitialColor="#649e65"/>
 
     <com.kunzisoft.androidclearchroma.ChromaPreferenceCompat
         android:key="roundedquare"
