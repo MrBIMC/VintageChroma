@@ -4,9 +4,8 @@
 
 A customisable material color picker view for Android.
 
-<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/movie1.gif" width="250">
+<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/movie1.gif" width="505">
 <img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen1.png" width="250">
-<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen4.png" width="505">
 
    - supports RGB, ARGB, HSV, HSL, CMYK, CMYK255 color modes (with alpha preview)
    - can indicate current color in either DECIMAL or HEXADECIMAL mode
@@ -72,6 +71,8 @@ https://github.com/Kunzisoft/AndroidClearChroma/master/sample/src/main/java/com/
 for complete sample of ChromaDialog
 
 ## Style
+
+<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen4.png" width="505">
 For custom dialog, simply redefined following nodes :
 ```
 <style name="Chroma.AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
@@ -108,7 +109,7 @@ or (for API < 14)
 </style>
 ```
 
-<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen3.png" width="505">
+<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen3.png" width="250">
 
 **A.** Add Preference to your *.xml preference layout:
 ``` xml
