@@ -1,12 +1,14 @@
 package com.kunzisoft.androidclearchroma.sample;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,12 +18,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.kunzisoft.androidclearchroma.listener.OnColorSelectedListener;
 import com.kunzisoft.androidclearchroma.ChromaDialog;
 import com.kunzisoft.androidclearchroma.ChromaUtil;
 import com.kunzisoft.androidclearchroma.IndicatorMode;
-import com.kunzisoft.androidclearchroma.listener.OnColorChangedListener;
 import com.kunzisoft.androidclearchroma.colormode.ColorMode;
+import com.kunzisoft.androidclearchroma.listener.OnColorChangedListener;
+import com.kunzisoft.androidclearchroma.listener.OnColorSelectedListener;
 
 public class MainActivity extends AppCompatActivity implements OnColorSelectedListener, OnColorChangedListener {
 
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements OnColorSelectedLi
     private Spinner spinner;
     private TextView textView;
     private Toolbar toolbar;
+    private FloatingActionButton fab;
 
     private @ColorInt int color;
     private ColorMode colorMode;
@@ -48,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements OnColorSelectedLi
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         textView = (TextView) findViewById(R.id.text_view);
         spinner = (Spinner) findViewById(R.id.spinner);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
 
         if(savedInstanceState == null) {
             color = ContextCompat.getColor(this, R.color.colorPrimary);
@@ -67,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements OnColorSelectedLi
         setSupportActionBar(toolbar);
         updateTextView(color);
         updateToolbar(color, color);
+        fab.setBackgroundTintList(ColorStateList.valueOf(color));
         setupSpinner();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -164,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements OnColorSelectedLi
     public void onPositiveButtonClick(@ColorInt int newColor) {
         color = newColor;
         chromaDialog = null;
+        fab.setBackgroundTintList(ColorStateList.valueOf(color));
         updateTextView(newColor);
         updateToolbar(color, newColor);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

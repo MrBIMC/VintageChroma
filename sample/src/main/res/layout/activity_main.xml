@@ -24,7 +24,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:paddingTop="?attr/actionBarSize"
         android:orientation="vertical">
         <Button
@@ -41,9 +41,9 @@
             android:text="@string/open_preferences"
             android:layout_margin="6dp"/>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:gravity="center"
@@ -54,17 +54,18 @@
                 android:id="@+id/text_view"
                 android:textColor="@android:color/black"
                 android:textSize="32sp"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
             <Spinner
                 android:id="@+id/spinner"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_below="@+id/text_view"
+                android:layout_alignLeft="@+id/text_view"
+                android:layout_alignStart="@+id/text_view" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 
@@ -77,7 +78,6 @@
         android:layout_marginRight="24dp"
         android:layout_marginEnd="24dp"
         android:src="@drawable/palette"
-        app:elevation="6dp"
-        android:theme="@style/AppTheme.AppBarOverlay"/>
+        app:elevation="6dp"/>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -8,13 +8,4 @@
         android:id="@+id/container_color_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
-    <!--
-    <fragment android:name="com.kunzisoft.androidclearchroma.fragment.ChromaColorFragment"
-        android:id="@+id/activity_color_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:layout="@layout/chroma_color_fragment" />
-        -->
-
 </FrameLayout>
