@@ -56,13 +56,13 @@ public class PreferencesCompatActivity extends AppCompatActivity {
         public void onCreatePreferences(Bundle bundle, String s) {
             addPreferencesFromResource(R.xml.prefs_v7); // load your ChromaPreferenceCompat prefs from xml
 
-            //or add them manually:
-            ChromaPreferenceCompat pref = new ChromaPreferenceCompat(getContext(), null, R.style.AppTheme_Settings);
+            //or add them manually
+            ChromaPreferenceCompat pref = new ChromaPreferenceCompat(getContext());
             pref.setTitle("RGB(added from java)");
+            pref.setSummary("Summary ...");
             pref.setColorMode(ColorMode.RGB);
             pref.setIndicatorMode(IndicatorMode.HEX);
             pref.setKey("any_key_you_need");
-            pref.setDialogTitle("ok");
             getPreferenceScreen().addPreference(pref);
         }
     }

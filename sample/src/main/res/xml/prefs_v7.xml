@@ -18,6 +18,7 @@
     <com.kunzisoft.androidclearchroma.ChromaPreferenceCompat
         android:key="argbhex"
         android:title="ARGB and HEX indicator sample"
+        android:summary="ARGB and HEX [color]"
         app:chromaColorMode="ARGB"
         app:chromaIndicatorMode="HEX"
         app:chromaInitialColor="#ae4f4f"/>
