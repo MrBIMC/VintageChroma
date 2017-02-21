@@ -24,7 +24,7 @@ import com.kunzisoft.androidclearchroma.fragment.ChromaColorFragment;
 import com.kunzisoft.androidclearchroma.listener.OnColorChangedListener;
 import com.kunzisoft.androidclearchroma.listener.OnColorSelectedListener;
 
-import static com.kunzisoft.androidclearchroma.fragment.ChromaColorFragment.ARG_COLOR_MODE_ID;
+import static com.kunzisoft.androidclearchroma.fragment.ChromaColorFragment.ARG_COLOR_MODE;
 import static com.kunzisoft.androidclearchroma.fragment.ChromaColorFragment.ARG_INDICATOR_MODE;
 import static com.kunzisoft.androidclearchroma.fragment.ChromaColorFragment.ARG_INITIAL_COLOR;
 
@@ -65,7 +65,7 @@ public class ChromaDialog extends DialogFragment {
     private static Bundle makeArgs(@ColorInt int initialColor, ColorMode colorMode, IndicatorMode indicatorMode) {
         Bundle args = new Bundle();
         args.putInt(ARG_INITIAL_COLOR, initialColor);
-        args.putInt(ARG_COLOR_MODE_ID, colorMode.ordinal());
+        args.putInt(ARG_COLOR_MODE, colorMode.ordinal());
         args.putInt(ARG_INDICATOR_MODE, indicatorMode.ordinal());
         return args;
     }

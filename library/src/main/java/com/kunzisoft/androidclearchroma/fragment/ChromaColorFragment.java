@@ -36,12 +36,12 @@ public class ChromaColorFragment extends Fragment{
     private AppCompatImageView colorView;
 
     public final static String ARG_INITIAL_COLOR = "arg_initial_color";
-    public final static String ARG_COLOR_MODE_ID = "arg_color_mode_id";
+    public final static String ARG_COLOR_MODE = "arg_color_mode";
     public final static String ARG_INDICATOR_MODE = "arg_indicator_mode";
 
     private @ColorInt int currentColor;
-    private ColorMode colorMode = ColorMode.CMYK255;
-    private IndicatorMode indicatorMode = IndicatorMode.DECIMAL;
+    private ColorMode colorMode;
+    private IndicatorMode indicatorMode;
 
     private OnColorChangedListener onColorChangedListener;
 
@@ -50,8 +50,8 @@ public class ChromaColorFragment extends Fragment{
 
         Bundle args = new Bundle();
         args.putInt(ARG_INITIAL_COLOR, initialColor);
-        args.putSerializable(ARG_COLOR_MODE_ID, colorMode);
-        args.putSerializable(ARG_INDICATOR_MODE, indicatorMode);
+        args.putInt(ARG_COLOR_MODE, colorMode.ordinal());
+        args.putInt(ARG_INDICATOR_MODE, indicatorMode.ordinal());
 
         chromaColorFragment.setArguments(args);
 
@@ -145,15 +145,15 @@ public class ChromaColorFragment extends Fragment{
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(ARG_INITIAL_COLOR, currentColor);
-        outState.putInt(ARG_COLOR_MODE_ID, colorMode.ordinal());
+        outState.putInt(ARG_COLOR_MODE, colorMode.ordinal());
         outState.putInt(ARG_INDICATOR_MODE, indicatorMode.ordinal());
     }
 
     private void assignArguments(Bundle args) {
         if(args.containsKey(ARG_INITIAL_COLOR))
             currentColor = args.getInt(ARG_INITIAL_COLOR);
-        if(args.containsKey(ARG_COLOR_MODE_ID))
-            colorMode = ColorMode.getColorModeFromId(args.getInt(ARG_COLOR_MODE_ID));
+        if(args.containsKey(ARG_COLOR_MODE))
+            colorMode = ColorMode.getColorModeFromId(args.getInt(ARG_COLOR_MODE));
         if(args.containsKey(ARG_INDICATOR_MODE))
             indicatorMode = IndicatorMode.getIndicatorModeFromId(args.getInt(ARG_INDICATOR_MODE));
     }
@@ -177,4 +177,11 @@ public class ChromaColorFragment extends Fragment{
         return indicatorMode;
     }
 
+    public OnColorChangedListener getOnColorChangedListener() {
+        return onColorChangedListener;
+    }
+
+    public void setOnColorChangedListener(OnColorChangedListener onColorChangedListener) {
+        this.onColorChangedListener = onColorChangedListener;
+    }
 }
