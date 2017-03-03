@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
@@ -63,20 +62,17 @@ public class MainActivity extends AppCompatActivity implements OnColorSelectedLi
             colorMode = ColorMode.getColorModeFromId(savedInstanceState.getInt(EXTRA_COLOR_MODE));
             indicatorMode = IndicatorMode.getIndicatorModeFromId(savedInstanceState.getInt(EXTRA_INDICATOR_MODE));
             chromaDialog = (ChromaDialog) getSupportFragmentManager().findFragmentByTag(TAG_CHROMA_DIALOG);
-            if(chromaDialog != null)
+            if(chromaDialog != null) {
                 chromaDialog.setOnColorSelectedListener(this);
-
+                chromaDialog.setOnColorChangedListener(this);
+            }
         }
 
         setSupportActionBar(toolbar);
         updateTextView(color);
-        updateToolbar(color, color);
+        updateToolbarAndStatusBar(color);
         fab.setBackgroundTintList(ColorStateList.valueOf(color));
         setupSpinner();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(darkenColor(color));
-        }
 
         findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,19 +131,16 @@ public class MainActivity extends AppCompatActivity implements OnColorSelectedLi
         textView.setTextColor(newColor);
     }
 
-    private void updateToolbar(int oldColor, int newColor) {
-        final TransitionDrawable transition = new TransitionDrawable(new ColorDrawable[]{
-                new ColorDrawable(oldColor), new ColorDrawable(newColor)
-        });
-
+    private void updateToolbarAndStatusBar(int newColor) {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            toolbar.setBackground(transition);
+            toolbar.setBackground(new ColorDrawable(newColor));
         }
         else {
-            toolbar.setBackgroundDrawable(transition);
+            toolbar.setBackgroundDrawable(new ColorDrawable(newColor));
         }
-
-        transition.startTransition(300);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(darkenColor(newColor));
+        }
     }
 
     private int darkenColor(int color) {
@@ -171,15 +164,16 @@ public class MainActivity extends AppCompatActivity implements OnColorSelectedLi
         chromaDialog = null;
         fab.setBackgroundTintList(ColorStateList.valueOf(color));
         updateTextView(newColor);
-        updateToolbar(color, newColor);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(darkenColor(newColor));
-        }
+        updateToolbarAndStatusBar(newColor);
     }
 
     @Override
-    public void onNegativeButtonClick(@ColorInt int color) {}
+    public void onNegativeButtonClick(@ColorInt int newColor) {
+        updateToolbarAndStatusBar(color);
+    }
 
     @Override
-    public void onColorChanged(@ColorInt int color) {}
+    public void onColorChanged(@ColorInt int newColor) {
+        updateToolbarAndStatusBar(newColor);
+    }
 }

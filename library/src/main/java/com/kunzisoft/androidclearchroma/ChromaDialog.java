@@ -3,7 +3,6 @@ package com.kunzisoft.androidclearchroma;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
@@ -90,6 +89,7 @@ public class ChromaDialog extends DialogFragment {
             chromaColorFragment = ChromaColorFragment.newInstance(getArguments());
             fragmentTransaction.add(R.id.color_dialog_container, chromaColorFragment, TAG_FRAGMENT_COLORS).commit();
         }
+        chromaColorFragment.setOnColorChangedListener(onColorChangedListener);
 
         LinearLayout buttonBar = (LinearLayout) root.findViewById(R.id.button_bar);
         Button positiveButton = (Button) buttonBar.findViewById(R.id.positive_button);
@@ -193,14 +193,12 @@ public class ChromaDialog extends DialogFragment {
         assert dialog.getWindow() != null;
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
-            dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                @Override
-                public void onShow(DialogInterface dialog) {
-                    measureLayout((Dialog) dialog);
-                }
-            });
-        }
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                measureLayout((Dialog) dialog);
+            }
+        });
 
         return dialog;
     }
@@ -228,11 +226,4 @@ public class ChromaDialog extends DialogFragment {
     public void setOnColorSelectedListener(OnColorSelectedListener onColorSelectedListener) {
         this.onColorSelectedListener = onColorSelectedListener;
     }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        onColorChangedListener = null;
-    }
-
 }
