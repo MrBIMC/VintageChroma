@@ -37,7 +37,7 @@ Add the JitPack repository in your build.gradle at the end of repositories:
 And add the dependency
 ```
 	dependencies {
-	        compile 'com.github.Kunzisoft:AndroidClearChroma:1.7'
+	        compile 'com.github.Kunzisoft:AndroidClearChroma:1.8'
 	}
 ```
 
@@ -68,7 +68,7 @@ new ChromaDialog.Builder()
  `void onColorChanged(@ColorInt int color)` called when color is changed in view.
  
  See 
-https://github.com/Kunzisoft/AndroidClearChroma/master/sample/src/main/java/com/kunzisoft/androidclearchroma/sample/MainActivity.java.java
+[MainActivity.java](https://github.com/Kunzisoft/AndroidClearChroma/blob/master/sample/src/main/java/com/kunzisoft/androidclearchroma/sample/MainActivity.java)
 for complete sample of ChromaDialog
 
 ## Style
@@ -108,7 +108,7 @@ or (for API < 14)
 </style>
 ```
 
-<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen3.png" width="505">
+<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen3.png" width="250">
 
 **A.** Add Preference to your *.xml preference layout:
 ``` xml
@@ -177,7 +177,7 @@ Example :
     .commit();
 ```
 See 
-https://github.com/Kunzisoft/AndroidClearChroma/master/sample/src/main/java/com/kunzisoft/androidclearchroma/sample/FragmentColorActivity.java
+[FragmentColorActivity.java](https://github.com/Kunzisoft/AndroidClearChroma/blob/master/sample/src/main/java/com/kunzisoft/androidclearchroma/sample/FragmentColorActivity.java)
 for complete sample.
 
 ## Bonus
@@ -187,9 +187,7 @@ Method for formatted output of a given color:
 ChromaUtil.getFormattedColorString(int color, boolean showAlpha);
 ```
 
-
-Check out the [sample project](sample) for more details.
-
+[Video](https://www.youtube.com/watch?v=zskKV6ifRfw) for create the sample icon (in French)
 
 This project is a fork of [VintageChroma by Pavel Sikun](https://github.com/MrBIMC/VintageChroma) no longer maintained.
 

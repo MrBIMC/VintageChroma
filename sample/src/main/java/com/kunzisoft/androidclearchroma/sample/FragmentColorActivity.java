@@ -22,6 +22,9 @@ public class FragmentColorActivity extends AppCompatActivity implements OnColorC
 
     private static final String TAG_COLOR_FRAGMENT = "TAG_COLOR_FRAGMENT";
 
+    private static final String SAVED_COLOR = "SAVED_COLOR";
+    private @ColorInt int initialColor = Color.BLUE;
+
     private ActionBar toolbar;
 
     @Override
@@ -34,10 +37,19 @@ public class FragmentColorActivity extends AppCompatActivity implements OnColorC
             toolbar.setDisplayHomeAsUpEnabled(true);
         }
 
-        @ColorInt int initialColor = Color.BLUE;
+        if (savedInstanceState != null) {
+            initialColor = savedInstanceState.getInt(SAVED_COLOR, initialColor);
+        }
+
         ChromaColorFragment chromaColorFragment =
-                ChromaColorFragment.newInstance(initialColor, ColorMode.ARGB, IndicatorMode.HEX);
+                (ChromaColorFragment) getSupportFragmentManager().findFragmentByTag(TAG_COLOR_FRAGMENT);
+
+        if(chromaColorFragment == null)
+            chromaColorFragment =
+                    ChromaColorFragment.newInstance(initialColor, ColorMode.ARGB, IndicatorMode.HEX);
+
         chromaColorFragment.setOnColorChangedListener(this);
+
         onColorChanged(initialColor);
         getSupportFragmentManager()
                 .beginTransaction()
@@ -54,7 +66,14 @@ public class FragmentColorActivity extends AppCompatActivity implements OnColorC
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(SAVED_COLOR, initialColor);
+    }
+
+    @Override
     public void onColorChanged(@ColorInt int color) {
+        initialColor = color;
         toolbar.setBackgroundDrawable(new ColorDrawable(color));
         toolbar.setTitle(ChromaUtil.getFormattedColorString(color, false));
     }
