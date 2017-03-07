@@ -35,7 +35,9 @@ public class MainActivity extends AppCompatActivity implements OnColorSelectedLi
     private Toolbar toolbar;
     private FloatingActionButton fab;
 
-    private @ColorInt int color;
+    private
+    @ColorInt
+    int color;
     private ColorMode colorMode;
     private IndicatorMode indicatorMode;
 
@@ -52,20 +54,14 @@ public class MainActivity extends AppCompatActivity implements OnColorSelectedLi
         spinner = (Spinner) findViewById(R.id.spinner);
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             color = ContextCompat.getColor(this, R.color.colorPrimary);
             colorMode = ColorMode.RGB;
             indicatorMode = IndicatorMode.HEX;
-
         } else {
             color = savedInstanceState.getInt(EXTRA_COLOR);
             colorMode = ColorMode.getColorModeFromId(savedInstanceState.getInt(EXTRA_COLOR_MODE));
             indicatorMode = IndicatorMode.getIndicatorModeFromId(savedInstanceState.getInt(EXTRA_INDICATOR_MODE));
-            chromaDialog = (ChromaDialog) getSupportFragmentManager().findFragmentByTag(TAG_CHROMA_DIALOG);
-            if(chromaDialog != null) {
-                chromaDialog.setOnColorSelectedListener(this);
-                chromaDialog.setOnColorChangedListener(this);
-            }
         }
 
         setSupportActionBar(toolbar);
@@ -77,13 +73,11 @@ public class MainActivity extends AppCompatActivity implements OnColorSelectedLi
         findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(chromaDialog == null) {
+                if (chromaDialog == null) {
                     chromaDialog = new ChromaDialog.Builder()
                             .initialColor(color)
                             .colorMode(colorMode)
                             .indicatorMode(indicatorMode) //HEX or DECIMAL;
-                            .setOnColorSelectedListener(MainActivity.this)
-                            .setOnColorChangedListener(MainActivity.this)
                             .create();
                 }
                 chromaDialog.show(getSupportFragmentManager(), TAG_CHROMA_DIALOG);
@@ -107,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements OnColorSelectedLi
 
     private void setupSpinner() {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item);
-        for(ColorMode m : ColorMode.values()) {
+        for (ColorMode m : ColorMode.values()) {
             adapter.add(m.name());
         }
         adapter.notifyDataSetChanged();
@@ -122,7 +116,8 @@ public class MainActivity extends AppCompatActivity implements OnColorSelectedLi
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) { }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 

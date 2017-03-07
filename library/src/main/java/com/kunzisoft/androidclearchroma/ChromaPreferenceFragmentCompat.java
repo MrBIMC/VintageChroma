@@ -27,14 +27,13 @@ public abstract class ChromaPreferenceFragmentCompat extends PreferenceFragmentC
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view =  super.onCreateView(inflater, container, savedInstanceState);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
 
         ChromaDialog chromaDialog = (ChromaDialog) getChildFragmentManager().findFragmentByTag(TAG_FRAGMENT_DIALOG);
-        if(chromaDialog != null) {
+        if (chromaDialog != null) {
             String keyPreference = chromaDialog.getKeyPreference();
-            if(keyPreference != null)
+            if (keyPreference != null)
                 currentPreference = getPreferenceManager().findPreference(keyPreference);
-            chromaDialog.setOnColorSelectedListener(this);
         }
 
         return view;
@@ -53,7 +52,6 @@ public abstract class ChromaPreferenceFragmentCompat extends PreferenceFragmentC
                     ((ChromaPreferenceCompat) preference).getColor(),
                     ((ChromaPreferenceCompat) preference).getColorMode(),
                     ((ChromaPreferenceCompat) preference).getIndicatorMode());
-            dialogFragment.setOnColorSelectedListener(this);
         }
 
         // If it was one of our custom Preferences, show its dialog
@@ -75,5 +73,6 @@ public abstract class ChromaPreferenceFragmentCompat extends PreferenceFragmentC
     }
 
     @Override
-    public void onNegativeButtonClick(@ColorInt int color) {}
+    public void onNegativeButtonClick(@ColorInt int color) {
+    }
 }

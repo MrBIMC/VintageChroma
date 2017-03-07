@@ -4,9 +4,8 @@
 
 <img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/logo.png"> A customisable material color picker view for Android.
 
-<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/movie1.gif" width="250">
+<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/movie1.gif" width="505">
 <img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen1.png" width="250">
-<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen4.png" width="505">
 
    - supports RGB, ARGB, HSV, HSL, CMYK, CMYK255 color modes (with alpha preview)
    - can indicate current color in either DECIMAL or HEXADECIMAL mode
@@ -45,19 +44,30 @@ And add the dependency
 
 ### ChromaDialog
 
-To display a color picker `DialogFragment`:
+To display a color picker `DialogFragment` from your Activity:
 ``` java
 new ChromaDialog.Builder()
     .initialColor(Color.GREEN)
     .colorMode(ColorMode.ARGB) // RGB, ARGB, HVS, CMYK, CMYK255, HSL
     .indicatorMode(IndicatorMode.HEX) //HEX or DECIMAL; Note that (HSV || HSL || CMYK) && IndicatorMode.HEX is a bad idea
-    .setOnColorSelectedListener(OnColorSelectedListener selectListener)
-    .setOnColorChangedListener(OnColorChangedListener changeListener)
     .create()
     .show(getSupportFragmentManager(), "ChromaDialog");
 ```
 
+To display a color picker `DialogFragment` from your Fragment:
+``` java
+new ChromaDialog.Builder()
+    .initialColor(Color.GREEN)
+    .colorMode(ColorMode.ARGB) // RGB, ARGB, HVS, CMYK, CMYK255, HSL
+    .indicatorMode(IndicatorMode.HEX) //HEX or DECIMAL; Note that (HSV || HSL || CMYK) && IndicatorMode.HEX is a bad idea
+    .create()
+    .show(getChildFragmentManager(), "ChromaDialog");
+```
+
 ### Listeners
+
+Your parent Activity or Fragment must implement the listener interfaces.
+
 #### OnColorSelectedListener
 *OnColorSelectedListener* contains two methods : 
 `void onPositiveButtonClick(@ColorInt int color)`called when positiveButton is clicked and
@@ -72,6 +82,8 @@ new ChromaDialog.Builder()
 for complete sample of ChromaDialog
 
 ## Style
+
+<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen4.png" width="505">
 For custom dialog, simply redefined following nodes :
 ```
 <style name="Chroma.AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">

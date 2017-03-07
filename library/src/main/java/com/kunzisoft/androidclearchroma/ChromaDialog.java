@@ -1,5 +1,6 @@
 package com.kunzisoft.androidclearchroma;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -8,6 +9,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.TypedValue;
@@ -20,7 +22,6 @@ import android.widget.LinearLayout;
 
 import com.kunzisoft.androidclearchroma.colormode.ColorMode;
 import com.kunzisoft.androidclearchroma.fragment.ChromaColorFragment;
-import com.kunzisoft.androidclearchroma.listener.OnColorChangedListener;
 import com.kunzisoft.androidclearchroma.listener.OnColorSelectedListener;
 
 import static com.kunzisoft.androidclearchroma.fragment.ChromaColorFragment.ARG_COLOR_MODE;
@@ -41,9 +42,6 @@ public class ChromaDialog extends DialogFragment {
     private final static ColorMode DEFAULT_MODE = ColorMode.RGB;
 
     private final static String TAG_FRAGMENT_COLORS = "TAG_FRAGMENT_COLORS";
-
-    private OnColorChangedListener onColorChangedListener;
-    private OnColorSelectedListener onColorSelectedListener;
 
     private ChromaColorFragment chromaColorFragment;
 
@@ -85,7 +83,7 @@ public class ChromaDialog extends DialogFragment {
         chromaColorFragment = (ChromaColorFragment) fragmentManager.findFragmentByTag(TAG_FRAGMENT_COLORS);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        if(chromaColorFragment == null) {
+        if (chromaColorFragment == null) {
             chromaColorFragment = ChromaColorFragment.newInstance(getArguments());
             fragmentTransaction.add(R.id.color_dialog_container, chromaColorFragment, TAG_FRAGMENT_COLORS).commit();
         }
@@ -98,8 +96,13 @@ public class ChromaDialog extends DialogFragment {
         positiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(onColorSelectedListener != null)
-                    onColorSelectedListener.onPositiveButtonClick(chromaColorFragment.getCurrentColor());
+                final Activity activity = getActivity();
+                final Fragment fragment = getTargetFragment();
+                if (activity instanceof OnColorSelectedListener) {
+                    ((OnColorSelectedListener) activity).onPositiveButtonClick(chromaColorFragment.getCurrentColor());
+                } else if (fragment instanceof OnColorSelectedListener) {
+                    ((OnColorSelectedListener) fragment).onPositiveButtonClick(chromaColorFragment.getCurrentColor());
+                }
                 dismiss();
             }
         });
@@ -107,8 +110,13 @@ public class ChromaDialog extends DialogFragment {
         negativeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(onColorSelectedListener != null)
-                    onColorSelectedListener.onNegativeButtonClick(chromaColorFragment.getCurrentColor());
+                final Activity activity = getActivity();
+                final Fragment fragment = getTargetFragment();
+                if (activity instanceof OnColorSelectedListener) {
+                    ((OnColorSelectedListener) activity).onNegativeButtonClick(chromaColorFragment.getCurrentColor());
+                } else if (fragment instanceof OnColorSelectedListener) {
+                    ((OnColorSelectedListener) fragment).onNegativeButtonClick(chromaColorFragment.getCurrentColor());
+                }
                 dismiss();
             }
         });
@@ -118,6 +126,7 @@ public class ChromaDialog extends DialogFragment {
 
     /**
      * Set new dimensions to dialog
+     *
      * @param ad
      */
     private void measureLayout(Dialog ad) {
@@ -130,7 +139,7 @@ public class ChromaDialog extends DialogFragment {
         float widthMultiplier = typedValue.getFloat();
         int width = (int) ((ad.getContext().getResources().getDisplayMetrics().widthPixels) * widthMultiplier);
 
-        if(ad.getWindow() != null)
+        if (ad.getWindow() != null)
             ad.getWindow().setLayout(width, height);
     }
 
@@ -138,11 +147,11 @@ public class ChromaDialog extends DialogFragment {
      * Builder class for ChromaDialog objects. Provides a convenient way to set the various fields of a Chroma Dialog and generate fragment associated.
      */
     public static class Builder {
-        private @ColorInt int initialColor = DEFAULT_COLOR;
+        private
+        @ColorInt
+        int initialColor = DEFAULT_COLOR;
         private ColorMode colorMode = DEFAULT_MODE;
         private IndicatorMode indicatorMode = IndicatorMode.DECIMAL;
-        private OnColorChangedListener onColorChangedListener;
-        private OnColorSelectedListener onColorSelectedListener;
 
         public Builder initialColor(@ColorInt int initialColor) {
             this.initialColor = initialColor;
@@ -166,21 +175,8 @@ public class ChromaDialog extends DialogFragment {
             return this;
         }
 
-        public Builder setOnColorChangedListener(OnColorChangedListener onColorChangedListener) {
-            this.onColorChangedListener = onColorChangedListener;
-            return this;
-        }
-
-        public Builder setOnColorSelectedListener(OnColorSelectedListener onColorSelectedListener) {
-            this.onColorSelectedListener = onColorSelectedListener;
-            return this;
-        }
-
         public ChromaDialog create() {
-            ChromaDialog chromaDialog = newInstance(initialColor, colorMode, indicatorMode);
-            chromaDialog.setOnColorChangedListener(onColorChangedListener);
-            chromaDialog.setOnColorSelectedListener(onColorSelectedListener);
-            return chromaDialog;
+            return newInstance(initialColor, colorMode, indicatorMode);
         }
     }
 
@@ -205,25 +201,10 @@ public class ChromaDialog extends DialogFragment {
 
     /**
      * Get key associated to preference, or null if key not present
+     *
      * @return a String value, or null
      */
     public String getKeyPreference() {
         return getArguments().getString(ARG_KEY);
-    }
-
-    public OnColorSelectedListener getOnColorSelectedListener() {
-        return onColorSelectedListener;
-    }
-
-    public OnColorChangedListener getOnColorChangedListener() {
-        return onColorChangedListener;
-    }
-
-    public void setOnColorChangedListener(OnColorChangedListener onColorChangedListener) {
-        this.onColorChangedListener = onColorChangedListener;
-    }
-
-    public void setOnColorSelectedListener(OnColorSelectedListener onColorSelectedListener) {
-        this.onColorSelectedListener = onColorSelectedListener;
     }
 }
