@@ -22,6 +22,9 @@ public class FragmentColorActivity extends AppCompatActivity implements OnColorC
 
     private static final String TAG_COLOR_FRAGMENT = "TAG_COLOR_FRAGMENT";
 
+    private static final String SAVED_COLOR = "SAVED_COLOR";
+    private @ColorInt int initialColor = Color.BLUE;
+
     private ActionBar toolbar;
 
     @Override
@@ -34,16 +37,21 @@ public class FragmentColorActivity extends AppCompatActivity implements OnColorC
             toolbar.setDisplayHomeAsUpEnabled(true);
         }
 
-        if (null == savedInstanceState) {
-            @ColorInt int initialColor = Color.BLUE;
-            ChromaColorFragment chromaColorFragment =
-                    ChromaColorFragment.newInstance(initialColor, ColorMode.ARGB, IndicatorMode.HEX);
-            onColorChanged(initialColor);
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.container_color_fragment, chromaColorFragment, TAG_COLOR_FRAGMENT)
-                    .commit();
+        if (savedInstanceState != null) {
+            initialColor = savedInstanceState.getInt(SAVED_COLOR, initialColor);
         }
+
+        ChromaColorFragment chromaColorFragment =
+                (ChromaColorFragment) getSupportFragmentManager().findFragmentByTag(TAG_COLOR_FRAGMENT);
+
+        if(chromaColorFragment == null)
+            chromaColorFragment =
+                    ChromaColorFragment.newInstance(initialColor, ColorMode.ARGB, IndicatorMode.HEX);
+        onColorChanged(initialColor);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container_color_fragment, chromaColorFragment, TAG_COLOR_FRAGMENT)
+                .commit();
     }
 
     @Override
@@ -55,7 +63,14 @@ public class FragmentColorActivity extends AppCompatActivity implements OnColorC
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(SAVED_COLOR, initialColor);
+    }
+
+    @Override
     public void onColorChanged(@ColorInt int color) {
+        initialColor = color;
         toolbar.setBackgroundDrawable(new ColorDrawable(color));
         toolbar.setTitle(ChromaUtil.getFormattedColorString(color, false));
     }

@@ -2,7 +2,7 @@
 
 # AndroidClearChroma
 
-A customisable material color picker view for Android.
+<img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/logo.png"> A customisable material color picker view for Android.
 
 <img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/movie1.gif" width="505">
 <img src="https://raw.githubusercontent.com/Kunzisoft/AndroidClearChroma/master/art/screen1.png" width="250">
@@ -36,7 +36,7 @@ Add the JitPack repository in your build.gradle at the end of repositories:
 And add the dependency
 ```
 	dependencies {
-	        compile 'com.github.Kunzisoft:AndroidClearChroma:1.7'
+	        compile 'com.github.Kunzisoft:AndroidClearChroma:1.8'
 	}
 ```
 
@@ -78,7 +78,7 @@ Your parent Activity or Fragment must implement the listener interfaces.
  `void onColorChanged(@ColorInt int color)` called when color is changed in view.
  
  See 
-https://github.com/Kunzisoft/AndroidClearChroma/master/sample/src/main/java/com/kunzisoft/androidclearchroma/sample/MainActivity.java.java
+[MainActivity.java](https://github.com/Kunzisoft/AndroidClearChroma/blob/master/sample/src/main/java/com/kunzisoft/androidclearchroma/sample/MainActivity.java)
 for complete sample of ChromaDialog
 
 ## Style
@@ -189,7 +189,7 @@ Example :
     .commit();
 ```
 See 
-https://github.com/Kunzisoft/AndroidClearChroma/master/sample/src/main/java/com/kunzisoft/androidclearchroma/sample/FragmentColorActivity.java
+[FragmentColorActivity.java](https://github.com/Kunzisoft/AndroidClearChroma/blob/master/sample/src/main/java/com/kunzisoft/androidclearchroma/sample/FragmentColorActivity.java)
 for complete sample.
 
 ## Bonus
@@ -199,9 +199,7 @@ Method for formatted output of a given color:
 ChromaUtil.getFormattedColorString(int color, boolean showAlpha);
 ```
 
-
-Check out the [sample project](sample) for more details.
-
+[Video](https://www.youtube.com/watch?v=zskKV6ifRfw) for create the sample icon (in French)
 
 This project is a fork of [VintageChroma by Pavel Sikun](https://github.com/MrBIMC/VintageChroma) no longer maintained.
 
