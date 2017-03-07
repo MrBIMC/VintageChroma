@@ -1,6 +1,6 @@
 package com.kunzisoft.androidclearchroma.fragment;
 
-import android.content.Context;
+import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -8,17 +8,17 @@ import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatImageView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.kunzisoft.androidclearchroma.IndicatorMode;
-import com.kunzisoft.androidclearchroma.listener.OnColorChangedListener;
 import com.kunzisoft.androidclearchroma.R;
 import com.kunzisoft.androidclearchroma.colormode.Channel;
 import com.kunzisoft.androidclearchroma.colormode.ColorMode;
+import com.kunzisoft.androidclearchroma.listener.OnColorChangedListener;
+import com.kunzisoft.androidclearchroma.listener.OnColorSelectedListener;
 import com.kunzisoft.androidclearchroma.view.ChannelView;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ import java.util.List;
  * Created by joker on 16/02/17.
  */
 
-public class ChromaColorFragment extends Fragment{
+public class ChromaColorFragment extends Fragment {
 
     private static final String TAG = "ChromaColorFragment";
 
@@ -39,11 +39,11 @@ public class ChromaColorFragment extends Fragment{
     public final static String ARG_COLOR_MODE = "arg_color_mode";
     public final static String ARG_INDICATOR_MODE = "arg_indicator_mode";
 
-    private @ColorInt int currentColor;
+    private
+    @ColorInt
+    int currentColor;
     private ColorMode colorMode;
     private IndicatorMode indicatorMode;
-
-    private OnColorChangedListener onColorChangedListener;
 
     public static ChromaColorFragment newInstance(@ColorInt int initialColor, ColorMode colorMode, IndicatorMode indicatorMode) {
         ChromaColorFragment chromaColorFragment = new ChromaColorFragment();
@@ -65,17 +65,6 @@ public class ChromaColorFragment extends Fragment{
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        try {
-            onColorChangedListener = (OnColorChangedListener) context;
-        } catch(ClassCastException e) {
-            Log.w(TAG, context.toString() + "doesn't implement" + OnColorChangedListener.class.getSimpleName());
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -91,7 +80,7 @@ public class ChromaColorFragment extends Fragment{
         if (savedInstanceState != null) {
             // Restore last state for checked position.
             assignArguments(savedInstanceState);
-        } else if(getArguments() != null) {
+        } else if (getArguments() != null) {
             assignArguments(getArguments());
         }
         if (currentColor == 0)
@@ -107,7 +96,7 @@ public class ChromaColorFragment extends Fragment{
 
         List<Channel> channels = colorMode.getColorMode().getChannels();
         final List<ChannelView> channelViews = new ArrayList<>();
-        for(Channel channel : channels) {
+        for (Channel channel : channels) {
             channelViews.add(new ChannelView(channel, currentColor, indicatorMode, getContext()));
         }
 
@@ -115,13 +104,18 @@ public class ChromaColorFragment extends Fragment{
             @Override
             public void onProgressChanged() {
                 List<Channel> channels = new ArrayList<>();
-                for(ChannelView chan : channelViews) {
+                for (ChannelView chan : channelViews) {
                     channels.add(chan.getChannel());
                 }
                 currentColor = colorMode.getColorMode().evaluateColor(channels);
                 // Listener for color selected in real time
-                if(onColorChangedListener !=null)
-                    onColorChangedListener.onColorChanged(currentColor);
+                final Activity activity = getActivity();
+                final Fragment fragment = getTargetFragment();
+                if (activity instanceof OnColorSelectedListener) {
+                    ((OnColorChangedListener) activity).onColorChanged(currentColor);
+                } else if (fragment instanceof OnColorSelectedListener) {
+                    ((OnColorChangedListener) fragment).onColorChanged(currentColor);
+                }
                 // Change view for visibility of color
                 Drawable colorViewDrawable = new ColorDrawable(currentColor);
                 colorView.setImageDrawable(colorViewDrawable);
@@ -129,7 +123,7 @@ public class ChromaColorFragment extends Fragment{
         };
 
         ViewGroup channelContainer = (ViewGroup) root.findViewById(R.id.channel_container);
-        for(ChannelView c : channelViews) {
+        for (ChannelView c : channelViews) {
             channelContainer.addView(c);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) c.getLayoutParams();
             params.topMargin =
@@ -150,11 +144,11 @@ public class ChromaColorFragment extends Fragment{
     }
 
     private void assignArguments(Bundle args) {
-        if(args.containsKey(ARG_INITIAL_COLOR))
+        if (args.containsKey(ARG_INITIAL_COLOR))
             currentColor = args.getInt(ARG_INITIAL_COLOR);
-        if(args.containsKey(ARG_COLOR_MODE))
+        if (args.containsKey(ARG_COLOR_MODE))
             colorMode = ColorMode.getColorModeFromId(args.getInt(ARG_COLOR_MODE));
-        if(args.containsKey(ARG_INDICATOR_MODE))
+        if (args.containsKey(ARG_INDICATOR_MODE))
             indicatorMode = IndicatorMode.getIndicatorModeFromId(args.getInt(ARG_INDICATOR_MODE));
     }
 
@@ -175,13 +169,5 @@ public class ChromaColorFragment extends Fragment{
 
     public IndicatorMode getIndicatorMode() {
         return indicatorMode;
-    }
-
-    public OnColorChangedListener getOnColorChangedListener() {
-        return onColorChangedListener;
-    }
-
-    public void setOnColorChangedListener(OnColorChangedListener onColorChangedListener) {
-        this.onColorChangedListener = onColorChangedListener;
     }
 }

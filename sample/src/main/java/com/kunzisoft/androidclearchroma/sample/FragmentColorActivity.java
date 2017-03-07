@@ -30,24 +30,25 @@ public class FragmentColorActivity extends AppCompatActivity implements OnColorC
         setContentView(R.layout.activity_color_view);
 
         toolbar = getSupportActionBar();
-        if(toolbar != null) {
+        if (toolbar != null) {
             toolbar.setDisplayHomeAsUpEnabled(true);
         }
 
-        @ColorInt int initialColor = Color.BLUE;
-        ChromaColorFragment chromaColorFragment =
-                ChromaColorFragment.newInstance(initialColor, ColorMode.ARGB, IndicatorMode.HEX);
-        chromaColorFragment.setOnColorChangedListener(this);
-        onColorChanged(initialColor);
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container_color_fragment, chromaColorFragment, TAG_COLOR_FRAGMENT)
-                .commit();
+        if (null == savedInstanceState) {
+            @ColorInt int initialColor = Color.BLUE;
+            ChromaColorFragment chromaColorFragment =
+                    ChromaColorFragment.newInstance(initialColor, ColorMode.ARGB, IndicatorMode.HEX);
+            onColorChanged(initialColor);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container_color_fragment, chromaColorFragment, TAG_COLOR_FRAGMENT)
+                    .commit();
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == android.R.id.home) {
+        if (item.getItemId() == android.R.id.home) {
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);
