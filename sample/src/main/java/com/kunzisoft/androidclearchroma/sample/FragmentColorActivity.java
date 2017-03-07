@@ -40,18 +40,16 @@ public class FragmentColorActivity extends AppCompatActivity implements OnColorC
         if (savedInstanceState != null) {
             initialColor = savedInstanceState.getInt(SAVED_COLOR, initialColor);
         }
-
-        ChromaColorFragment chromaColorFragment =
-                (ChromaColorFragment) getSupportFragmentManager().findFragmentByTag(TAG_COLOR_FRAGMENT);
-
-        if(chromaColorFragment == null)
-            chromaColorFragment =
-                    ChromaColorFragment.newInstance(initialColor, ColorMode.ARGB, IndicatorMode.HEX);
         onColorChanged(initialColor);
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container_color_fragment, chromaColorFragment, TAG_COLOR_FRAGMENT)
-                .commit();
+
+        if (null == savedInstanceState) {
+            ChromaColorFragment chromaColorFragment =
+                    ChromaColorFragment.newInstance(initialColor, ColorMode.ARGB, IndicatorMode.HEX);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container_color_fragment, chromaColorFragment, TAG_COLOR_FRAGMENT)
+                    .commit();
+        }
     }
 
     @Override

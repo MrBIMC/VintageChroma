@@ -111,9 +111,9 @@ public class ChromaColorFragment extends Fragment {
                 // Listener for color selected in real time
                 final Activity activity = getActivity();
                 final Fragment fragment = getTargetFragment();
-                if (activity instanceof OnColorSelectedListener) {
+                if (activity instanceof OnColorChangedListener) {
                     ((OnColorChangedListener) activity).onColorChanged(currentColor);
-                } else if (fragment instanceof OnColorSelectedListener) {
+                } else if (fragment instanceof OnColorChangedListener) {
                     ((OnColorChangedListener) fragment).onColorChanged(currentColor);
                 }
                 // Change view for visibility of color

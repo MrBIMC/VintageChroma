@@ -34,6 +34,7 @@ public abstract class ChromaPreferenceFragmentCompat extends PreferenceFragmentC
             String keyPreference = chromaDialog.getKeyPreference();
             if (keyPreference != null)
                 currentPreference = getPreferenceManager().findPreference(keyPreference);
+            chromaDialog.setOnColorSelectedListener(this);
         }
 
         return view;
@@ -52,6 +53,7 @@ public abstract class ChromaPreferenceFragmentCompat extends PreferenceFragmentC
                     ((ChromaPreferenceCompat) preference).getColor(),
                     ((ChromaPreferenceCompat) preference).getColorMode(),
                     ((ChromaPreferenceCompat) preference).getIndicatorMode());
+            dialogFragment.setOnColorSelectedListener(this);
         }
 
         // If it was one of our custom Preferences, show its dialog

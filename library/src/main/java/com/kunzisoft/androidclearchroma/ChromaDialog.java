@@ -43,6 +43,8 @@ public class ChromaDialog extends DialogFragment {
 
     private final static String TAG_FRAGMENT_COLORS = "TAG_FRAGMENT_COLORS";
 
+    private OnColorSelectedListener onColorSelectedListener;
+
     private ChromaColorFragment chromaColorFragment;
 
     public static ChromaDialog newInstance(String key, @ColorInt int initialColor, ColorMode colorMode, IndicatorMode indicatorMode) {
@@ -87,7 +89,6 @@ public class ChromaDialog extends DialogFragment {
             chromaColorFragment = ChromaColorFragment.newInstance(getArguments());
             fragmentTransaction.add(R.id.color_dialog_container, chromaColorFragment, TAG_FRAGMENT_COLORS).commit();
         }
-        chromaColorFragment.setOnColorChangedListener(onColorChangedListener);
 
         LinearLayout buttonBar = (LinearLayout) root.findViewById(R.id.button_bar);
         Button positiveButton = (Button) buttonBar.findViewById(R.id.positive_button);
@@ -98,7 +99,9 @@ public class ChromaDialog extends DialogFragment {
             public void onClick(View v) {
                 final Activity activity = getActivity();
                 final Fragment fragment = getTargetFragment();
-                if (activity instanceof OnColorSelectedListener) {
+                if(onColorSelectedListener != null) {
+                    onColorSelectedListener.onPositiveButtonClick(chromaColorFragment.getCurrentColor());
+                } else if (activity instanceof OnColorSelectedListener) {
                     ((OnColorSelectedListener) activity).onPositiveButtonClick(chromaColorFragment.getCurrentColor());
                 } else if (fragment instanceof OnColorSelectedListener) {
                     ((OnColorSelectedListener) fragment).onPositiveButtonClick(chromaColorFragment.getCurrentColor());
@@ -112,7 +115,9 @@ public class ChromaDialog extends DialogFragment {
             public void onClick(View v) {
                 final Activity activity = getActivity();
                 final Fragment fragment = getTargetFragment();
-                if (activity instanceof OnColorSelectedListener) {
+                if(onColorSelectedListener != null) {
+                    onColorSelectedListener.onNegativeButtonClick(chromaColorFragment.getCurrentColor());
+                } else if (activity instanceof OnColorSelectedListener) {
                     ((OnColorSelectedListener) activity).onNegativeButtonClick(chromaColorFragment.getCurrentColor());
                 } else if (fragment instanceof OnColorSelectedListener) {
                     ((OnColorSelectedListener) fragment).onNegativeButtonClick(chromaColorFragment.getCurrentColor());
@@ -206,5 +211,22 @@ public class ChromaDialog extends DialogFragment {
      */
     public String getKeyPreference() {
         return getArguments().getString(ARG_KEY);
+    }
+
+    /**
+     * Get color listener if it was defined by setter else return null
+     * @return
+     */
+    public OnColorSelectedListener getOnColorSelectedListener() {
+        return onColorSelectedListener;
+    }
+
+    /**
+     * Defined listener for click on positive and negative button
+     * You can implement OnColorSelectedListener in activity or fragment without use this setter for a better usability
+     * @param onColorSelectedListener
+     */
+    public void setOnColorSelectedListener(OnColorSelectedListener onColorSelectedListener) {
+        this.onColorSelectedListener = onColorSelectedListener;
     }
 }
