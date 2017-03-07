@@ -44,19 +44,30 @@ And add the dependency
 
 ### ChromaDialog
 
-To display a color picker `DialogFragment`:
+To display a color picker `DialogFragment` from your Activity:
 ``` java
 new ChromaDialog.Builder()
     .initialColor(Color.GREEN)
     .colorMode(ColorMode.ARGB) // RGB, ARGB, HVS, CMYK, CMYK255, HSL
     .indicatorMode(IndicatorMode.HEX) //HEX or DECIMAL; Note that (HSV || HSL || CMYK) && IndicatorMode.HEX is a bad idea
-    .setOnColorSelectedListener(OnColorSelectedListener selectListener)
-    .setOnColorChangedListener(OnColorChangedListener changeListener)
     .create()
     .show(getSupportFragmentManager(), "ChromaDialog");
 ```
 
+To display a color picker `DialogFragment` from your Fragment:
+``` java
+new ChromaDialog.Builder()
+    .initialColor(Color.GREEN)
+    .colorMode(ColorMode.ARGB) // RGB, ARGB, HVS, CMYK, CMYK255, HSL
+    .indicatorMode(IndicatorMode.HEX) //HEX or DECIMAL; Note that (HSV || HSL || CMYK) && IndicatorMode.HEX is a bad idea
+    .create()
+    .show(getChildFragmentManager(), "ChromaDialog");
+```
+
 ### Listeners
+
+Your parent Activity or Fragment must implement the listener interfaces.
+
 #### OnColorSelectedListener
 *OnColorSelectedListener* contains two methods : 
 `void onPositiveButtonClick(@ColorInt int color)`called when positiveButton is clicked and
