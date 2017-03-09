@@ -112,6 +112,11 @@ public class MainActivity extends AppCompatActivity implements OnColorSelectedLi
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 colorMode = ColorMode.values()[position];
+                switch(colorMode) {
+                    case CMYK:
+                    case CMYK255:
+                        indicatorMode = IndicatorMode.DECIMAL;
+                }
                 chromaDialog = null;
             }
 

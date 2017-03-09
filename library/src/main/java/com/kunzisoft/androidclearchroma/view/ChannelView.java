@@ -36,7 +36,8 @@ public class ChannelView extends RelativeLayout {
         channel.setProgress(channel.getExtractor().extract(color));
         if(channel.getProgress() < channel.getMin() || channel.getProgress() > channel.getMax()) {
             throw new IllegalArgumentException(
-                    "Initial progress for channel: " + channel.getClass().getSimpleName()
+                    "Initial progress " + channel.getProgress()
+                            + " for channel: " + channel.getClass().getSimpleName()
                             + " must be between " + channel.getMin() + " and " + channel.getMax());
         }
 

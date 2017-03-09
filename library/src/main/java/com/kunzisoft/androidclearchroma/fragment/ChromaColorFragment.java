@@ -18,7 +18,6 @@ import com.kunzisoft.androidclearchroma.R;
 import com.kunzisoft.androidclearchroma.colormode.Channel;
 import com.kunzisoft.androidclearchroma.colormode.ColorMode;
 import com.kunzisoft.androidclearchroma.listener.OnColorChangedListener;
-import com.kunzisoft.androidclearchroma.listener.OnColorSelectedListener;
 import com.kunzisoft.androidclearchroma.view.ChannelView;
 
 import java.util.ArrayList;
@@ -39,9 +38,7 @@ public class ChromaColorFragment extends Fragment {
     public final static String ARG_COLOR_MODE = "arg_color_mode";
     public final static String ARG_INDICATOR_MODE = "arg_indicator_mode";
 
-    private
-    @ColorInt
-    int currentColor;
+    private @ColorInt int currentColor;
     private ColorMode colorMode;
     private IndicatorMode indicatorMode;
 
