@@ -5,5 +5,4 @@
     <dimen name="chroma_dialog_width">320dp</dimen>
 
     <item name="chroma_dialog_height_multiplier" format="float" type="dimen">0.5</item>
-    <item name="chroma_dialog_width_multiplier" format="float" type="dimen">0.7</item>
 </resources>

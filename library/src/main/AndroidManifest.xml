@@ -1,5 +1,4 @@
-<manifest package="com.kunzisoft.androidclearchroma"
-    xmlns:tools="http://schemas.android.com/tools">
-    <uses-sdk tools:overrideLibrary="android.support.v14.preference" />
+<manifest
+    package="com.pavelsikun.vintagechroma">
     <application/>
 </manifest>

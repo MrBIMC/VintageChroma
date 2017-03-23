@@ -2,46 +2,28 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.kunzisoft.androidclearchroma.ChromaPreferenceCompat
+    <com.pavelsikun.vintagechroma.ChromaPreferenceCompat
         android:key="rgb"
         android:title="RGB sample"
-        android:summary="[color]"
         android:enabled="false"/>
 
-    <com.kunzisoft.androidclearchroma.ChromaPreferenceCompat
+    <com.pavelsikun.vintagechroma.ChromaPreferenceCompat
         android:key="argb"
         android:title="ARGB sample"
-        android:summary="[color]"
         app:chromaColorMode="ARGB"
         app:chromaInitialColor="@android:color/black"/>
 
-    <com.kunzisoft.androidclearchroma.ChromaPreferenceCompat
+    <com.pavelsikun.vintagechroma.ChromaPreferenceCompat
         android:key="argbhex"
         android:title="ARGB and HEX indicator sample"
-        android:summary="ARGB and HEX [color]"
         app:chromaColorMode="ARGB"
         app:chromaIndicatorMode="HEX"
-        app:chromaInitialColor="#ae4f4f"/>
+        app:chromaInitialColor="@color/colorPrimary"/>
 
-    <com.kunzisoft.androidclearchroma.ChromaPreferenceCompat
+    <com.pavelsikun.vintagechroma.ChromaPreferenceCompat
         android:key="hsv"
         android:title="HSV sample"
         app:chromaColorMode="HSV"
-        app:chromaInitialColor="#649e65"/>
-
-    <com.kunzisoft.androidclearchroma.ChromaPreferenceCompat
-        android:key="roundedquare"
-        android:title="ARGB sample with rounded square sample"
-        app:chromaShapePreview="ROUNDED_SQUARE"
-        app:chromaColorMode="ARGB"
-        app:chromaInitialColor="#ffee00"/>
-
-    <com.kunzisoft.androidclearchroma.ChromaPreferenceCompat
-        android:key="customsummary"
-        android:title="ARGB sample with square sample and custom summary"
-        android:summary="Example summary"
-        app:chromaShapePreview="SQUARE"
-        app:chromaColorMode="ARGB"
-        app:chromaInitialColor="#ff0004"/>
+        app:chromaInitialColor="@color/colorAccent"/>
 
 </PreferenceScreen>
